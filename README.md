@@ -36,6 +36,7 @@ Proposal:
 CLI Menu Flow:
 
 Login As:
+
 	1. Nurse
 		1. Add Patient to Waiting List
 		2. View Waiting List
