@@ -57,7 +57,7 @@ public:
 
 	~LinkedList() {};
 
-	void addPatient(Patient* patient) { // https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
+	void addPatient(Patient *patient) { // https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
 
 		Node* newNode = new Node();
 		newNode->currentPatient = patient;
@@ -97,17 +97,117 @@ public:
 
 int main() {
 
-	LinkedList* waitingList = new LinkedList();
+	LinkedList *waitingList = new LinkedList();
 
-	Patient* patient1 = new Patient("aa", "aa", "aa", "aa");
-	Patient* patient2 = new Patient("b", "b", "b", "b");
-	Patient* patient3 = new Patient("c", "c", "c", "c");
+	Patient *patient1 = new Patient("Alex", "A", "U001", "pass123");
+	Patient *patient2 = new Patient("Bob", "B", "U002", "pass123");
+	Patient *patient3 = new Patient("Caitlin", "C", "U003", "pass123");
 
 	waitingList->addPatient(patient1);
 	waitingList->addPatient(patient2);
 	waitingList->addPatient(patient3);
 
-	waitingList->display();
+	////////////////////////////////////////////////////////////////
+
+	int option;
+
+	do 
+	{
+		cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
+		cout << "Login As: " << endl;
+		cout << "1. Nurse" << endl;
+		cout << "2. Doctor \n" << endl;
+		cout << "Option: ";
+		cin >> option;
+		cout << "\n";
+
+		switch (option) {
+			case 1:
+				do
+				{
+					string patientID;
+					int priority;
+
+					cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
+					cout << "\033[1;32mLogged in as Nurse\033[0m\n" << endl;
+					cout << "1. Add Patient to Waiting List" << endl;
+					cout << "2. View Waiting List" << endl;
+					cout << "3. Edit Waiting List Priority" << endl;
+					cout << "4. Call Patient for Treatment \n" << endl;
+					cout << "Action: ";
+					cin >> option;
+					cout << "\n";
+
+					switch (option) {
+					case 1:
+						//Patient *newPatient = new Patient("Alex", "A", "U001", "pass123");
+						//waitingList->addPatient(newPatient);
+
+						option = 0;
+						break;
+					case 2:
+						waitingList->display();
+
+						option = 0;
+						break;
+					case 3:
+						cout << "Patient ID: ";
+						cin >> patientID;
+						cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
+						cin >> priority;
+						cout << "\n";
+						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) +  "\033[0m" << endl;
+						cout << "\n";
+
+						option = 0;
+						break;
+					case 4:
+						cout << "Patient ID: ";
+						cin >> patientID;
+						cout << "\n";
+						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
+						cout << "\n";
+
+						option = 0;
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+					}
+				} while (option != 1 && option != 2 && option != 3 && option != 4);
+
+				break;
+			case 2:
+				do
+				{
+					cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
+					cout << "\033[1;32mLogged in as Doctor\033[0m\n" << endl;
+					cout << "1. View Waiting List" << endl;
+					cout << "2. View Patient List \n" << endl;
+					cout << "Action: ";
+					cin >> option;
+					cout << "\n";
+
+					switch (option) {
+					case 1:
+						waitingList->display();
+
+						option = 0;
+						break;
+					case 2:
+						waitingList->display();
+
+						option = 0;
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+					}
+				} while (option != 1 && option != 2);
+
+				break;
+			default:
+				cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+		}
+	} while (option != 1 && option != 2);
 
 	return 0;
 }
