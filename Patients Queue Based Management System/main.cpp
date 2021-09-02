@@ -209,9 +209,8 @@ int main() {
 						do
 						{
 							cout << "1. Search for Patient by Patient ID or First Name" << endl;
-							cout << "2. Sort by Priority" << endl;
-							cout << "3. Sort by Visit Time" << endl;
-							cout << "4. Back \n" << endl;
+							cout << "2. Sort by Visit Time" << endl;
+							cout << "3. Back \n" << endl;
 							cout << "Action: ";
 							cin >> option;
 							cout << "\n";
@@ -233,18 +232,12 @@ int main() {
 								option = 0;
 								break;
 							case 3:
-								waitingList->display();
-								cout << "\n";
-
-								option = 0;
-								break;
-							case 4:
 								break;
 							default:
 								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 								cout << "\n";
 							}
-						} while (option != 1 && option != 2 && option != 3 && option != 4);
+						} while (option != 1 && option != 2 && option != 3);
 
 						option = 0;
 						break;
