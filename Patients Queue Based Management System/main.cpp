@@ -1,23 +1,24 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 using namespace std;
 
 class User {
 
 protected:
+	string UserID;
 	string firstName;
 	string lastName;
-	string UserID;
-	string password;
+	int age;
+	string gender;
 
 public:
-	User() {}
 
-	User(string firstName, string lastName, string UserID, string password) {
+	User(string UserID, string firstName, string lastName, int age, string gender) {
+		this->UserID = UserID;
 		this->firstName = firstName;
 		this->lastName = lastName;
-		this->UserID = UserID;
-		this->password = password;
+		this->age = age;
+		this->gender = gender;
 	}
 
 	string getUserID() {
@@ -28,10 +29,7 @@ public:
 class Patient : public User {
 
 public:
-	Patient(string firstName, string lastName, string UserID, string password) : User(firstName, lastName, UserID, password) {}
-};
-
-class Nurse : public User {
+	Patient(string UserID, string firstName, string lastName, int age, string gender) : User(UserID, firstName, lastName, age, gender) {}
 };
 
 class Doctor : public User {
@@ -48,8 +46,8 @@ public:
 
 class LinkedList {
 
+private:
 	Node* head;
-
 public:
 	LinkedList() {
 		head = NULL;
@@ -78,6 +76,16 @@ public:
 		}
 	}
 
+	void deletePatient(string patientID) {
+		Node* last = head; // Assume there is one and only one node in the linkedlist
+		while (last->currentPatient->getUserID() != patientID) { // Linear traverse until the node to be deleted is found
+			last = last->nextNode;
+		}
+		last->previousNode->nextNode = last->nextNode;
+		last->nextNode->previousNode = last->previousNode;
+		delete last;
+	}
+
 	void display() {
 		if (head == NULL)
 		{
@@ -95,13 +103,24 @@ public:
 	}
 };
 
+void printHeader() {
+	cout << "\033[1;34m###############################################################" << endl;
+	cout << "### \033[1;94mKlinik Sulaiman - Patient Queue Based Management System \033[1;34m###" << endl;
+	cout << "###############################################################\n" << endl;;
+};
+
+void clear() // Clear the terminal when logout
+{
+	cout << "\x1B[2J\x1B[H";
+};
+
 int main() {
 
 	LinkedList *waitingList = new LinkedList();
 
-	Patient *patient1 = new Patient("Alex", "A", "U001", "pass123");
-	Patient *patient2 = new Patient("Bob", "B", "U002", "pass123");
-	Patient *patient3 = new Patient("Caitlin", "C", "U003", "pass123");
+	Patient *patient1 = new Patient("U001", "Alex", "A", 17, "Male");
+	Patient *patient2 = new Patient("U002", "Bob", "B", 23, "Male");
+	Patient *patient3 = new Patient("U003", "Caitlin", "C", 21, "Female");
 
 	waitingList->addPatient(patient1);
 	waitingList->addPatient(patient2);
@@ -113,8 +132,9 @@ int main() {
 
 	do 
 	{
-		cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
-		cout << "Login As: " << endl;
+		cout << "\n";
+		printHeader();
+		cout << "\033[0mLogin As: " << endl;
 		cout << "1. Nurse" << endl;
 		cout << "2. Doctor \n" << endl;
 		cout << "Option: ";
@@ -125,28 +145,89 @@ int main() {
 			case 1:
 				do
 				{
-					string patientID;
-					int priority;
+					string search_term;
+					string patientID, firstName, lastName, gender;
+					int priority, age;
 
-					cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
+					printHeader();
 					cout << "\033[1;32mLogged in as Nurse\033[0m\n" << endl;
 					cout << "1. Add Patient to Waiting List" << endl;
 					cout << "2. View Waiting List" << endl;
 					cout << "3. Edit Waiting List Priority" << endl;
-					cout << "4. Call Patient for Treatment \n" << endl;
+					cout << "4. Call Patient for Treatment" << endl;
+					cout << "5. Logout \n" << endl;
 					cout << "Action: ";
 					cin >> option;
 					cout << "\n";
 
 					switch (option) {
 					case 1:
-						//Patient *newPatient = new Patient("Alex", "A", "U001", "pass123");
-						//waitingList->addPatient(newPatient);
+					{
+						cout << "Patient ID: ";
+						cin >> patientID;
+						// Auto generate next available UserID
+						// Check for existance of patientID provided by user, if a match is found, skip the cin of other details
+
+						cout << "First Name: ";
+						cin >> firstName;
+						cout << "Last Name: ";
+						cin >> lastName;
+						cout << "Age: ";
+						cin >> age;
+						cout << "Gender: ";
+						cin >> gender;
+						cout << "\n";
+
+						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
+						cout << "\n";
+
+						Patient *newPatient = new Patient(patientID, firstName, lastName, age, gender);
+						waitingList->addPatient(newPatient);
 
 						option = 0;
 						break;
+					}
 					case 2:
 						waitingList->display();
+						cout << "\n";
+
+						do
+						{
+							cout << "1. Search Patient" << endl;
+							cout << "2. Sort by Priority" << endl;
+							cout << "3. Sort by Visit Time" << endl;
+							cout << "4. Back \n" << endl;
+							cout << "Action: ";
+							cin >> option;
+							cout << "\n";
+
+							switch (option) {
+							case 1:
+								cout << "Patient ID or First Name: ";
+								cin >> search_term;
+								cout << "\n";
+
+								option = 0;
+								break;
+							case 2:
+								waitingList->display();
+								cout << "\n";
+
+								option = 0;
+								break;
+							case 3:
+								waitingList->display();
+								cout << "\n";
+
+								option = 0;
+								break;
+							case 4:
+								break;
+							default:
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+								cout << "\n";
+							}
+						} while (option != 1 && option != 2 && option != 3 && option != 4);
 
 						option = 0;
 						break;
@@ -165,27 +246,36 @@ int main() {
 						cout << "Patient ID: ";
 						cin >> patientID;
 						cout << "\n";
+
+						//waitingList->deletePatient(patientID);
+
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
 						cout << "\n";
 
 						option = 0;
 						break;
+					case 5:
+						clear();
+						break;
 					default:
-						cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
 					}
-				} while (option != 1 && option != 2 && option != 3 && option != 4);
+
+				} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
 
 				break;
 			case 2:
 				do
 				{
-					cout << "Klinik Sulaiman Patient Queue Based Management System \n" << endl;
+					printHeader();
 					cout << "\033[1;32mLogged in as Doctor\033[0m\n" << endl;
 					cout << "1. View Waiting List" << endl;
-					cout << "2. View Patient List \n" << endl;
+					cout << "2. View Patient List" << endl;
+					cout << "3. Logout \n" << endl;
 					cout << "Action: ";
 					cin >> option;
-					cout << "\n";
+					cout << "\n"; 
 
 					switch (option) {
 					case 1:
@@ -198,14 +288,18 @@ int main() {
 
 						option = 0;
 						break;
+					case 3:
+						clear();
+						break;
 					default:
-						cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
 					}
-				} while (option != 1 && option != 2);
+				} while (option != 1 && option != 2 && option != 3);
 
 				break;
 			default:
-				cout << "\033[1;31mInvalid Option!\033[0m\n" << endl;
+				cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 		}
 	} while (option != 1 && option != 2);
 
