@@ -32,3 +32,31 @@ Proposal:
   - Provide a brief explanation about the algorithms that you plan to use in your function
   - Provide a proper justification on your decisions.
   4. Identify and explain what are the tasks will be assigned to each of the members.
+
+CLI Menu Flow:
+
+Login As:
+
+	1. Nurse
+		1. Add Patient to Waiting List [Hidden Search]
+		2. View Waiting List
+			1. Search for Patient by Patient ID or First Name (One to Many patients) [Unsorted Search]
+			2. Sort by Priority
+			3. Sort by Visit Time 
+			4. Back
+		3. Edit Waiting List Priority [Hidden Search]
+		4. Call Patient for Treatment [Hidden Search]
+		5. Logout
+
+	2. Doctor
+		1. View Waiting List
+		2. View Patient List
+			1. Search Specific Patient by Patient ID (One patient only) [Unsorted Search]
+				1. Modify Patient Record 
+				2. Sort by Visit History
+				3. Back
+			2. Search Patients by Sickness or First Name (Many patients) [Hidden sort & subsort by Sickness and First Name then Search by Sickness or First Name]
+			3. Back
+		3. Logout
+
+
