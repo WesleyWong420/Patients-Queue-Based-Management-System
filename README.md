@@ -18,9 +18,12 @@ Doctors:
   - 2.4 Search patients from the patient's visit history list based on sickness description or first name
   - 2.5 Login / Logout
 
+Attributes:
+
 Patient ID, First Name, Last Name, Age, Gender, Phone, Address, Sickness Description, Current Visit Date, Current Visit Time, Disability option, Doctor Name (set default value as NULL), Medicine Information (set default value as NULL)
 
-Below are the minimum elements that you need to include in your proposal:
+Proposal:
+
   1. Introduce your group’s members.
   2. Identify what are the important data structures or classes (optional) will be included in your system.
   - Detailed explanation of the data structures and classes created, with proper justification on your decisions (include source code defining classes, data members, and method headers only).
