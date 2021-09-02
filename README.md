@@ -22,7 +22,7 @@ Patient ID, First Name, Last Name, Age, Gender, Phone, Address, Sickness Descrip
 Below are the minimum elements that you need to include in your proposal:
   1. Introduce your group’s members.
   2. Identify what are the important data structures or classes (optional) will be included in your system.
-    - Detailed explanation of the data structures and classes created, with proper justification on your decisions (include source code defining classes, data members, and method headers only).
+  - Detailed explanation of the data structures and classes created, with proper justification on your decisions (include source code defining classes, data members, and method headers only).
   3. Briefly explain all of the workflows planning for your future system.
     - Use flowchart diagram to describe each of the functionalities’ workflows.
     - Provide a brief explanation about the algorithms that you plan to use in your function
