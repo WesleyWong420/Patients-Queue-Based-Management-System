@@ -65,17 +65,16 @@ public:
 		Node* newNode = new Node();
 		newNode->currentPatient = patient;
 		newNode->nextNode = NULL;
+		newNode->previousNode = tail;
+		tail = newNode;
 
 		if (head == NULL) // If first node is empty (empty linked list)
 		{
-			head = tail = newNode;
+			head = newNode;
 		}
 		else
 		{
-			Node* temp = tail;
-			tail->nextNode = newNode;
-			tail = newNode;
-			tail->previousNode = temp;
+			newNode->previousNode->nextNode = newNode;
 		}
 		size++;
 	}
