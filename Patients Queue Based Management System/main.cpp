@@ -72,8 +72,8 @@ public:
 		}
 		else
 		{
-			tail->nextNode = newNode;
 			Node* temp = tail;
+			tail->nextNode = newNode;
 			tail = newNode;
 			tail->previousNode = temp;
 		}
@@ -89,6 +89,10 @@ public:
 
 		if (head != NULL)
 			head->previousNode = NULL;
+		else
+		{
+			tail = NULL;
+		}
 	}
 
 	int checkExistence(string patientID) {
