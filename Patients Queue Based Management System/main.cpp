@@ -85,6 +85,9 @@ public:
 		head = head->nextNode;
 		delete toDelete;
 		size--;
+
+		if (head != NULL)
+			head->previousNode = NULL;
 	}
 
 	int checkExistence(string patientID) {
