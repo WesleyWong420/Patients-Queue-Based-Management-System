@@ -50,10 +50,12 @@ public:
 
 	int size;
 	Node* head;
+	Node* tail;
 
 	LinkedList() {
 		size = 0;
 		head = NULL;
+		tail = NULL;
 	}
 
 	~LinkedList() {};
@@ -66,17 +68,16 @@ public:
 
 		if (head == NULL) // If first node is empty (empty linked list)
 		{
-			head = newNode;
+			head = tail = newNode;
 		}
 		else
 		{
-			Node* last = head; // Assume there is one and only one node in the linkedlist
-			while (last->nextNode != NULL) { // Linear traverse until the last node does not has a next node
-				last = last->nextNode;
-			}
-			last->nextNode = newNode;
-			newNode->previousNode = last;
+			tail->nextNode = newNode;
+			Node* temp = tail;
+			tail = newNode;
+			tail->previousNode = temp;
 		}
+		size++;
 	}
 
 	void deleteFirstPatient() { 
