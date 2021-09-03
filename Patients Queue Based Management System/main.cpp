@@ -46,16 +46,19 @@ public:
 
 class LinkedList {
 
-private:
-	Node* head;
 public:
+
+	int size;
+	Node* head;
+
 	LinkedList() {
+		size = 0;
 		head = NULL;
 	}
 
 	~LinkedList() {};
 
-	void addPatient(Patient *patient) { // https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
+	void appendPatient(Patient *patient) { 
 
 		Node* newNode = new Node();
 		newNode->currentPatient = patient;
@@ -76,14 +79,53 @@ public:
 		}
 	}
 
-	void deletePatient(string patientID) { // Has bug # DONT USE!
-		Node* last = head; // Assume there is one and only one node in the linkedlist
-		while (last->currentPatient->getUserID() != patientID) { // Linear traverse until the node to be deleted is found
+	void deleteFirstPatient() { 
+
+		Node* toDelete = head;
+		head = head->nextNode;
+		delete toDelete;
+		size--;
+	}
+
+	int checkExistence(string patientID) {
+
+		int index = 0;
+		Node* last = head;
+		while (last != NULL) { 
+			if (last->currentPatient->getUserID() == patientID)
+			{
+				return index;
+			}
+			else
+			{
+				last = last->nextNode;
+				index++;
+			}
+		}
+
+		return -1;
+	}
+
+	Patient* getPatientAt(int index){
+
+		Node* last = head;
+
+		for (int i = 0; i < index; i++)
+		{
 			last = last->nextNode;
 		}
-		last->previousNode->nextNode = last->nextNode;
-		last->nextNode->previousNode = last->previousNode;
-		delete last;
+		return last->currentPatient;
+	}
+
+	int getSize() {
+
+		Node* last = head;
+		while (last != NULL) {
+			last = last->nextNode;
+			size++;
+		}
+
+		return size;
 	}
 
 	void display() {
@@ -123,15 +165,19 @@ int main() {
 	Patient *patient2 = new Patient("U002", "Bob", "B", 23, "Male");
 	Patient *patient3 = new Patient("U003", "Caitlin", "C", 21, "Female");
 
-	waitingList->addPatient(patient1);
-	waitingList->addPatient(patient2);
-	waitingList->addPatient(patient3);
+	waitingList->appendPatient(patient1);
+	waitingList->appendPatient(patient2);
+	waitingList->appendPatient(patient3);
+
+	patientList->appendPatient(patient1);
+	patientList->appendPatient(patient2);
+	patientList->appendPatient(patient3);
 
 	////////////////////////////////////////////////////////////////
 
 	string search_term, firstVisit;
 	string patientID, firstName, lastName, gender;
-	int option, priority, age;
+	int option, index, temp, priority, age;
 
 	do 
 	{
@@ -161,120 +207,153 @@ int main() {
 					cout << "\n";
 
 					switch (option) {
-					case 1:
-					{
-						cout << "New Patient? (true/false):  ";
-						cin >> firstVisit;
-
-						if (firstVisit == "true")
+						case 1:
 						{
-							cout << "First Name: ";
-							cin >> firstName;
-							cout << "Last Name: ";
-							cin >> lastName;
-							cout << "Age: ";
-							cin >> age;
-							cout << "Gender: ";
-							cin >> gender;
-							cout << "\n";
+							cout << "New Patient? (true/false):  ";
+							cin >> firstVisit;
 
-							// patientID = ""
-							// Auto generate next Patient ID
+							if (firstVisit == "true")
+							{
+								cout << "First Name: ";
+								cin >> firstName;
+								cout << "Last Name: ";
+								cin >> lastName;
+								cout << "Age: ";
+								cin >> age;
+								cout << "Gender: ";
+								cin >> gender;
+								cout << "\n";
 
-							cout << "\033[1;33mNew Record of Patient\033[1;36m " + patientID + "\033[1;33m has been generated!\033[0m" << endl;
-							cout << "\n";
+								patientID =  "U00" + to_string((patientList->getSize()) + 1);
 
-							Patient* newPatient = new Patient(patientID, firstName, lastName, age, gender);
-							waitingList->addPatient(newPatient);
+								Patient* newPatient = new Patient(patientID, firstName, lastName, age, gender);
+								waitingList->appendPatient(newPatient);
+								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
+								cout << "\n";
+								patientList->appendPatient(newPatient);
+								cout << "\033[1;33mNew Record of Patient\033[1;36m " + patientID + "\033[1;33m has been generated!\033[0m" << endl;
+								cout << "\n";
+							}
+							else
+							{
+								cout << "Patient ID: ";
+								cin >> patientID;
+								cout << "\n";
+
+								index = patientList->checkExistence(patientID);
+								temp = waitingList->checkExistence(patientID);
+
+								if (index != -1)
+								{
+									if (temp == -1)
+									{
+										Patient* newPatient = patientList->getPatientAt(index);
+										waitingList->appendPatient(newPatient);
+										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
+										cout << "\n";
+									}
+									else
+									{
+										cout << "\033[1;31mPatient is already in the waiting list!\033[0m" << endl;
+										cout << "\n";
+									}
+								}
+								else
+								{
+									cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
+									cout << "\n";
+								}
+							}
+
+							option = 0;
+							break;
 						}
-						else
-						{
+						case 2:
+							waitingList->display();
+							cout << "\n";
+
+							do
+							{
+								cout << "1. Search for Patient by Patient ID or First Name" << endl;
+								cout << "2. Sort by Visit Time" << endl;
+								cout << "3. Back \n" << endl;
+								cout << "Action: ";
+								cin >> option;
+								cout << "\n";
+
+								switch (option) {
+								case 1:
+									cout << "Patient ID or First Name: ";
+									cin >> search_term;
+									cout << "\n";
+
+									// Patient found or not found? Search from waitingList
+
+									option = 0;
+									break;
+								case 2:
+									waitingList->display();
+									cout << "\n";
+
+									option = 0;
+									break;
+								case 3:
+									break;
+								default:
+									cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+									cout << "\n";
+								}
+							} while (option != 1 && option != 2 && option != 3);
+
+							option = 0;
+							break;
+						case 3:
+							cout << "Patient ID: ";
+							cin >> patientID;
+
+							// Patient found or not found? Search from waitingList
+
+							cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
+							cin >> priority;
+							cout << "\n";
+							cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) +  "\033[0m" << endl;
+							cout << "\n";
+
+							option = 0;
+							break;
+						case 4:
 							cout << "Patient ID: ";
 							cin >> patientID;
 							cout << "\n";
+							index = waitingList->checkExistence(patientID);
 
-							// Patient found or not found? Search from patientList
-						}
+							if (index == 0)
+							{
+								waitingList->deleteFirstPatient();
 
-						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
-						cout << "\n";
-
-						option = 0;
-						break;
-					}
-					case 2:
-						waitingList->display();
-						cout << "\n";
-
-						do
-						{
-							cout << "1. Search for Patient by Patient ID or First Name" << endl;
-							cout << "2. Sort by Visit Time" << endl;
-							cout << "3. Back \n" << endl;
-							cout << "Action: ";
-							cin >> option;
-							cout << "\n";
-
-							switch (option) {
-							case 1:
-								cout << "Patient ID or First Name: ";
-								cin >> search_term;
-								cout << "\n";
-
-								// Patient found or not found? Search from waitingList
-
-								option = 0;
-								break;
-							case 2:
-								waitingList->display();
-								cout << "\n";
-
-								option = 0;
-								break;
-							case 3:
-								break;
-							default:
-								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
 								cout << "\n";
 							}
-						} while (option != 1 && option != 2 && option != 3);
+							else if (index == -1)
+							{
+								cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
+								cout << "\n";
+							}
+							else
+							{
+								cout << "\033[1;31mPatient\033[1;36m " + patientID + "\033[1;31m is\033[1;36m " + to_string(index + 1) + "\033[1;31m place away from being called!\033[0m" << endl;
+								cout << "\n";
+							}
 
-						option = 0;
-						break;
-					case 3:
-						cout << "Patient ID: ";
-						cin >> patientID;
-
-						// Patient found or not found? Search from waitingList
-
-						cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
-						cin >> priority;
-						cout << "\n";
-						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) +  "\033[0m" << endl;
-						cout << "\n";
-
-						option = 0;
-						break;
-					case 4:
-						cout << "Patient ID: ";
-						cin >> patientID;
-						cout << "\n";
-
-						// Patient found or not found? Search from waitingList
-						// waitingList->deletePatient(patientID);
-
-						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
-						cout << "\n";
-
-						option = 0;
-						break;
-					case 5:
-						clear();
-						break;
-					default:
-						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
-						cout << "\n";
-					}
+							option = 0;
+							break;
+						case 5:
+							clear();
+							break;
+						default:
+							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+							cout << "\n";
+						}
 
 				} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
 
