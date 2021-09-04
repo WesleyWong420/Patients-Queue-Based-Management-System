@@ -38,13 +38,13 @@ CLI Menu Flow:
 Login As:
 
 	1. Nurse
-		1. Add Patient to Waiting List [Linear Search]
+		1. Add Patient to Waiting List
 		2. View Waiting List
 			1. Search for Patient by Patient ID or First Name (One to Many patients) [Sort->Search] SPECIAL
 			2. Sort by Visit Time []
 			4. Back
-		3. Edit Waiting List Priority [Linear Search]
-		4. Call Patient for Treatment [Default Priority Sort]
+		3. Edit Waiting List Priority
+		4. Call Patient for Treatment [Default Priority Sort -> Default Visit Time Subsort -> Delete top of stack]
 		5. Logout
 
 	2. Doctor
