@@ -8,23 +8,96 @@ protected:
 	string UserID;
 	string firstName;
 	string lastName;
-	int age;
 	string gender;
-	int priority;
+	int age;
 
 public:
 
-	User(string UserID, string firstName, string lastName, int age, string gender, int priority) {
+	User(string UserID, string firstName, string lastName, string gender, int age) {
 		this->UserID = UserID;
 		this->firstName = firstName;
 		this->lastName = lastName;
-		this->age = age;
 		this->gender = gender;
-		this->priority = priority;
+		this->age = age;
 	}
 
 	string getUserID() {
 		return UserID;
+	}
+
+	void setUserID(string UserID) {
+		this->UserID = UserID;
+	}
+
+	string getFirstName() {
+		return firstName;
+	}
+
+	void setFirstName(string firstName) {
+		this->firstName = firstName;
+	}
+
+	string getLastName() {
+		return lastName;
+	}
+
+	void setLastName(string lastName) {
+		this->lastName = lastName;
+	}
+
+	string getGender() {
+		return gender;
+	}
+
+	void setGender(string gender) {
+		this->gender = gender;
+	}
+
+	int getAge() {
+		return age;
+	}
+
+	void setAge(int age) {
+		this->age = age;
+	}
+};
+
+class Patient : public User {
+
+private:
+
+	History history;
+
+public:
+	Patient(string UserID, string firstName, string lastName, string gender, int age, int priority) : 
+		User(UserID, firstName, lastName, gender, age) {
+		History* history = new History(priority);
+	}
+
+	History &getHistory() {
+		return history;
+	}
+
+	void setHistory(History history) {
+		this->history = history;
+	}
+};
+
+class Doctor : public User {
+};
+
+class History {
+
+private:
+
+	int priority;
+
+public:
+
+	History() {}
+
+	History(int priority) {
+		this->priority = priority;
 	}
 
 	int getPriority() {
@@ -34,15 +107,6 @@ public:
 	void setPriority(int priority) {
 		this->priority = priority;
 	}
-};
-
-class Patient : public User {
-
-public:
-	Patient(string UserID, string firstName, string lastName, int age, string gender, int priority) : User(UserID, firstName, lastName, age, gender, priority) {}
-};
-
-class Doctor : public User {
 };
 
 class Node {
@@ -165,7 +229,7 @@ public:
 		{
 			Node* temp = head;
 			while (temp != NULL) {
-				cout << temp->currentPatient->getPriority() << " ";
+				cout << temp->currentPatient->getHistory()->getPriority() << " ";
 				temp = temp->nextNode;
 			}
 			cout << endl;
@@ -189,9 +253,9 @@ int main() {
 	LinkedList *waitingList = new LinkedList();
 	LinkedList *patientList = new LinkedList();
 
-	Patient *patient1 = new Patient("U001", "Alex", "A", 17, "Male", 1);
-	Patient *patient2 = new Patient("U002", "Bob", "B", 23, "Male", 2);
-	Patient *patient3 = new Patient("U003", "Caitlin", "C", 21, "Female", 3);
+	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17, 1);
+	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23, 2);
+	Patient *patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, 3);
 
 	waitingList->appendPatient(patient1);
 	waitingList->appendPatient(patient2);
@@ -256,11 +320,12 @@ int main() {
 
 								patientID =  "U00" + to_string((patientList->getSize()) + 1);
 
-								Patient* newPatient = new Patient(patientID, firstName, lastName, age, gender, priority);
+								Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, priority);
 								waitingList->appendPatient(newPatient);
+								patientList->appendPatient(newPatient);
+
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 								cout << "\n";
-								patientList->appendPatient(newPatient);
 								cout << "\033[1;33mNew Record of Patient\033[1;36m " + patientID + "\033[1;33m has been generated!\033[0m" << endl;
 								cout << "\n";
 							}
@@ -360,7 +425,7 @@ int main() {
 									if (priority == 1 || priority == 2 || priority == 3)
 									{
 										Patient *patient = waitingList->getPatientAt(index);
-										patient->setPriority(priority);
+										patient->getHistory()->setPriority(priority);
 										waitingList->setPatientAt(index, patient);
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 										cout << "\n";
