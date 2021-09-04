@@ -2,109 +2,37 @@
 #include <string>
 using namespace std;
 
-class User {
+class Patient {
 
-protected:
+public:
+
 	string UserID;
 	string firstName;
 	string lastName;
 	string gender;
 	int age;
-
-public:
-
-	User(string UserID, string firstName, string lastName, string gender, int age) {
-		this->UserID = UserID;
-		this->firstName = firstName;
-		this->lastName = lastName;
-		this->gender = gender;
-		this->age = age;
-	}
-
-	string getUserID() {
-		return UserID;
-	}
-
-	void setUserID(string UserID) {
-		this->UserID = UserID;
-	}
-
-	string getFirstName() {
-		return firstName;
-	}
-
-	void setFirstName(string firstName) {
-		this->firstName = firstName;
-	}
-
-	string getLastName() {
-		return lastName;
-	}
-
-	void setLastName(string lastName) {
-		this->lastName = lastName;
-	}
-
-	string getGender() {
-		return gender;
-	}
-
-	void setGender(string gender) {
-		this->gender = gender;
-	}
-
-	int getAge() {
-		return age;
-	}
-
-	void setAge(int age) {
-		this->age = age;
-	}
-};
-
-class Patient : public User {
-
-private:
-
 	History history;
 
-public:
-	Patient(string UserID, string firstName, string lastName, string gender, int age, int priority) : 
-		User(UserID, firstName, lastName, gender, age) {
-		History* history = new History(priority);
-	}
-
-	History &getHistory() {
-		return history;
-	}
-
-	void setHistory(History history) {
-		this->history = history;
+	Patient(string UserID, string firstName, string lastName, string gender, int age, int priority) {
+		this->UserID = UserID;
+		this->firstName = firstName;
+		this->lastName = lastName;
+		this->gender = gender;
+		this->age = age;
+		History *history = new History(priority);
 	}
 };
 
-class Doctor : public User {
-};
+class Doctor {};
 
 class History {
 
-private:
-
-	int priority;
-
 public:
+	int priority;
 
 	History() {}
 
 	History(int priority) {
-		this->priority = priority;
-	}
-
-	int getPriority() {
-		return priority;
-	}
-
-	void setPriority(int priority) {
 		this->priority = priority;
 	}
 };
@@ -115,7 +43,6 @@ public:
 	Patient* currentPatient;
 	Node* previousNode;
 	Node* nextNode;
-
 };
 
 class LinkedList {
@@ -173,7 +100,7 @@ public:
 		int index = 0;
 		Node* last = head;
 		while (last != NULL) { 
-			if (last->currentPatient->getUserID() == patientID)
+			if (last->currentPatient->UserID == patientID)
 			{
 				return index;
 			}
@@ -229,7 +156,7 @@ public:
 		{
 			Node* temp = head;
 			while (temp != NULL) {
-				cout << temp->currentPatient->getHistory()->getPriority() << " ";
+				cout << temp->currentPatient->history->getPriority() << " ";
 				temp = temp->nextNode;
 			}
 			cout << endl;
@@ -425,7 +352,7 @@ int main() {
 									if (priority == 1 || priority == 2 || priority == 3)
 									{
 										Patient *patient = waitingList->getPatientAt(index);
-										patient->getHistory()->setPriority(priority);
+										patient->history->setPriority(priority);
 										waitingList->setPatientAt(index, patient);
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 										cout << "\n";
