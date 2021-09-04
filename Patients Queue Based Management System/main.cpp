@@ -10,26 +10,36 @@ protected:
 	string lastName;
 	int age;
 	string gender;
+	int priority;
 
 public:
 
-	User(string UserID, string firstName, string lastName, int age, string gender) {
+	User(string UserID, string firstName, string lastName, int age, string gender, int priority) {
 		this->UserID = UserID;
 		this->firstName = firstName;
 		this->lastName = lastName;
 		this->age = age;
 		this->gender = gender;
+		this->priority = priority;
 	}
 
 	string getUserID() {
 		return UserID;
+	}
+
+	int getPriority() {
+		return priority;
+	}
+
+	void setPriority(int priority) {
+		this->priority = priority;
 	}
 };
 
 class Patient : public User {
 
 public:
-	Patient(string UserID, string firstName, string lastName, int age, string gender) : User(UserID, firstName, lastName, age, gender) {}
+	Patient(string UserID, string firstName, string lastName, int age, string gender, int priority) : User(UserID, firstName, lastName, age, gender, priority) {}
 };
 
 class Doctor : public User {
@@ -124,6 +134,17 @@ public:
 		return last->currentPatient;
 	}
 
+	void setPatientAt(int index, Patient* patient) {
+
+		Node* last = head;
+
+		for (int i = 0; i < index; i++)
+		{
+			last = last->nextNode;
+		}
+		last->currentPatient = patient;
+	}
+
 	int getSize() {
 
 		Node* last = head;
@@ -144,7 +165,7 @@ public:
 		{
 			Node* temp = head;
 			while (temp != NULL) {
-				cout << temp->currentPatient->getUserID() << " ";
+				cout << temp->currentPatient->getPriority() << " ";
 				temp = temp->nextNode;
 			}
 			cout << endl;
@@ -168,9 +189,9 @@ int main() {
 	LinkedList *waitingList = new LinkedList();
 	LinkedList *patientList = new LinkedList();
 
-	Patient *patient1 = new Patient("U001", "Alex", "A", 17, "Male");
-	Patient *patient2 = new Patient("U002", "Bob", "B", 23, "Male");
-	Patient *patient3 = new Patient("U003", "Caitlin", "C", 21, "Female");
+	Patient *patient1 = new Patient("U001", "Alex", "A", 17, "Male", 1);
+	Patient *patient2 = new Patient("U002", "Bob", "B", 23, "Male", 2);
+	Patient *patient3 = new Patient("U003", "Caitlin", "C", 21, "Female", 3);
 
 	waitingList->appendPatient(patient1);
 	waitingList->appendPatient(patient2);
@@ -229,11 +250,13 @@ int main() {
 								cin >> age;
 								cout << "Gender: ";
 								cin >> gender;
+								cout << "Priority: ";
+								cin >> priority;
 								cout << "\n";
 
 								patientID =  "U00" + to_string((patientList->getSize()) + 1);
 
-								Patient* newPatient = new Patient(patientID, firstName, lastName, age, gender);
+								Patient* newPatient = new Patient(patientID, firstName, lastName, age, gender, priority);
 								waitingList->appendPatient(newPatient);
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 								cout << "\n";
@@ -318,13 +341,38 @@ int main() {
 							cout << "Patient ID: ";
 							cin >> patientID;
 
-							// Patient found or not found? Search from waitingList
+							index = waitingList->checkExistence(patientID);
 
-							cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
-							cin >> priority;
-							cout << "\n";
-							cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) +  "\033[0m" << endl;
-							cout << "\n";
+							if (index == -1)
+							{
+								cout << "\n";
+								cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
+								cout << "\n";
+							}
+							else
+							{
+								do 
+								{
+									cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
+									cin >> priority;
+									cout << "\n";
+
+									if (priority == 1 || priority == 2 || priority == 3)
+									{
+										Patient *patient = waitingList->getPatientAt(index);
+										patient->setPriority(priority);
+										waitingList->setPatientAt(index, patient);
+										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
+										cout << "\n";
+										break;
+									}
+									else
+									{
+										cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+										cout << "\n";
+									}
+								} while (priority != 3 && priority != 2 && priority != 1);	
+							}
 
 							option = 0;
 							break;
