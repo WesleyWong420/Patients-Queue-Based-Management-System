@@ -20,7 +20,7 @@ string getCurrentTime() {
 	st = localtime(&clock);
 	string currentTime = to_string(st->tm_hour) + ":" + to_string(st->tm_min) + ":" + to_string(st->tm_sec);
 
-	return currentTime;
+	return currentTime;//hello
 };
 
 class Patient {
