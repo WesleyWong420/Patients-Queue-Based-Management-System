@@ -8,8 +8,20 @@ string getCurrentDate() {
 	time_t clock = time(NULL);
 	struct tm* st;
 	st = localtime(&clock);
-	string currentDate = to_string(st->tm_mday) + "/" + to_string(st->tm_mon + 1) + "/" + to_string(st->tm_year + 1900);
 
+	string day = to_string(st->tm_mday) , month = to_string(st->tm_mon + 1), year = to_string(st->tm_year + 1900);
+
+	if (day.length() != 2)
+	{
+		day = "0" + day;
+	}
+
+	if (month.length() != 2)
+	{
+		month = "0" + month;
+	}
+
+	string currentDate = day + "/" + month + "/" + year;
 	return currentDate;
 };
 
@@ -18,8 +30,25 @@ string getCurrentTime() {
 	time_t clock = time(NULL);
 	struct tm* st;
 	st = localtime(&clock);
-	string currentTime = to_string(st->tm_hour) + ":" + to_string(st->tm_min) + ":" + to_string(st->tm_sec);
 
+	string second = to_string(st->tm_sec), minute = to_string(st->tm_min), hour = to_string(st->tm_hour);
+
+	if (second.length() != 2)
+	{
+		second = "0" + second;
+	}
+
+	if (minute.length() != 2)
+	{
+		minute = "0" + minute;
+	}
+
+	if (hour.length() != 2)
+	{
+		hour = "0" + hour;
+	}
+
+	string currentTime = hour + ":" + minute + ":" + second;
 	return currentTime;
 };
 
@@ -45,13 +74,15 @@ public:
 	string lastName;
 	string gender;
 	int age;
+	int priority;
 
-	Patient(string UserID, string firstName, string lastName, string gender, int age) {
+	Patient(string UserID, string firstName, string lastName, string gender, int age, int priority) {
 		this->UserID = UserID;
 		this->firstName = firstName;
 		this->lastName = lastName;
 		this->gender = gender;
 		this->age = age;
+		this->priority = priority;
 	}
 };
 
@@ -60,13 +91,12 @@ class Doctor {};
 class History {
 
 public:
-	int priority;
+	
 	string visitDate;
 	string visitTime;
 	Patient* patient;
 
-	History(int priority, string visitDate, string visitTime, Patient *patient) {
-		this->priority = priority;
+	History(string visitDate, string visitTime, Patient *patient) {
 		this->visitDate = visitDate;
 		this->visitTime = visitTime;
 		this->patient = patient;
@@ -121,7 +151,7 @@ public:
 		int index = 0;
 		HistoryNode* last = head;
 		while (last != NULL) {
-			if (last->currentHistory->patient->UserID == patientID && last->currentHistory->visitDate == getCurrentDate())
+			if (last->currentHistory->patient->UserID == patientID)
 			{
 				return index;
 			}
@@ -178,7 +208,7 @@ public:
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentHistory->patient->lastName << "\n";
 				cout << "\033[1;33mGender: \033[0m" << temp->currentHistory->patient->gender << "\n";
 				cout << "\033[1;33mAge: \033[0m" << temp->currentHistory->patient->age << "\n";
-				cout << "\033[1;33mPriority: \033[0m" << temp->currentHistory->priority << "\n";
+				cout << "\033[1;33mPriority: \033[0m" << temp->currentHistory->patient->priority << "\n";
 				cout << "\033[1;33mVisit Date: \033[0m" << temp->currentHistory->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << temp->currentHistory->visitTime << "\n";
 				cout << "\n";
@@ -289,17 +319,6 @@ public:
 		last->currentPatient = patient;
 	}
 
-	int getSize() {
-
-		PatientNode* last = head;
-		while (last != NULL) {
-			last = last->nextNode;
-			size++;
-		}
-
-		return size/2;
-	}
-
 	void display(HistoryLinkedList* historyList) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -309,7 +328,8 @@ public:
 
 		if (head == NULL)
 		{
-			cout << "List is empty!" << endl;
+			cout << "\033[1;31mList is empty!\033[0m" << endl;
+			cout << "\n";
 		}
 		else
 		{
@@ -321,13 +341,7 @@ public:
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentPatient->lastName << "\n";
 				cout << "\033[1;33mGender: \033[0m" << temp->currentPatient->gender << "\n";
 				cout << "\033[1;33mAge: \033[0m" << temp->currentPatient->age << "\n";
-
-				int index = historyList->checkExistence(temp->currentPatient->UserID);
-				History* history = historyList->getHistoryAt(index);
-
-				cout << "\033[1;33mPriority: \033[0m" << history->priority << "\n";
-				cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
-				cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
+				cout << "\033[1;33mPriority: \033[0m" << temp->currentPatient->priority << "\n";
 				cout << "\n";
 
 				temp = temp->nextNode;
@@ -351,24 +365,19 @@ void clear() // Clear the terminal when logout
 int main() {
 
 	PatientLinkedList *waitingList = new PatientLinkedList();
-	PatientLinkedList *patientList = new PatientLinkedList();
 	HistoryLinkedList *historyList = new HistoryLinkedList();
 
-	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17);
-	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23);
-	Patient *patient3 = new Patient("U003", "Caitlin", "C", "Female", 21);
+	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17, 1);
+	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23, 2);
+	Patient *patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, 3);
 
-	History* history1 = new History(1, "21/5/2021", "11:5:33", patient1);
-	History* history2 = new History(2, "10/8/2021", "9:30:55", patient2);
-	History* history3 = new History(3, getCurrentDate(), getCurrentTime(), patient3);
+	History* history1 = new History("21/05/2021", "11:05:33", patient1);
+	History* history2 = new History("10/08/2021", "09:30:55", patient2);
+	History* history3 = new History(getCurrentDate(), getCurrentTime(), patient3);
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
 	waitingList->appendPatient(patient3);
-
-	patientList->appendPatient(patient1);
-	patientList->appendPatient(patient2);
-	patientList->appendPatient(patient3);
 
 	historyList->appendHistory(history1);
 	historyList->appendHistory(history2);
@@ -379,6 +388,7 @@ int main() {
 	string search_term, firstVisit;
 	string patientID, firstName, lastName, gender;
 	int option, index, temp, priority, age;
+	int totalPatient = 3;
 
 	do 
 	{
@@ -427,12 +437,23 @@ int main() {
 								cin >> priority;
 								cout << "\n";
 
-								patientID =  "U00" + to_string((patientList->getSize()) + 1);
+								if (totalPatient < 9)
+								{
+									patientID = "U00" + to_string(totalPatient + 1);
+								}
+								else if (9 <= totalPatient <= 98)
+								{
+									patientID = "U0" + to_string(totalPatient + 1);
+								}
+								else
+								{
+									patientID = "U" + to_string(totalPatient + 1);
+								}
+								
 
-								Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age);
+								Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, priority);
 								waitingList->appendPatient(newPatient);
-								patientList->appendPatient(newPatient);
-								History* currentVisit = new History(priority, getCurrentDate(), getCurrentTime(), newPatient);
+								History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
 								historyList->appendHistory(currentVisit);
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
@@ -445,7 +466,7 @@ int main() {
 								cout << "Patient ID: ";
 								cin >> patientID;
 
-								index = patientList->checkExistence(patientID);
+								index = historyList->checkExistence(patientID);
 								temp = waitingList->checkExistence(patientID);
 
 								if (index != -1)
@@ -455,9 +476,10 @@ int main() {
 										cout << "Priority: ";
 										cin >> priority;
 
-										Patient *newPatient = patientList->getPatientAt(index);
+										History *pastVisit = historyList->getHistoryAt(index);
+										Patient* newPatient = pastVisit->patient;
 										waitingList->appendPatient(newPatient);
-										History* currentVisit = new History(priority, getCurrentDate(), getCurrentTime(), newPatient);
+										History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
 										historyList->appendHistory(currentVisit);
 
 										cout << "\n";
@@ -537,10 +559,9 @@ int main() {
 
 									if (priority == 1 || priority == 2 || priority == 3)
 									{
-										temp = historyList->checkExistence(patientID);
-										History *history = historyList->getHistoryAt(temp);
-										history->priority = priority;
-										historyList->setHistoryAt(temp, history);
+										Patient *patient = waitingList->getPatientAt(index);
+										patient->priority = priority;
+										waitingList->setPatientAt(index, patient);
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 										cout << "\n";
 										break;
