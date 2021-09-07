@@ -22,7 +22,18 @@ string getCurrentTime() {
 
 	return currentTime;//hello
 };
+class Medicine {
 
+public:
+
+	string medicineName;
+	int amount;
+
+	Medicine(string medicineName, int amount) {
+		this->medicineName = medicineName;
+		this->amount = amount;
+	}
+};
 class Patient {
 
 public:
