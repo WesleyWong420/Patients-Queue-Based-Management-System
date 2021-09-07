@@ -67,5 +67,5 @@ Login As:
 					2. Modify Medicine Quantity
 				2. Remove From Treating List
 		2. View Medicine List
-			1. Modify number of medicine
-			2. Add medicine
+			1. Modify Medicine Stock
+			2. Add New Medicine
