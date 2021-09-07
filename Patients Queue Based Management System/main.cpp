@@ -75,11 +75,11 @@ public:
 	string gender;
 	string phone;
 	string address;
+	string disability;
 	int age;
 	int priority;
-	bool disability;
-
-	Patient(string UserID, string firstName, string lastName, string gender, int age, string phone, string address, bool disability) {
+	
+	Patient(string UserID, string firstName, string lastName, string gender, int age, string phone, string address, string disability) {
 		this->UserID = UserID;
 		this->firstName = firstName;
 		this->lastName = lastName;
@@ -89,7 +89,7 @@ public:
 		this->address = address;
 		this->disability = disability;
 
-		if (disability)
+		if (disability == "true")
 		{
 			this->priority = 2;
 		}
@@ -444,34 +444,32 @@ int main() {
 	PatientLinkedList *waitingList = new PatientLinkedList();
 	HistoryLinkedList *historyList = new HistoryLinkedList();
 
-	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", false);
-	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", false);
-	Patient *patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", true);
+	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
+	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
+	Patient *patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2);
 	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3);
-	History* history4 = new History(getCurrentDate(), getCurrentTime(), "Dizzy", patient3);
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
-	waitingList->appendPatient(patient3);
+	//waitingList->appendPatient(patient3);
 
 	historyList->appendHistory(history1);
 	historyList->appendHistory(history2);
 	historyList->appendHistory(history3);
-	historyList->appendHistory(history4);
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	string patientID, firstName, lastName, gender, phone, address, sickness;
+	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
-	bool disability;
 
-	string search_term;
+	string search_term, firstVisit;
 	int option, index, temp;
 	int totalPatient = 3;
-	bool firstVisit;
+
+	History *currentVisit;
 
 	do 
 	{
@@ -506,7 +504,7 @@ int main() {
 							cout << "New Patient? (true/false):  ";
 							cin >> firstVisit;
 
-							if (firstVisit)
+							if (firstVisit == "true")
 							{
 								cout << "First Name: ";
 								cin >> firstName;
@@ -540,10 +538,9 @@ int main() {
 								}
 								
 
-								Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
+								Patient *newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 								waitingList->appendPatient(newPatient);
-								History* currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
-								historyList->appendHistory(currentVisit);
+								currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 								cout << "\n";
@@ -565,10 +562,9 @@ int main() {
 									if (temp == -1)
 									{
 										History *pastVisit = historyList->getHistoryAt(index);
-										Patient* newPatient = pastVisit->patient;
+										Patient *newPatient = pastVisit->patient;
 										waitingList->appendPatient(newPatient);
-										History* currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
-										historyList->appendHistory(currentVisit);
+										currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
 
 										cout << "\n";
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
@@ -650,6 +646,9 @@ int main() {
 										Patient *patient = waitingList->getPatientAt(index);
 										patient->priority = priority;
 										waitingList->setPatientAt(index, patient);
+
+										cout << waitingList->getPatientAt(index)->priority;
+
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 										cout << "\n";
 										break;
@@ -665,9 +664,11 @@ int main() {
 							option = 0;
 							break;
 						case 4:
+						{
 							cout << "Patient ID: ";
 							cin >> patientID;
 							cout << "\n";
+
 							index = waitingList->checkExistence(patientID);
 
 							if (index == 0)
@@ -690,6 +691,7 @@ int main() {
 
 							option = 0;
 							break;
+						}
 						case 5:
 							clear();
 							break;
