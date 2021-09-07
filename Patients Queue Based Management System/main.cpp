@@ -443,6 +443,7 @@ int main() {
 
 	PatientLinkedList *waitingList = new PatientLinkedList();
 	HistoryLinkedList *historyList = new HistoryLinkedList();
+	HistoryLinkedList *tempHistory = new HistoryLinkedList();
 
 	Patient *patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient *patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
@@ -468,8 +469,6 @@ int main() {
 	string search_term, firstVisit;
 	int option, index, temp;
 	int totalPatient = 3;
-
-	History *currentVisit;
 
 	do 
 	{
@@ -536,11 +535,11 @@ int main() {
 								{
 									patientID = "U" + to_string(totalPatient + 1);
 								}
-								
-
+							
 								Patient *newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 								waitingList->appendPatient(newPatient);
-								currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+								History *currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+								tempHistory->appendHistory(currentVisit);
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 								cout << "\n";
@@ -562,9 +561,10 @@ int main() {
 									if (temp == -1)
 									{
 										History *pastVisit = historyList->getHistoryAt(index);
-										Patient *newPatient = pastVisit->patient;
+										Patient *newPatient = new Patient(pastVisit->patient->UserID, pastVisit->patient->firstName, pastVisit->patient->lastName, pastVisit->patient->gender, pastVisit->patient->age, pastVisit->patient->phone, pastVisit->patient->address, pastVisit->patient->disability);
 										waitingList->appendPatient(newPatient);
-										currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+										History* currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+										tempHistory->appendHistory(currentVisit);
 
 										cout << "\n";
 										cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
@@ -670,10 +670,14 @@ int main() {
 							cout << "\n";
 
 							index = waitingList->checkExistence(patientID);
+							temp = tempHistory->checkExistence(patientID);
 
 							if (index == 0)
 							{
 								waitingList->deleteFirstPatient();
+
+								History* history = tempHistory->getHistoryAt(temp);
+								historyList->appendHistory(history);
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
 								cout << "\n";
