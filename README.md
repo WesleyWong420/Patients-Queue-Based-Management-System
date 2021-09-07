@@ -60,10 +60,11 @@ Login As:
 
 
 	3. Additional
-		1.View Treating List
+		1. View Treating List
 			1. Search Specific Patient by Patient ID (One patient only) [Linear Search]
-			2. Modify Patient Record(Add medicine)
-				1. Reduce the number of medicine 
-		2.View Medicine List
+				1. Modify Patient Record
+					1. Assign Medicine
+					2. Reduce the number of medicine 
+		2. View Medicine List
 			1. Modify number of medicine
 			2. Add medicine
