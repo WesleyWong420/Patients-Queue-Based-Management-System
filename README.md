@@ -41,29 +41,31 @@ Login As:
 		1. Add Patient to Waiting List ✅
 		2. View Waiting List ✅
 			1. Search for Patient by Patient ID or First Name (One to Many patients) [Sort->Search] SPECIAL
-			2. Sort by Visit Time []
-			4. Back
+			2. Sort by Visit Time [Comb Sort] 📝
+			4. Back ✅
 		3. Edit Waiting List Priority ✅
-		4. Call Patient for Treatment [Default Priority Sort -> Default Visit Time Subsort -> Delete top of stack] 50% ✅
-		5. Logout
+		4. Call Patient for Treatment [Default Priority Sort (Counting) -> Default Visit Time Subsort (Comb) -> Delete top of stack -> Sort again] 📝
+		5. Logout ✅
 
 	2. Doctor
 		1. View Waiting List ✅
-		2. View Patient List (Print from History List)
-			1. Search Specific Patient by Patient ID (One patient only, but one to many records) [Linear Search]
-				1. Modify Patient Record 
-				2. Sort by Visit History []
-				3. Back
+		2. View Patient List ✅
+			1. Search Specific Patient by Patient ID (One patient only, but one to many records) [Linear Search] 📝
+				1. Modify Patient Record 📝
+				2. Sort by Visit History [] 📝
+				3. Back ✅
 			2. Search Patients by Sickness or First Name (Many patients) [Sort->Search] SPECIAL
-			3. Back
-		3. Logout
+			3. Back ✅
+		3. Logout ✅
 
 
 	3. Additional
-		1.View Treating List
+		1. View Treating List
 			1. Search Specific Patient by Patient ID (One patient only) [Linear Search]
-			2. Modify Patient Record(Add medicine)
-				1. Reduce the number of medicine 
-		2.View Medicine List
-			1. Modify number of medicine
-			2. Add medicine
+				1. Modify Patient Record
+					1. Assign Medicine
+					2. Modify Medicine Quantity
+				2. Remove From Treating List
+		2. View Medicine List
+			1. Modify Medicine Stock
+			2. Add New Medicine
