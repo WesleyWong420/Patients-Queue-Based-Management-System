@@ -64,7 +64,8 @@ Login As:
 			1. Search Specific Patient by Patient ID (One patient only) [Linear Search]
 				1. Modify Patient Record
 					1. Assign Medicine
-					2. Reduce the number of medicine 
+					2. Modify Medicine Quantity
+				2. Remove From Treating List
 		2. View Medicine List
 			1. Modify number of medicine
 			2. Add medicine
