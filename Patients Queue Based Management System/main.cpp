@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
 #include <string>
 #include <ctime>
 using namespace std;
@@ -56,14 +57,152 @@ class Medicine {
 
 public:
 
+	string medicineID;
 	string medicineName;
 	int amount;
 
-	Medicine(string medicineName, int amount) {
+	Medicine(string medicineName, int amount) { // ID
 		this->medicineName = medicineName;
 		this->amount = amount;
 	}
 };
+
+class MedicineNode {
+
+public:
+	Medicine* currentMedicine;
+	MedicineNode* previousNode;
+	MedicineNode* nextNode;
+};
+
+class MedicineLinkedList {
+
+public:
+	int size;
+	MedicineNode* head;
+	MedicineNode* tail;
+
+	MedicineLinkedList() {
+		size = 0;
+		head = NULL;
+		tail = NULL;
+	}
+
+	~MedicineLinkedList() {};
+
+	void appendMedicine(Medicine* medicine) {
+
+		MedicineNode* newNode = new MedicineNode();
+		newNode->currentMedicine = medicine;
+		newNode->nextNode = NULL;
+		newNode->previousNode = tail;
+		tail = newNode;
+
+		if (head == NULL) // If first node is empty (empty linked list)
+		{
+			head = newNode;
+		}
+		else
+		{
+			newNode->previousNode->nextNode = newNode;
+		}
+		size++;
+	}
+
+	void deleteFirst() {
+		MedicineNode* toDelete = head;
+		head = head->nextNode;
+		delete toDelete;
+		size--;
+	}
+
+	void deleteMedicine(int index) {
+		MedicineNode* prev = NULL;
+		MedicineNode* toDelete = head;
+
+		if (index < size)
+		{
+			if (index == 0)
+			{
+				deleteFirst();
+			}
+			else
+			{
+				for (int i = 0; i < index; i++)
+				{
+					prev = toDelete;
+					toDelete = toDelete->nextNode;
+				}
+				prev->nextNode = toDelete->nextNode;
+				delete toDelete;
+				size--;
+			}
+		}
+		else
+		{
+			cout << "";
+		} // Mesasge
+	}
+
+	int checkExistence(string medicineID) {
+
+		int index = 0;
+		MedicineNode* last = head;
+
+		while (last != NULL) {
+			if (last->currentMedicine->medicineID == medicineID)
+			{
+				return index;
+			}
+			else
+			{
+				last = last->nextNode;
+				index++;
+			}
+		}
+
+		return -1;
+	}
+
+	void medicineSetAt(int index, int amount) {
+
+		MedicineNode* last = head;
+		for (int i = 0; i < index; i++)
+		{
+			last = last->nextNode;
+		}
+		last->currentMedicine->amount = amount;
+	}
+
+	void display(MedicineLinkedList* MedicineList) {
+
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "                       Medicine List                       \n";
+
+		if (head == NULL)
+		{
+			cout << "\033[1;31mList is empty!\033[0m" << endl;
+			cout << "\n";
+		}
+		else
+		{
+			MedicineNode* temp = head;
+			while (temp != NULL) {
+
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
+				cout << "\033[1;33mMedicine ID: \033[0m" << temp->currentMedicine->medicineID << "\n";
+				cout << "\033[1;33mMedicine Name: \033[0m" << temp->currentMedicine->medicineName << "\n";
+				cout << "\033[1;33mMedicine Amount: \033[0m" << temp->currentMedicine->amount << "\n";
+				cout << "\n";
+
+				temp = temp->nextNode;
+			}
+			cout << endl;
+		}
+	}
+};
+
 
 class Patient {
 
