@@ -623,7 +623,7 @@ int main() {
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
-	Medicine* medicine1 = new Medicine("Panadol", 1);
+	Medicine* medicine1 = new Medicine("M001", "Panadol", 1);
 
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
