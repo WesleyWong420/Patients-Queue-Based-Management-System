@@ -71,7 +71,8 @@ public:
 	string medicineName;
 	int amount;
 
-	Medicine(string medicineName, int amount) { // ID
+	Medicine(string medicineID, string medicineName, int amount) { // ID
+		this->medicineID = medicineID;
 		this->medicineName = medicineName;
 		this->amount = amount;
 	}
@@ -615,6 +616,7 @@ int main() {
 	PatientLinkedList* waitingList = new PatientLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
+	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
@@ -635,6 +637,29 @@ int main() {
 	historyList->appendHistory(history2);
 	historyList->appendHistory(history3);
 
+	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
+	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
+	Medicine* medicine3 = new Medicine("M003", " Simvastatin", 63);
+	Medicine* medicine4 = new Medicine("M004", "Lisinopril", 91);
+	Medicine* medicine5 = new Medicine("M005", "Levothyroxine", 53);
+	Medicine* medicine6 = new Medicine("M006", "Azithromycin", 72);
+	Medicine* medicine7 = new Medicine("M007", "Metformin", 45);
+	Medicine* medicine8 = new Medicine("M008", "Lipitor", 83);
+	Medicine* medicine9 = new Medicine("M009", "Amlodipine", 92);
+	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
+	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
+
+	medicineList->appendMedicine(medicine1);
+	medicineList->appendMedicine(medicine2);
+	medicineList->appendMedicine(medicine3);
+	medicineList->appendMedicine(medicine4);
+	medicineList->appendMedicine(medicine5);
+	medicineList->appendMedicine(medicine6);
+	medicineList->appendMedicine(medicine7);
+	medicineList->appendMedicine(medicine8);
+	medicineList->appendMedicine(medicine9);
+	medicineList->appendMedicine(medicine10);
+	medicineList->appendMedicine(medicine11);
 	//////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
