@@ -681,13 +681,15 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
+	tempHistory->appendHistory(treating1);
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
 
-	string search_term, firstVisit,med_ID,med_name;
-	int option, index, temp,med_amount;
+	string search_term, firstVisit, med_ID, med_name;
+	int option, option2, index, temp, med_amount;
 	int totalPatient = 4;
 	int totalMedicine = 11;
 
@@ -960,11 +962,39 @@ int main() {
 					cout << "/n";
 					if (medicineList->checkExistence2(med_ID) == true)
 					{
-						cout << "New amount:";
-						cin >> med_amount;
-						cout << "/n";
-						index = medicineList->checkExistence(med_ID);
-						medicineList->medicineSetAmount(index, med_amount);
+						do {
+							cout << "1.Edit amount";
+							cout << "/n";
+							cout << "2.Delete";
+							cout << "/n";
+							cout << "3.Cancel";
+							cout << "/n";
+							cout << "Action:";
+							cin >> option;
+							cout << "/n";
+							
+							index = medicineList->checkExistence(med_ID);
+
+							switch (option) {
+							case 1:
+								cout << "New amount:";
+								cin >> med_amount;
+								cout << "/n";
+								medicineList->medicineSetAmount(index, med_amount);
+
+							case 2:
+								medicineList->deleteMedicine(index);
+
+							case 3:
+								break;
+
+							default:
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+								cout << "\n";
+
+							}
+						} while (option != 1 && option != 2 && option != 3);
+						
 					} 
 					else
 					{
@@ -1000,15 +1030,19 @@ int main() {
 					
 					medicineList->appendMedicine(med);
 
+					option = 0;
+					break;
+
 				case 8:
 					clear();
 					break;
+
 				default:
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 					cout << "\n";
 				}
 
-			} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
+			} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6 && option != 7 && option != 8);
 
 			break;
 		case 2:
@@ -1019,7 +1053,9 @@ int main() {
 				cout << "\033[1;32mLogged in as Doctor\033[0m\n" << endl;
 				cout << "1. View Waiting List" << endl;
 				cout << "2. View Patient List" << endl;
-				cout << "3. Logout \n" << endl;
+				cout << "3. View Treating List" << endl;
+				cout << "4. Treating Patient" << endl;
+				cout << "4. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
 				cout << "\n";
@@ -1096,14 +1132,17 @@ int main() {
 
 					option = 0;
 					break;
+
 				case 3:
+					tempHistory->display();
+				case 5:
 					clear();
 					break;
 				default:
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 					cout << "\n";
 				}
-			} while (option != 1 && option != 2 && option != 3);
+			} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
 
 			break;
 		default:
