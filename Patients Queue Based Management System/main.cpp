@@ -53,6 +53,16 @@ string getCurrentTime() {
 	return currentTime;
 };
 
+class Doctor {
+
+public:
+	string doctorName;
+
+	Doctor(string name) {
+		this->doctorName = name;
+	}
+};
+
 class Medicine {
 
 public:
@@ -61,7 +71,8 @@ public:
 	string medicineName;
 	int amount;
 
-	Medicine(string medicineName, int amount) { // ID
+	Medicine(string medicineID, string medicineName, int amount) { // ID
+		this->medicineID = medicineID;
 		this->medicineName = medicineName;
 		this->amount = amount;
 	}
@@ -203,7 +214,6 @@ public:
 	}
 };
 
-
 class Patient {
 
 public:
@@ -239,10 +249,12 @@ public:
 	}
 };
 
-class Doctor {
+class PatientNode {
 
 public:
-	string doctorName;
+	Patient* currentPatient;
+	PatientNode* previousNode;
+	PatientNode* nextNode;
 };
 
 class History {
@@ -256,13 +268,22 @@ public:
 	Doctor* doctor;
 	Medicine* medicine;
 
-	History(string visitDate, string visitTime, string sickness, Patient* patient) {
+	History(string visitDate, string visitTime, Patient* patient) {		
 		this->visitDate = visitDate;
 		this->visitTime = visitTime;
-		this->sickness = sickness;
 		this->patient = patient;
+		this->sickness = "";
 		this->doctor = NULL;
 		this->medicine = NULL;
+	}
+
+	History(string visitDate, string visitTime, string sickness, Patient* patient, Doctor* doctor, Medicine* medicine) {	
+		this->visitDate = visitDate;				// For hardcoding dummy data
+		this->visitTime = visitTime;
+		this->patient = patient;
+		this->sickness = sickness;
+		this->doctor = doctor;
+		this->medicine = medicine;
 	}
 };
 
@@ -338,7 +359,7 @@ public:
 				if (found == 0)
 				{
 					cout << "\033[1;33m---------------------------------------------------------------\n";
-					cout << "                       Search Result                    \n";
+					cout << "                       Search Result                 \n";
 					found++;
 				}
 
@@ -350,9 +371,20 @@ public:
 				cout << "\033[1;33mLast Name: \033[0m" << last->currentHistory->patient->lastName << "\n";
 				cout << "\033[1;33mGender: \033[0m" << last->currentHistory->patient->gender << "\n";
 				cout << "\033[1;33mAge: \033[0m" << last->currentHistory->patient->age << "\n";
+				cout << "\033[1;33mPhone Number: \033[0m" << last->currentHistory->patient->phone << "\n";
+				cout << "\033[1;33mAddress: \033[0m" << last->currentHistory->patient->address << "\n";
+				cout << "\033[1;33mDisability Option: \033[0m" << last->currentHistory->patient->disability << "\n";
 				cout << "\033[1;33mPriority: \033[0m" << last->currentHistory->patient->priority << "\n";
 				cout << "\033[1;33mVisit Date: \033[0m" << last->currentHistory->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << last->currentHistory->visitTime << "\n";
+				cout << "\033[1;33mSickness Description: \033[0m" << last->currentHistory->sickness << "\n";
+
+				if (last->currentHistory->doctor != NULL && last->currentHistory->medicine != NULL)
+				{
+					cout << "\033[1;33mDoctor Assigned: \033[0m" << last->currentHistory->doctor->doctorName << "\n";
+					cout << "\033[1;33mMedicine Prescription: \033[0m" << last->currentHistory->medicine->medicineName << "\n";
+				}
+				
 				cout << "\n";
 			}
 
@@ -418,8 +450,13 @@ public:
 				cout << "\033[1;33mVisit Date: \033[0m" << temp->currentHistory->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << temp->currentHistory->visitTime << "\n";
 				cout << "\033[1;33mSickness Description: \033[0m" << temp->currentHistory->sickness << "\n";
-				//cout << "\033[1;33mDoctor Assigned: \033[0m" << temp->currentHistory->doctor->doctorName<< "\n";
-				//cout << "\033[1;33mMedicine Prescription: \033[0m" << temp->currentHistory->medicine->medicineName << "\n";
+
+				if (temp->currentHistory->doctor != NULL && temp->currentHistory->medicine != NULL)
+				{
+					cout << "\033[1;33mDoctor Assigned: \033[0m" << temp->currentHistory->doctor->doctorName << "\n";
+					cout << "\033[1;33mMedicine Prescription: \033[0m" << temp->currentHistory->medicine->medicineName << "\n";
+				}
+
 				cout << "\n";
 
 				temp = temp->nextNode;
@@ -427,14 +464,6 @@ public:
 			cout << endl;
 		}
 	}
-};
-
-class PatientNode {
-
-public:
-	Patient* currentPatient;
-	PatientNode* previousNode;
-	PatientNode* nextNode;
 };
 
 class PatientLinkedList {
@@ -561,7 +590,6 @@ public:
 
 				cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
-				cout << "\033[1;33mSickness Description: \033[0m" << history->sickness << "\n";
 				cout << "\n";
 				cout << "\n";
 
@@ -588,14 +616,18 @@ int main() {
 	PatientLinkedList* waitingList = new PatientLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
+	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3);
+	Doctor* doctor1 = new Doctor("Dr Nick");
+	Medicine* medicine1 = new Medicine("M001", "Panadol", 1);
+
+	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
+	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
+	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
@@ -605,6 +637,29 @@ int main() {
 	historyList->appendHistory(history2);
 	historyList->appendHistory(history3);
 
+	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
+	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
+	Medicine* medicine3 = new Medicine("M003", " Simvastatin", 63);
+	Medicine* medicine4 = new Medicine("M004", "Lisinopril", 91);
+	Medicine* medicine5 = new Medicine("M005", "Levothyroxine", 53);
+	Medicine* medicine6 = new Medicine("M006", "Azithromycin", 72);
+	Medicine* medicine7 = new Medicine("M007", "Metformin", 45);
+	Medicine* medicine8 = new Medicine("M008", "Lipitor", 83);
+	Medicine* medicine9 = new Medicine("M009", "Amlodipine", 92);
+	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
+	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
+
+	medicineList->appendMedicine(medicine1);
+	medicineList->appendMedicine(medicine2);
+	medicineList->appendMedicine(medicine3);
+	medicineList->appendMedicine(medicine4);
+	medicineList->appendMedicine(medicine5);
+	medicineList->appendMedicine(medicine6);
+	medicineList->appendMedicine(medicine7);
+	medicineList->appendMedicine(medicine8);
+	medicineList->appendMedicine(medicine9);
+	medicineList->appendMedicine(medicine10);
+	medicineList->appendMedicine(medicine11);
 	//////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
@@ -663,8 +718,6 @@ int main() {
 						cin >> address;
 						cout << "Disability Option (true/false): ";
 						cin >> disability;
-						cout << "Sickness Description: ";
-						cin >> sickness;
 						cout << "\n";
 
 						if (totalPatient < 9)
@@ -682,7 +735,7 @@ int main() {
 
 						Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 						waitingList->appendPatient(newPatient);
-						History* currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+						History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
 						tempHistory->appendHistory(currentVisit);
 
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
@@ -694,8 +747,7 @@ int main() {
 					{
 						cout << "Patient ID: ";
 						cin >> patientID;
-						cout << "Sickness Description: ";
-						cin >> sickness;
+						sickness = "";
 
 						index = historyList->checkExistence(patientID);
 						temp = waitingList->checkExistence(patientID);
@@ -707,7 +759,7 @@ int main() {
 								History* pastVisit = historyList->getHistoryAt(index);
 								Patient* newPatient = new Patient(pastVisit->patient->UserID, pastVisit->patient->firstName, pastVisit->patient->lastName, pastVisit->patient->gender, pastVisit->patient->age, pastVisit->patient->phone, pastVisit->patient->address, pastVisit->patient->disability);
 								waitingList->appendPatient(newPatient);
-								History* currentVisit = new History(getCurrentDate(), getCurrentTime(), sickness, newPatient);
+								History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
 								tempHistory->appendHistory(currentVisit);
 
 								cout << "\n";
@@ -790,8 +842,6 @@ int main() {
 								Patient* patient = waitingList->getPatientAt(index);
 								patient->priority = priority;
 								waitingList->setPatientAt(index, patient);
-
-								cout << waitingList->getPatientAt(index)->priority;
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 								cout << "\n";
