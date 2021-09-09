@@ -323,7 +323,7 @@ public:
 		this->patient = patient;
 		this->sickness = sickness;
 		this->doctor = doctor;
-		this->medicine = "";
+		this->medicine = medicine;
 	}
 };
 
@@ -1235,6 +1235,7 @@ int main() {
 									{
 										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(index2)->medicineName;
 										treatingList->getHistoryAt(index)->sickness = sickness;
+										treatingList->getHistoryAt(index)->doctor = doctor1;
 										History* temphis = treatingList->getHistoryAt(index);
 										historyList->appendHistory(temphis);
 										treatingList->deleteTreating(index);
