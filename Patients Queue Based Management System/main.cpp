@@ -185,7 +185,7 @@ public:
 		last->currentMedicine->amount = amount;
 	}
 
-	void display(MedicineLinkedList* MedicineList) {
+	void display() {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Medicine List                       \n";
@@ -618,6 +618,7 @@ int main() {
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
+	Patient* patient4 = new Patient("U004", "Daniel", "A", "Male", 25, "0135123411", "Street4", "false");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
 
@@ -633,10 +634,13 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
+	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
+
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
 	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
 
+	
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
 	//waitingList->appendPatient(patient3);
@@ -664,7 +668,7 @@ int main() {
 
 	string search_term, firstVisit;
 	int option, index, temp;
-	int totalPatient = 3;
+	int totalPatient = 4;
 
 	do
 	{
