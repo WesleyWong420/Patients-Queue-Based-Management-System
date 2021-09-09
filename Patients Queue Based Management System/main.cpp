@@ -121,6 +121,7 @@ public:
 	}
 
 	void deleteFirst() {
+
 		MedicineNode* toDelete = head;
 		head = head->nextNode;
 		delete toDelete;
@@ -134,7 +135,8 @@ public:
 		}
 	}
 
-	void deleteMedicine(int index) {
+	void deleteAt(int index) {
+
 		MedicineNode* prev = NULL;
 		MedicineNode* toDelete = head;
 		MedicineNode* next = NULL;
@@ -185,25 +187,6 @@ public:
 
 		return -1;
 	}
-
-	//bool checkExistence2(string medicineID) {
-	//	int index = 0;
-	//	MedicineNode* last = head;
-
-	//	while (last != NULL) {
-	//		if (last->currentMedicine->medicineID == medicineID)
-	//		{
-	//			return true;
-	//		}
-	//		else
-	//		{
-	//			last = last->nextNode;
-	//			index++;
-	//		}
-	//	}
-
-	//	return false;
-	//}
 	
 	Medicine* getMedicineAt(int index) {
 
@@ -304,26 +287,26 @@ public:
 	string visitDate;
 	string visitTime;
 	string sickness;
+	string medicine;
 	Patient* patient;
 	Doctor* doctor;
-	string medicine;
 
 	History(string visitDate, string visitTime, Patient* patient) {		
 		this->visitDate = visitDate;
 		this->visitTime = visitTime;
-		this->patient = patient;
 		this->sickness = "";
-		this->doctor = NULL;
 		this->medicine = "";
+		this->patient = patient;
+		this->doctor = NULL;
 	}
 
-	History(string visitDate, string visitTime, string sickness, Patient* patient, Doctor* doctor, string medicine) {	
+	History(string visitDate, string visitTime, string sickness, string medicine, Patient* patient, Doctor* doctor) {
 		this->visitDate = visitDate;				// For hardcoding dummy data
 		this->visitTime = visitTime;
-		this->patient = patient;
 		this->sickness = sickness;
-		this->doctor = doctor;
 		this->medicine = medicine;
+		this->patient = patient;
+		this->doctor = doctor;	
 	}
 };
 
@@ -462,6 +445,7 @@ public:
 	}
 
 	void deleteFirst() {
+
 		HistoryNode* toDelete = head;
 		head = head->nextNode;
 		delete toDelete;
@@ -475,10 +459,12 @@ public:
 		}
 	}
 
-	void deleteTreating(int index) {
+	void deleteAt(int index) {
+
 		HistoryNode* prev = NULL;
 		HistoryNode* toDelete = head;
 		HistoryNode* next = NULL;
+
 		if (index < size)
 		{
 			if (index == 0)
@@ -534,12 +520,18 @@ public:
 				cout << "\033[1;33mPriority: \033[0m" << temp->currentHistory->patient->priority << "\n";
 				cout << "\033[1;33mVisit Date: \033[0m" << temp->currentHistory->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << temp->currentHistory->visitTime << "\n";
-				cout << "\033[1;33mSickness Description: \033[0m" << temp->currentHistory->sickness << "\n";
 
-				if (temp->currentHistory->doctor != NULL && temp->currentHistory->medicine != "")
+				if (temp->currentHistory->sickness != "" && temp->currentHistory->doctor != NULL && temp->currentHistory->medicine != "")
 				{
+					cout << "\033[1;33mSickness Description: \033[0m" << temp->currentHistory->sickness << "\n";
 					cout << "\033[1;33mDoctor Assigned: \033[0m" << temp->currentHistory->doctor->doctorName << "\n";
 					cout << "\033[1;33mMedicine Prescription: \033[0m" << temp->currentHistory->medicine << "\n";
+				}
+				else
+				{
+					cout << "\033[1;33mSickness Description: " << "\033[1;31mTBD\033[0m" << "\n";
+					cout << "\033[1;33mDoctor Assigned: " << "\033[1;31mTBD\033[0m" << "\n";
+					cout << "\033[1;33mMedicine Prescription: " << "\033[1;31mTBD\033[0m" << "\n";
 				}
 
 				cout << "\n";
@@ -585,7 +577,7 @@ public:
 		size++;
 	}
 
-	void deleteFirstPatient() {
+	void deleteFirst() {
 
 		PatientNode* toDelete = head;
 		head = head->nextNode;
@@ -722,9 +714,9 @@ int main() {
 
 	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
 
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, "Antibiotics");
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, "Antibiotics");
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, "Antibiotics");
+	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
+	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Antibiotics", patient2, doctor1);
+	History* history3 = new History("31/08/2021", "14:55:06", "Headache", "Antibiotics", patient3, doctor1);
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
@@ -753,8 +745,8 @@ int main() {
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
 
-	string search_term, firstVisit, med_ID, med_name;
-	int option, option2, index, index2, temp, med_amount;
+	string search_term, firstVisit, medicineID, medicineName;
+	int option, index, temp, medicineAmount;
 	int totalPatient = 4;
 	int totalMedicine = 11;
 
@@ -958,10 +950,11 @@ int main() {
 
 					if (index == 0)
 					{
-						waitingList->deleteFirstPatient();
+						waitingList->deleteFirst();
 
 						History* history = tempHistory->getHistoryAt(temp);
-						historyList->appendHistory(history);
+						treatingList->appendHistory(history);
+						tempHistory->deleteAt(temp);
 
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
 						cout << "\n";
@@ -1009,10 +1002,10 @@ int main() {
 							medicineList->display();
 
 							cout << "Medicine ID of the Medicine to be modified: ";
-							cin >> med_ID;
+							cin >> medicineID;
 							cout << "\n";
 
-							if (medicineList->checkExistence(med_ID) != -1)
+							if (medicineList->checkExistence(medicineID) != -1)
 							{
 								do {
 									cout << "1. Edit Amount" << endl;
@@ -1023,17 +1016,17 @@ int main() {
 									cin >> option;
 									cout << "\n";
 
-									index = medicineList->checkExistence(med_ID);
+									index = medicineList->checkExistence(medicineID);
 
 									switch (option) {
 									case 1:
 										cout << "New Amount:";
-										cin >> med_amount;
+										cin >> medicineAmount;
 										cout << "\n";
-										medicineList->medicineSetAmount(index, med_amount);
+										medicineList->medicineSetAmount(index, medicineAmount);
 
 									case 2:
-										medicineList->deleteMedicine(index);
+										medicineList->deleteAt(index);
 
 									case 3:
 										break;
@@ -1055,26 +1048,26 @@ int main() {
 						case 4:
 						{
 							cout << "Medicine Name: ";
-							cin >> med_name;
+							cin >> medicineName;
 							cout << "\n";
 							cout << "Medicine Quantity: ";
-							cin >> med_amount;
+							cin >> medicineAmount;
 							cout << "\n";
 
 							if (totalMedicine < 9)
 							{
-								med_ID = "M00" + to_string(totalMedicine + 1);
+								medicineID = "M00" + to_string(totalMedicine + 1);
 							}
 							else if (8 < totalMedicine && totalMedicine < 99)
 							{
-								med_ID = "M0" + to_string(totalMedicine + 1);
+								medicineID = "M0" + to_string(totalMedicine + 1);
 							}
 							else
 							{
-								med_ID = "M" + to_string(totalMedicine + 1);
+								medicineID = "M" + to_string(totalMedicine + 1);
 							}
 
-							Medicine* med = new Medicine(med_ID, med_name, med_amount);
+							Medicine* med = new Medicine(medicineID, medicineName, medicineAmount);
 
 							medicineList->appendMedicine(med);
 
@@ -1220,26 +1213,26 @@ int main() {
 								medicineList->display();
 
 								cout << "Medicine ID: ";
-								cin >> med_ID;
+								cin >> medicineID;
 								cout << "\n";
 
-								if (medicineList->checkExistence(med_ID) == -1)
+								if (medicineList->checkExistence(medicineID) == -1)
 								{
 									cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
 									cout << "\n";
 								}
 								else
 								{
-									index2 = medicineList->checkExistence(med_ID);
-									if (medicineList->getMedicineAt(index2)->amount != 0)
+									temp = medicineList->checkExistence(medicineID);
+									if (medicineList->getMedicineAt(temp)->amount != 0)
 									{
-										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(index2)->medicineName;
+										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
 										treatingList->getHistoryAt(index)->sickness = sickness;
 										treatingList->getHistoryAt(index)->doctor = doctor1;
 										History* temphis = treatingList->getHistoryAt(index);
 										historyList->appendHistory(temphis);
-										treatingList->deleteTreating(index);
-										medicineList->getMedicineAt(index2)->amount = (medicineList->getMedicineAt(index2)->amount) - 1;
+										treatingList->deleteAt(index);
+										medicineList->getMedicineAt(temp)->amount = (medicineList->getMedicineAt(temp)->amount) - 1;
 										break;
 									}
 									else
@@ -1247,7 +1240,6 @@ int main() {
 										cout << "\033[1;31mOut of Medicine!\033[0m" << endl;
 										cout << "\n";
 									}
-	
 								}
 							}
 							option = 0;
@@ -1256,7 +1248,7 @@ int main() {
 						case 2:
 							break;
 						}
-					}while (option != 1 && option != 2);
+					} while (option != 1 && option != 2);
 
 					option = 0;
 					break;
