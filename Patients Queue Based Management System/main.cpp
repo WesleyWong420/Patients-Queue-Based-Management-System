@@ -317,7 +317,7 @@ public:
 		this->medicine = "";
 	}
 
-	History(string visitDate, string visitTime, string sickness, Patient* patient, Doctor* doctor, Medicine* medicine) {	
+	History(string visitDate, string visitTime, string sickness, Patient* patient, Doctor* doctor, string medicine) {	
 		this->visitDate = visitDate;				// For hardcoding dummy data
 		this->visitTime = visitTime;
 		this->patient = patient;
@@ -722,9 +722,9 @@ int main() {
 
 	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
 
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
+	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, "Antibiotics");
+	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, "Antibiotics");
+	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, "Antibiotics");
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
@@ -1239,6 +1239,7 @@ int main() {
 										historyList->appendHistory(temphis);
 										treatingList->deleteTreating(index);
 										medicineList->getMedicineAt(index2)->amount = (medicineList->getMedicineAt(index2)->amount) - 1;
+										break;
 									}
 									else
 									{
