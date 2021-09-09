@@ -109,7 +109,7 @@ public:
 		newNode->previousNode = tail;
 		tail = newNode;
 
-		if (head == NULL) // If first node is empty (empty linked list)
+		if (head == NULL) 
 		{
 			head = newNode;
 		}
@@ -196,6 +196,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		return last->currentMedicine;
 	}
 
@@ -342,7 +343,7 @@ public:
 		newNode->previousNode = tail;
 		tail = newNode;
 
-		if (head == NULL) // If first node is empty (empty linked list)
+		if (head == NULL) 
 		{
 			head = newNode;
 		}
@@ -430,6 +431,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		return last->currentHistory;
 	}
 
@@ -492,14 +494,23 @@ public:
 		}
 	}
 
-	void display() {
+	void display(int listNumber) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                       Patient List                       \n";
+
+		if(listNumber == 0)
+		{
+			cout << "                       Patient List                       \n";
+		}
+		else if(listNumber == 1)
+		{
+			cout << "                       Treating List                       \n";
+		}
 
 		if (head == NULL)
 		{
-			cout << "List is empty!" << endl;
+			cout << "\033[1;31mList is empty!\033[0m" << endl;
+			cout << "\n";
 		}
 		else
 		{
@@ -566,7 +577,7 @@ public:
 		newNode->previousNode = tail;
 		tail = newNode;
 
-		if (head == NULL) // If first node is empty (empty linked list)
+		if (head == NULL) 
 		{
 			head = newNode;
 		}
@@ -619,6 +630,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		return last->currentPatient;
 	}
 
@@ -696,13 +708,13 @@ int main() {
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
-	Patient* patient4 = new Patient("U004", "Daniel", "A", "Male", 25, "0135123411", "Street4", "false");
+	Patient* patient4 = new Patient("U004", "Daniel", "D", "Male", 25, "0135123411", "Street 4", "false");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
 
 	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
 	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
-	Medicine* medicine3 = new Medicine("M003", " Simvastatin", 63);
+	Medicine* medicine3 = new Medicine("M003", "Simvastatin", 63);
 	Medicine* medicine4 = new Medicine("M004", "Lisinopril", 91);
 	Medicine* medicine5 = new Medicine("M005", "Levothyroxine", 53);
 	Medicine* medicine6 = new Medicine("M006", "Azithromycin", 72);
@@ -715,8 +727,8 @@ int main() {
 	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
 
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Antibiotics", patient2, doctor1);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", "Antibiotics", patient3, doctor1);
+	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor1);
+	History* history3 = new History("31/08/2021", "14:55:06", "Headache", "Simvastatin", patient3, doctor1);
 
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
@@ -779,7 +791,7 @@ int main() {
 				cout << "\n";
 
 				switch (option) {
-				case 1:
+				case 1:				// Add Patient to Waiting List
 				{
 					cout << "New Patient? (true/false):  ";
 					cin >> firstVisit;
@@ -866,7 +878,7 @@ int main() {
 					option = 0;
 					break;
 				}
-				case 2:
+				case 2:				// View Waiting List
 					waitingList->display(tempHistory);
 
 					do
@@ -899,7 +911,7 @@ int main() {
 
 					option = 0;
 					break;
-				case 3:
+				case 3:				// Edit Waiting List Priority
 					cout << "Patient ID: ";
 					cin >> patientID;
 
@@ -939,7 +951,7 @@ int main() {
 
 					option = 0;
 					break;
-				case 4:
+				case 4:				// Call Patient for Treatment
 				{
 					cout << "Patient ID: ";
 					cin >> patientID;
@@ -956,7 +968,7 @@ int main() {
 						treatingList->appendHistory(history);
 						tempHistory->deleteAt(temp);
 
-						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been removed from waiting list!\033[0m" << endl;
+						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved from waiting list to treating list!\033[0m" << endl;
 						cout << "\n";
 					}
 					else if (index == -1)
@@ -973,7 +985,7 @@ int main() {
 					option = 0;
 					break;
 				}
-				case 5:
+				case 5:				// View Medicine List
 					medicineList->display();
 
 					do
@@ -988,20 +1000,20 @@ int main() {
 						cout << "\n";
 
 						switch (option) {
-						case 1:					// search medicine by name or ID
+						case 1:					// Search for Medicine by Medicine ID or Name
 							cout << "Medicine ID or Name: ";
 							cin >> search_term;
 							cout << "\n";
 
 							option = 0;
 							break;
-						case 2:					// sort by medicine amount
+						case 2:					// Sort by Quantity
 							option = 0;
 							break;
-						case 3:
+						case 3:					// Edit Medicine
 							medicineList->display();
 
-							cout << "Medicine ID of the Medicine to be modified: ";
+							cout << "Medicine ID: ";
 							cin >> medicineID;
 							cout << "\n";
 
@@ -1009,7 +1021,7 @@ int main() {
 							{
 								do {
 									cout << "1. Edit Amount" << endl;
-									cout << "2. Delete" << endl;
+									cout << "2. Delete Medicine" << endl;
 									cout << "3. Cancel" << endl;
 									cout << "\n";
 									cout << "Action: ";
@@ -1019,13 +1031,13 @@ int main() {
 									index = medicineList->checkExistence(medicineID);
 
 									switch (option) {
-									case 1:
+									case 1:						// Edit Amount
 										cout << "New Amount:";
 										cin >> medicineAmount;
 										cout << "\n";
 										medicineList->medicineSetAmount(index, medicineAmount);
 
-									case 2:
+									case 2:						// Delete Medicine
 										medicineList->deleteAt(index);
 
 									case 3:
@@ -1045,7 +1057,7 @@ int main() {
 
 							option = 0;
 							break;
-						case 4:
+						case 4:				// Add Medicine
 						{
 							cout << "Medicine Name: ";
 							cin >> medicineName;
@@ -1116,7 +1128,7 @@ int main() {
 					option = 0;
 					break;
 				case 2:
-					historyList->display();
+					historyList->display(0);
 
 					do
 					{
@@ -1183,15 +1195,16 @@ int main() {
 					break;
 
 				case 3:
-					treatingList->display();
+					treatingList->display(1);
 
-					cout << "1. Modify Treating List" << endl;
-					cout << "2. Back" << endl;
-					cout << "\n";
-					cout << "Action: ";
-					cin >> option;
-					cout << "\n";
 					do {
+						cout << "1. Modify Treating List" << endl;
+						cout << "2. Back" << endl;
+						cout << "\n";
+						cout << "Action: ";
+						cin >> option;
+						cout << "\n";
+
 						switch (option)
 						{
 						case 1:
@@ -1201,7 +1214,7 @@ int main() {
 
 							if (index == -1)
 							{
-								cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
+								cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
 								cout << "\n";
 							}
 							else
@@ -1233,6 +1246,9 @@ int main() {
 										historyList->appendHistory(temphis);
 										treatingList->deleteAt(index);
 										medicineList->getMedicineAt(temp)->amount = (medicineList->getMedicineAt(temp)->amount) - 1;
+
+										cout << "\033[1;33mTreatment for Patient\033[1;36m " + patientID + "\033[1;33m has been completed!\033[0m" << endl;
+										cout << "\n";
 										break;
 									}
 									else
@@ -1242,17 +1258,19 @@ int main() {
 									}
 								}
 							}
+
 							option = 0;
 							break;
-
 						case 2:
 							break;
+						default:
+							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+							cout << "\n";
 						}
 					} while (option != 1 && option != 2);
 
 					option = 0;
 					break;
-
 				case 4:
 					clear();
 					break;
