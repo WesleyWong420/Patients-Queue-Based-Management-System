@@ -144,6 +144,7 @@ public:
 					prev = toDelete;
 					toDelete = toDelete->nextNode;
 				}
+
 				prev->nextNode = toDelete->nextNode;
 				delete toDelete;
 				size--;
@@ -152,7 +153,7 @@ public:
 		else
 		{
 			cout << "";
-		} // Mesasge
+		} // Messafge
 	}
 
 	int checkExistence(string medicineID) {
@@ -239,7 +240,6 @@ public:
 
 				temp = temp->nextNode;
 			}
-			cout << endl;
 		}
 	}
 };
@@ -670,7 +670,6 @@ int main() {
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
 	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
 
-	
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
 	//waitingList->appendPatient(patient3);
@@ -927,56 +926,54 @@ int main() {
 				}
 				case 5:
 					medicineList->display();
+
 					do
 					{
-						cout << "1.Search for Medicine by Medicine ID or Name" << endl;
-						cout << "2.Sort by Amount" << endl;
-						cout << "3.Modify Medicine Amount" << endl;
-						cout << "4.Add Medicine to the Medicine List" << endl;
-						cout << "5.Back \n" << endl;
-						cout << "Action:";
+						cout << "1. Search for Medicine by Medicine ID or Name" << endl;
+						cout << "2. Sort by Quantity" << endl;
+						cout << "3. Edit Medicine" << endl;
+						cout << "4. Add Medicine" << endl;
+						cout << "5. Back \n" << endl;
+						cout << "Action: ";
 						cin >> option;
 						cout << "\n";
 
 						switch (option) {
 						case 1:					// search medicine by name or ID
-							cout << "Medicine ID or Name:";
+							cout << "Medicine ID or Name: ";
 							cin >> search_term;
-							cout << "/n";
+							cout << "\n";
 
 							option = 0;
 							break;
 						case 2:					// sort by medicine amount
 							option = 0;
 							break;
-						
 						case 3:
 							medicineList->display();
 
-
-							cout << "Medicine ID of the Medicine that needed to be modified:";
+							cout << "Medicine ID of the Medicine to be modified: ";
 							cin >> med_ID;
-							cout << "/n";
+							cout << "\n";
+
 							if (medicineList->checkExistence(med_ID) != -1)
 							{
 								do {
-									cout << "1.Edit amount";
-									cout << "/n";
-									cout << "2.Delete";
-									cout << "/n";
-									cout << "3.Cancel";
-									cout << "/n";
-									cout << "Action:";
+									cout << "1. Edit Amount" << endl;
+									cout << "2. Delete" << endl;
+									cout << "3. Cancel" << endl;
+									cout << "\n";
+									cout << "Action: ";
 									cin >> option;
-									cout << "/n";
+									cout << "\n";
 
 									index = medicineList->checkExistence(med_ID);
 
 									switch (option) {
 									case 1:
-										cout << "New amount:";
+										cout << "New Amount:";
 										cin >> med_amount;
-										cout << "/n";
+										cout << "\n";
 										medicineList->medicineSetAmount(index, med_amount);
 
 									case 2:
@@ -988,10 +985,8 @@ int main() {
 									default:
 										cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 										cout << "\n";
-
 									}
 								} while (option != 1 && option != 2 && option != 3);
-
 							}
 							else
 							{
@@ -1001,15 +996,14 @@ int main() {
 
 							option = 0;
 							break;
-
 						case 4:
 						{
-							cout << "Name of the Medicine:";
+							cout << "Medicine Name: ";
 							cin >> med_name;
-							cout << "/n";
-							cout << "Amount of the Medcicine:";
+							cout << "\n";
+							cout << "Medicine Quantity: ";
 							cin >> med_amount;
-							cout << "/n";
+							cout << "\n";
 
 							if (totalMedicine < 9)
 							{
@@ -1031,24 +1025,19 @@ int main() {
 							option = 0;
 							break;
 						}
-
 						case 5:
 							break;
-
 						default:
 							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 							cout << "\n";
-
 						}
 					} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
 
 					option = 0;
 					break;
-					
 				case 6:
 					clear();
 					break;
-
 				default:
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 					cout << "\n";
@@ -1146,15 +1135,21 @@ int main() {
 
 				case 3:
 					tempHistory->display();
-					cout << "1.Modify Treating List" << endl;
-					cout << "2.Back" << endl;
+
+					cout << "1. Modify Treating List" << endl;
+					cout << "2. Back" << endl;
+					cout << "\n";
+					cout << "Action: ";
 					cin >> option;
+					cout << "\n";
+
 					switch (option) 
 					{
 					case 1:
-						cout << "Patient ID that needed to be modified:";
+						cout << "Patient ID: ";
 						cin >> patientID;
 						index = tempHistory->checkExistence(patientID);
+
 						if (index == -1) 
 						{
 							cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
@@ -1162,14 +1157,13 @@ int main() {
 						}
 						else
 						{
-							cout << "Sickness:";
+							cout << "Sickness: ";
 							cin >> sickness;
 							cout << "\n";
 
 							medicineList->display();
-							cout << "\n";
 
-							cout << "Medicine ID:";
+							cout << "Medicine ID: ";
 							cin >> med_ID;
 							cout << "\n";
 
@@ -1186,7 +1180,6 @@ int main() {
 								History* temphistory = tempHistory->getHistoryAt(index);
 								historyList->appendHistory(temphistory);
 								delete tempHistory->getHistoryAt(index);
-
 							}
 						}
 						option = 0;
