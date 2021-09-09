@@ -152,8 +152,8 @@ public:
 		}
 		else
 		{
-			cout << "";
-		} // Messafge
+			cout << "Medicine Does Not Exist!";
+		} 
 	}
 
 	int checkExistence(string medicineID) {
@@ -449,6 +449,42 @@ public:
 			last = last->nextNode;
 		}
 		last->currentHistory = history;
+	}
+
+	void deleteFirst() {
+		HistoryNode* toDelete = head;
+		head = head->nextNode;
+		delete toDelete;
+		size--;
+	}
+
+	void deleteTreating(int index) {
+		HistoryNode* prev = NULL;
+		HistoryNode* toDelete = head;
+
+		if (index < size)
+		{
+			if (index == 0)
+			{
+				deleteFirst();
+			}
+			else
+			{
+				for (int i = 0; i < index; i++)
+				{
+					prev = toDelete;
+					toDelete = toDelete->nextNode;
+				}
+
+				prev->nextNode = toDelete->nextNode;
+				delete toDelete;
+				size--;
+			}
+		}
+		else
+		{
+			cout << "Patient Does Not Exist!";
+		}
 	}
 
 	void display() {
@@ -1142,52 +1178,54 @@ int main() {
 					cout << "Action: ";
 					cin >> option;
 					cout << "\n";
-
-					switch (option) 
-					{
-					case 1:
-						cout << "Patient ID: ";
-						cin >> patientID;
-						index = tempHistory->checkExistence(patientID);
-
-						if (index == -1) 
+					do {
+						switch (option)
 						{
-							cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
-							cout << "\n";
-						}
-						else
-						{
-							cout << "Sickness: ";
-							cin >> sickness;
-							cout << "\n";
+						case 1:
+							cout << "Patient ID: ";
+							cin >> patientID;
+							index = tempHistory->checkExistence(patientID);
 
-							medicineList->display();
-
-							cout << "Medicine ID: ";
-							cin >> med_ID;
-							cout << "\n";
-
-							if (medicineList->checkExistence(med_ID) == -1) 
+							if (index == -1)
 							{
-								cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
-								cout << "\n";	
+								cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
+								cout << "\n";
 							}
 							else
 							{
-								index2 = medicineList->checkExistence(med_ID);
-								tempHistory->getHistoryAt(index)->medicine->medicineName = medicineList->getMedicineAt(index)->medicineName;
-								tempHistory->getHistoryAt(index)->sickness = sickness;
-								History* temphistory = tempHistory->getHistoryAt(index);
-								historyList->appendHistory(temphistory);
-								delete tempHistory->getHistoryAt(index);
-							}
-						}
-						option = 0;
-						break;
+								cout << "Sickness: ";
+								cin >> sickness;
+								cout << "\n";
 
-					case 2:
-						break;
-					}
+								medicineList->display();
+
+								cout << "Medicine ID: ";
+								cin >> med_ID;
+								cout << "\n";
+
+								if (medicineList->checkExistence(med_ID) == -1)
+								{
+									cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
+									cout << "\n";
+								}
+								else
+								{
+									index2 = medicineList->checkExistence(med_ID);
+									tempHistory->getHistoryAt(index)->medicine->medicineName = medicineList->getMedicineAt(index)->medicineName;
+									tempHistory->getHistoryAt(index)->sickness = sickness;
+									History* temphistory = tempHistory->getHistoryAt(index);
+									historyList->appendHistory(temphistory);
+									tempHistory->deleteTreating(index);
+								}
+							}
+							option = 0;
+							break;
+
+						case 2:
+							break;
+						}
+					}while (option != 1 && option != 2);
+
 					option = 0;
 					break;
 
