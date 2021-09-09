@@ -659,7 +659,6 @@ int main() {
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
 	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
-
 	
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
@@ -687,7 +686,7 @@ int main() {
 	int age, priority;
 
 	string search_term, firstVisit,med_ID,med_name;
-	int option, index, temp,med_amount;
+	int option, index, temp, med_amount;
 	int totalPatient = 4;
 	int totalMedicine = 11;
 
@@ -715,7 +714,7 @@ int main() {
 				cout << "4. Call Patient for Treatment" << endl;
 				cout << "5. View Medicine List" << endl;
 				cout << "6. Edit Medicine List" << endl;
-				cout << "7. Add Medicine to Medicine List" << endl;
+				cout << "7. Add New Medicine" << endl;
 				cout << "8. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
@@ -917,6 +916,7 @@ int main() {
 				}
 				case 5:
 					medicineList->display();
+
 					do
 					{
 						cout << "1.Search for Medicine by Medicine ID or Name" << endl;
@@ -930,7 +930,7 @@ int main() {
 						case 1:					// search medicine by name or ID
 							cout << "Medicine ID or Name:";
 							cin >> search_term;
-							cout << "/n";
+							cout << "\n";
 
 							option = 0;
 							break;
@@ -950,19 +950,17 @@ int main() {
 
 					option = 0;
 					break;
-
 				case 6:
 					medicineList->display();
 					
-					
 					cout << "Medicine ID of the Medicine that needed to be modified:";
 					cin >> med_ID;
-					cout << "/n";
+					cout << "\n";
 					if (medicineList->checkExistence2(med_ID) == true)
 					{
 						cout << "New amount:";
 						cin >> med_amount;
-						cout << "/n";
+						cout << "\n";
 						index = medicineList->checkExistence(med_ID);
 						medicineList->medicineSetAmount(index, med_amount);
 					} 
@@ -974,14 +972,14 @@ int main() {
 
 					option = 0;
 					break;
-
 				case 7:
+				{
 					cout << "Name of the Medicine:";
 					cin >> med_name;
-					cout << "/n";
+					cout << "\n";
 					cout << "Amount of the Medcicine:";
 					cin >> med_amount;
-					cout << "/n";
+					cout << "\n";
 
 					if (totalMedicine < 9)
 					{
@@ -995,11 +993,11 @@ int main() {
 					{
 						med_ID = "M" + to_string(totalMedicine + 1);
 					}
-					
-					Medicine* med =new Medicine(med_ID, med_name, med_amount);
-					
-					medicineList->appendMedicine(med);
 
+					Medicine* med = new Medicine(med_ID, med_name, med_amount);
+
+					medicineList->appendMedicine(med);
+				}
 				case 8:
 					clear();
 					break;
@@ -1008,7 +1006,7 @@ int main() {
 					cout << "\n";
 				}
 
-			} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
+			} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6 && option != 7 && option != 8);
 
 			break;
 		case 2:
