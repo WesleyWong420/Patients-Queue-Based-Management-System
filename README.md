@@ -66,6 +66,6 @@ Login As:
 			2. Search Patients by Sickness or First Name (Many patients) [Counting Sort->Search] SPECIAL
 			3. Back ✅
 		3. View Treating List ✅
-			1. Modify Treating List ✅
+			1. Complete Treament ✅
 			2. Back ✅
 		4. Logout ✅

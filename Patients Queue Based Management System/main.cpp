@@ -1108,7 +1108,6 @@ int main() {
 
 			break;
 		case 2:
-
 			do
 			{
 				printHeader();
@@ -1122,12 +1121,12 @@ int main() {
 				cout << "\n";
 
 				switch (option) {
-				case 1:
+				case 1:				// View Waiting List
 					waitingList->display(tempHistory);
 
 					option = 0;
 					break;
-				case 2:
+				case 2:				// View Patient List
 					historyList->display(0);
 
 					do
@@ -1140,7 +1139,7 @@ int main() {
 						cout << "\n";
 
 						switch (option) {
-						case 1:
+						case 1:			// Search Specific Patient by Patient ID
 							cout << "Patient ID: ";
 							cin >> patientID;
 
@@ -1159,10 +1158,10 @@ int main() {
 									cout << "\n";
 
 									switch (option) {
-									case 1:
+									case 1:			// Modify Patient Record
 										option = 0;
 										break;
-									case 2:
+									case 2:			// Sort by Visit History
 										option = 0;
 										break;
 									case 3:
@@ -1176,7 +1175,7 @@ int main() {
 
 							option = 0;
 							break;
-						case 2:
+						case 2:			// Search Patients by Sickness or First Name
 							cout << "Sickness Description or First Name: ";
 							cin >> search_term;
 							cout << "\n";
@@ -1194,11 +1193,11 @@ int main() {
 					option = 0;
 					break;
 
-				case 3:
+				case 3:				// View Treating List
 					treatingList->display(1);
 
 					do {
-						cout << "1. Modify Treating List" << endl;
+						cout << "1. Complete Treatment" << endl;
 						cout << "2. Back" << endl;
 						cout << "\n";
 						cout << "Action: ";
@@ -1207,7 +1206,7 @@ int main() {
 
 						switch (option)
 						{
-						case 1:
+						case 1:			// Complete Treatment
 							cout << "Patient ID: ";
 							cin >> patientID;
 							index = treatingList->checkExistence(patientID);
@@ -1242,8 +1241,8 @@ int main() {
 										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
 										treatingList->getHistoryAt(index)->sickness = sickness;
 										treatingList->getHistoryAt(index)->doctor = doctor1;
-										History* temphis = treatingList->getHistoryAt(index);
-										historyList->appendHistory(temphis);
+										History* history = treatingList->getHistoryAt(index);
+										historyList->appendHistory(history);
 										treatingList->deleteAt(index);
 										medicineList->getMedicineAt(temp)->amount = (medicineList->getMedicineAt(temp)->amount) - 1;
 
