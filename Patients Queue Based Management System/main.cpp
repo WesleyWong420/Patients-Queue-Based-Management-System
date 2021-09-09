@@ -175,7 +175,27 @@ public:
 		return -1;
 	}
 
-	void medicineSetAt(int index, int amount) {
+	bool checkExistence2(string medicineID) {
+		int index = 0;
+		MedicineNode* last = head;
+
+		while (last != NULL) {
+			if (last->currentMedicine->medicineID == medicineID)
+			{
+				return true;
+			}
+			else
+			{
+				last = last->nextNode;
+				index++;
+			}
+		}
+
+		return false;
+	}
+	
+
+	void medicineSetAmount(int index, int amount) {
 
 		MedicineNode* last = head;
 		for (int i = 0; i < index; i++)
@@ -185,7 +205,7 @@ public:
 		last->currentMedicine->amount = amount;
 	}
 
-	void display(MedicineLinkedList* MedicineList) {
+	void display() {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Medicine List                       \n";
@@ -618,6 +638,7 @@ int main() {
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
 	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
+	Patient* patient4 = new Patient("U004", "Daniel", "A", "Male", 25, "0135123411", "Street4", "false");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
 
@@ -633,10 +654,13 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
+	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
+
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
 	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
 
+	
 	//waitingList->appendPatient(patient1);
 	//waitingList->appendPatient(patient2);
 	//waitingList->appendPatient(patient3);
@@ -662,9 +686,10 @@ int main() {
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
 
-	string search_term, firstVisit;
-	int option, index, temp;
-	int totalPatient = 3;
+	string search_term, firstVisit,med_ID,med_name;
+	int option, index, temp,med_amount;
+	int totalPatient = 4;
+	int totalMedicine = 11;
 
 	do
 	{
@@ -688,7 +713,10 @@ int main() {
 				cout << "2. View Waiting List" << endl;
 				cout << "3. Edit Waiting List Priority" << endl;
 				cout << "4. Call Patient for Treatment" << endl;
-				cout << "5. Logout \n" << endl;
+				cout << "5. View Medicine List" << endl;
+				cout << "6. Edit Medicine List" << endl;
+				cout << "7. Add Medicine to Medicine List" << endl;
+				cout << "8. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
 				cout << "\n";
@@ -888,6 +916,91 @@ int main() {
 					break;
 				}
 				case 5:
+					medicineList->display();
+					do
+					{
+						cout << "1.Search for Medicine by Medicine ID or Name" << endl;
+						cout << "2.Sort by Amount" << endl;
+						cout << "3.Back \n" << endl;
+						cout << "Action:";
+						cin >> option;
+						cout << "\n";
+
+						switch (option) {
+						case 1:					// search medicine by name or ID
+							cout << "Medicine ID or Name:";
+							cin >> search_term;
+							cout << "/n";
+
+							option = 0;
+							break;
+						case 2:					// sort by medicine amount
+							option = 0;
+							break;
+						
+						case 3:
+							break;
+
+						default:
+							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+							cout << "\n";
+
+						}
+					} while (option != 1 && option != 2 && option != 3);
+
+					option = 0;
+					break;
+
+				case 6:
+					medicineList->display();
+					
+					
+					cout << "Medicine ID of the Medicine that needed to be modified:";
+					cin >> med_ID;
+					cout << "/n";
+					if (medicineList->checkExistence2(med_ID) == true)
+					{
+						cout << "New amount:";
+						cin >> med_amount;
+						cout << "/n";
+						index = medicineList->checkExistence(med_ID);
+						medicineList->medicineSetAmount(index, med_amount);
+					} 
+					else
+					{
+						cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
+						cout << "\n";
+					}
+
+					option = 0;
+					break;
+
+				case 7:
+					cout << "Name of the Medicine:";
+					cin >> med_name;
+					cout << "/n";
+					cout << "Amount of the Medcicine:";
+					cin >> med_amount;
+					cout << "/n";
+
+					if (totalMedicine < 9)
+					{
+						med_ID = "M00" + to_string(totalMedicine + 1);
+					}
+					else if (8 < totalMedicine && totalMedicine < 99)
+					{
+						med_ID = "M0" + to_string(totalMedicine + 1);
+					}
+					else
+					{
+						med_ID = "M" + to_string(totalMedicine + 1);
+					}
+					
+					Medicine* med =new Medicine(med_ID, med_name, med_amount);
+					
+					medicineList->appendMedicine(med);
+
+				case 8:
 					clear();
 					break;
 				default:
