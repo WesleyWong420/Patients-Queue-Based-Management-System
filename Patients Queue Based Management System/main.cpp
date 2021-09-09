@@ -461,7 +461,6 @@ public:
 
 				temp = temp->nextNode;
 			}
-			cout << endl;
 		}
 	}
 };
@@ -557,7 +556,7 @@ public:
 		last->currentPatient = patient;
 	}
 
-	void display(HistoryLinkedList* historyList) {
+	void display(HistoryLinkedList* tempHistory) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Waiting List                       \n";
@@ -585,17 +584,15 @@ public:
 				cout << "\033[1;33mDisability Option: \033[0m" << temp->currentPatient->disability << "\n";
 				cout << "\033[1;33mPriority: \033[0m" << temp->currentPatient->priority << "\n";
 
-				int index = historyList->checkExistence(temp->currentPatient->UserID);
-				History* history = historyList->getHistoryAt(index);
+				int index = tempHistory->checkExistence(temp->currentPatient->UserID);
+				History* history = tempHistory->getHistoryAt(index);
 
 				cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
 				cout << "\n";
-				cout << "\n";
 
 				temp = temp->nextNode;
 			}
-			cout << endl;
 		}
 	}
 };
@@ -623,19 +620,6 @@ int main() {
 	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
-	Medicine* medicine1 = new Medicine("M001", "Panadol", 1);
-
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
-
-	//waitingList->appendPatient(patient1);
-	//waitingList->appendPatient(patient2);
-	//waitingList->appendPatient(patient3);
-
-	historyList->appendHistory(history1);
-	historyList->appendHistory(history2);
-	historyList->appendHistory(history3);
 
 	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
 	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
@@ -649,6 +633,18 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
+	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", patient1, doctor1, medicine1);
+	History* history2 = new History("10/08/2021", "09:30:55", "Fever", patient2, doctor1, medicine1);
+	History* history3 = new History("31/08/2021", "14:55:06", "Headache", patient3, doctor1, medicine1);
+
+	//waitingList->appendPatient(patient1);
+	//waitingList->appendPatient(patient2);
+	//waitingList->appendPatient(patient3);
+
+	historyList->appendHistory(history1);
+	historyList->appendHistory(history2);
+	historyList->appendHistory(history3);
+
 	medicineList->appendMedicine(medicine1);
 	medicineList->appendMedicine(medicine2);
 	medicineList->appendMedicine(medicine3);
@@ -660,7 +656,8 @@ int main() {
 	medicineList->appendMedicine(medicine9);
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
-	//////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
@@ -724,7 +721,7 @@ int main() {
 						{
 							patientID = "U00" + to_string(totalPatient + 1);
 						}
-						else if (9 <= totalPatient <= 98)
+						else if (8 < totalPatient && totalPatient < 99)
 						{
 							patientID = "U0" + to_string(totalPatient + 1);
 						}
