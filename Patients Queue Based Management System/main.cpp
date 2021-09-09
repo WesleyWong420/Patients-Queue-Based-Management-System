@@ -679,6 +679,7 @@ int main() {
 	PatientLinkedList* waitingList = new PatientLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
+	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
 	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
@@ -726,7 +727,7 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	tempHistory->appendHistory(treating1);
+	treatingList->appendHistory(treating1);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1170,7 +1171,7 @@ int main() {
 					break;
 
 				case 3:
-					tempHistory->display();
+					treatingList->display();
 
 					cout << "1. Modify Treating List" << endl;
 					cout << "2. Back" << endl;
@@ -1184,7 +1185,7 @@ int main() {
 						case 1:
 							cout << "Patient ID: ";
 							cin >> patientID;
-							index = tempHistory->checkExistence(patientID);
+							index = treatingList->checkExistence(patientID);
 
 							if (index == -1)
 							{
@@ -1211,11 +1212,11 @@ int main() {
 								else
 								{
 									index2 = medicineList->checkExistence(med_ID);
-									tempHistory->getHistoryAt(index)->medicine->medicineName = medicineList->getMedicineAt(index)->medicineName;
-									tempHistory->getHistoryAt(index)->sickness = sickness;
-									History* temphistory = tempHistory->getHistoryAt(index);
-									historyList->appendHistory(temphistory);
-									tempHistory->deleteTreating(index);
+									treatingList->getHistoryAt(index)->medicine->medicineName = medicineList->getMedicineAt(index2)->medicineName;
+									treatingList->getHistoryAt(index)->sickness = sickness;
+									History* temphis = treatingList->getHistoryAt(index);
+									historyList->appendHistory(temphis);
+									treatingList->deleteTreating(index);
 								}
 							}
 							option = 0;
