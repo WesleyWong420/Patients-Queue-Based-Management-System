@@ -39,18 +39,17 @@ Login As:
 
 	1. Nurse
 		1. Add Patient to Waiting List ✅
-		2. View Waiting List ✅
+		2. View Waiting List (Sorted by Visit Time) ✅
 			1. Search for Patient by Patient ID or First Name (One to Many patients) [Patient ID -> Selection Sort (No repeat), First Name -> Comb Sort (Repeat)] (New List so 1.4 dont have to sort)
-			2. Sort by Visit Time [Comb Sort] ✅
-			4. Back ✅
+			2. Back ✅
 		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅
 		5. View Medicine List ✅
 			1. Search for Medicine by Medicine ID or Name [ID -> Selection Sort (No repeat), Name -> Selection Sort (No repeat)]
 			2. Sort by Quantity [Quantity -> Comb Sort (repeat)]
 			3. Edit Medicine  ✅
-				1. Edit Amount  ✅
-				2. Delete  ✅
+				1. Edit Amount ✅
+				2. Delete ✅
 				3. Cancel ✅
 			4. Add Medicine  ✅
 			5. Back ✅
@@ -58,7 +57,7 @@ Login As:
 
 	2. Doctor
 		1. View Waiting List ✅
-		2. View Patient List ✅ [Sort By ID]
+		2. View Patient List [Sort By ID]
 			1. Search Specific Patient by Patient ID ✅
 				1. Modify Patient Record
 				2. Sort by Visit History [Default]
