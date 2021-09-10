@@ -48,11 +48,11 @@ Login As:
 		5. View Medicine List ✅
 			1. Search for Medicine by Medicine ID or Name
 			2. Sort by Quantity
-			3. Edit Medicine
-				1. Edit Amount
-				2. Delete
+			3. Edit Medicine  ✅
+				1. Edit Amount  ✅
+				2. Delete  ✅
 				3. Cancel ✅
-			4. Add Medicine
+			4. Add Medicine  ✅
 			5. Back ✅
 		5. Logout ✅
 
@@ -66,6 +66,6 @@ Login As:
 			2. Search Patients by Sickness or First Name (Many patients) [Counting Sort->Search] SPECIAL
 			3. Back ✅
 		3. View Treating List ✅
-			1. Modify Treating List ✅
+			1. Complete Treament ✅
 			2. Back ✅
 		4. Logout ✅
