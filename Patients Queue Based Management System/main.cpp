@@ -138,9 +138,9 @@ public:
 	void deleteAt(int index) {
 
 		MedicineNode* prev = NULL;
-		MedicineNode* toDelete = head;
 		MedicineNode* next = NULL;
-
+		MedicineNode* toDelete = head;
+		
 		if (index < size)
 		{
 			if (index == 0)
@@ -154,12 +154,15 @@ public:
 					prev = toDelete;
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
-				}
 
-				prev->nextNode = toDelete->nextNode;
-				next->previousNode = toDelete->previousNode;
-				delete toDelete;
-				size--;
+					if (i == index)
+					{
+						prev->nextNode = toDelete->nextNode;
+						next->previousNode = toDelete->previousNode;
+						delete toDelete;
+						size--;
+					}
+				}
 			}
 		}
 		else
@@ -464,8 +467,8 @@ public:
 	void deleteAt(int index) {
 
 		HistoryNode* prev = NULL;
-		HistoryNode* toDelete = head;
 		HistoryNode* next = NULL;
+		HistoryNode* toDelete = head;
 
 		if (index < size)
 		{
@@ -480,12 +483,15 @@ public:
 					prev = toDelete;
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
-				}
 
-				prev->nextNode = toDelete->nextNode;
-				next->previousNode = toDelete->previousNode;
-				delete toDelete;
-				size--;
+					if (i == index)
+					{
+						prev->nextNode = toDelete->nextNode;
+						next->previousNode = toDelete->previousNode;
+						delete toDelete;
+						size--;
+					}
+				}				
 			}
 		}
 		else
