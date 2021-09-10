@@ -203,6 +203,16 @@ public:
 		return last->currentMedicine;
 	}
 
+	void setMedicineAt(int index, Medicine* Medicine) {
+
+		MedicineNode* last = head;
+
+		for (int i = 0; i < index; i++)
+		{
+			last = last->nextNode;
+		}
+		last->currentMedicine = Medicine;
+	}
 	void medicineSetAmount(int index, int amount) {
 
 		MedicineNode* last = head;
@@ -212,6 +222,67 @@ public:
 		}
 		last->currentMedicine->amount = amount;
 	}
+
+	int len() {
+		MedicineNode* temp = head;
+		int count = 0;
+
+		while (temp != NULL) {
+			count = count + 1;
+			temp = temp->nextNode;
+		}
+		return count;
+
+	}
+	void swap(MedicineLinkedList* medicineList, int index1, int index2) {
+		Medicine* med1 = getMedicineAt(index1);
+
+		medicineList->setMedicineAt(index1, getMedicineAt(index2));
+		medicineList->setMedicineAt(index2, med1);
+
+	}
+
+	void selectionSortID(MedicineLinkedList* medicineList) {
+		int i, j, idx_min;
+		for (i = 0; i < len(); i++) {
+			idx_min = i;
+			for (j = i + 1; j < len(); j++) {
+				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
+					idx_min = j;
+					swap(medicineList, idx_min, i);
+				}
+			}
+		}
+	}
+
+	/*void selectionSortName(MedicineLinkedList* medicineList) {
+		int i, j, k, l, idx_min;
+		bool swapped;
+		for (i = 0; i < len(); i++) {
+			idx_min = i;
+			for (j = i + 1; j < len(); j++) {
+				if ((getMedicineAt(j)->medicineName).length() > (getMedicineAt(idx_min)->medicineName).length()) {
+					l = (getMedicineAt(idx_min)->medicineName).length();
+				}
+				else
+				{ 
+					l = (getMedicineAt(j)->medicineName).length();
+				}
+				
+				for (k = 0;k<l;k++){
+					if ((getMedicineAt(j)->medicineName).at(k) < (getMedicineAt(idx_min)->medicineName).at(k)) {
+						idx_min = j;
+						swap(medicineList, idx_min, i);
+						break;
+					}
+					else if ((getMedicineAt(j)->medicineName).at(k) > (getMedicineAt(idx_min)->medicineName).at(k)) {
+						break;
+					}
+					
+				}
+			}
+		}
+	}*/
 
 	void display() {
 
@@ -770,6 +841,9 @@ int main() {
 
 	do
 	{
+		/*medicineList->selectionSortName(medicineList);
+		medicineList->display();*/
+
 		cout << "\n";
 		printHeader();
 		cout << "\033[0mLogin As: " << endl;
@@ -889,31 +963,36 @@ int main() {
 
 					do
 					{
-						cout << "1. Search for Patient by Patient ID or First Name" << endl;
-						cout << "2. Sort by Visit Time" << endl;
-						cout << "3. Back \n" << endl;
+						cout << "1. Search for Patient by Patient ID"  << endl;
+						cout << "2. Search for Patient by First Name" << endl;
+						cout << "3. Sort by Visit Time" << endl;
+						cout << "4. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
 						cout << "\n";
 
 						switch (option) {
 						case 1:
-							cout << "Patient ID or First Name: ";
+							cout << "Patient ID: ";
 							cin >> search_term;
 							cout << "\n";
 
 							option = 0;
 							break;
 						case 2:
+							cout << "Patient Name: ";
+							cin >> search_term;
+							cout << "\n";
+						case 3:
 							option = 0;
 							break;
-						case 3:
+						case 4:
 							break;
 						default:
 							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 							cout << "\n";
 						}
-					} while (option != 1 && option != 2 && option != 3);
+					} while (option != 1 && option != 2 && option != 3 && option != 4);
 
 					option = 0;
 					break;
@@ -1138,8 +1217,9 @@ int main() {
 					do
 					{
 						cout << "1. Search Specific Patient by Patient ID" << endl;
-						cout << "2. Search Patients by Sickness or First Name" << endl;
-						cout << "3. Back \n" << endl;
+						cout << "2. Search Patients by Sickness" << endl;
+						cout << "3. Search Patients by First Name" << endl;
+						cout << "4. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
 						cout << "\n";
@@ -1181,20 +1261,28 @@ int main() {
 
 							option = 0;
 							break;
-						case 2:			// Search Patients by Sickness or First Name
-							cout << "Sickness Description or First Name: ";
+						case 2:			// Search Patients by Sickness
+							cout << "Sickness Description: ";
 							cin >> search_term;
 							cout << "\n";
 
 							option = 0;
 							break;
-						case 3:
+
+						case 3:			// Search Patients by First Name
+							cout << "First Name: ";
+							cin >> search_term;
+							cout << "\n";
+
+							option = 0;
+							break;
+						case 4:
 							break;
 						default:
 							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 							cout << "\n";
 						}
-					} while (option != 1 && option != 2 && option != 3);
+					} while (option != 1 && option != 2 && option != 3 && option != 4);
 
 					option = 0;
 					break;
