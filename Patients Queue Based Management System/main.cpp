@@ -198,7 +198,9 @@ public:
 
 		for (int i = 0; i < index; i++)
 		{
+			if (last->nextNode != NULL) {
 			last = last->nextNode;
+			}
 		}
 
 		return last->currentMedicine;
@@ -210,7 +212,9 @@ public:
 
 		for (int i = 0; i < index; i++)
 		{
-			last = last->nextNode;
+			
+				last = last->nextNode;
+			
 		}
 
 		last->currentMedicine = Medicine;
@@ -305,6 +309,47 @@ public:
 				}
 			}
 		}
+	}
+
+	int binarySearch( int j, int k, string x) {
+		if (k >= 1) {
+			int mid = j + (k - 1) / 2;
+			if (getMedicineAt(mid)->medicineID == x) {
+				return mid;
+			}
+			else if (getMedicineAt(mid)->medicineID > x) {
+				return binarySearch(j, mid - 1, x);
+			}
+			else {
+				return binarySearch(j, mid + 1, x);
+			}
+		}
+		cout << "1";
+		return -1;
+	}
+
+	int exponentialSearchID(string x) {
+		if (getMedicineAt(0)->medicineID == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+			while (i < getSize() && getMedicineAt(i)->medicineID <= x) {
+				i = i * 2;
+			}
+			return binarySearch(i / 2, min(i, getSize() - 1), x);
+		}
+		cout << "2";
+	}
+
+	void display(int index) {
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+		cout << "\033[1;33mMedicine ID: \033[0m" << getMedicineAt(index)->medicineID << "\n";
+		cout << "\033[1;33mMedicine Name: \033[0m" << getMedicineAt(index)->medicineName << "\n";
+		cout << "\033[1;33mMedicine Quantity: \033[0m" << getMedicineAt(index)->quantity << "\n";
+		cout << "\n";
+		cout << "3";
 	}
 
 	void display() {
@@ -860,10 +905,6 @@ int main() {
 
 	do
 	{
-		medicineList->selectionSortName();
-		medicineList->display();
-
-		cout << "\n";
 		printHeader();
 		cout << "\033[0mLogin As: " << endl;
 		cout << "1. Nurse" << endl;
@@ -1112,6 +1153,8 @@ int main() {
 							cout << "\n";
 
 							medicineList->selectionSortID();
+							index = medicineList->exponentialSearchID(search_term);
+							medicineList->display(index);
 
 							option = 0;
 							break;
