@@ -231,18 +231,6 @@ public:
 		return size;
 	}
 
-	void medicineSetAmount(int index, int quantity) {
-
-		MedicineNode* last = head;
-
-		for (int i = 0; i < index; i++)
-		{
-			last = last->nextNode;
-		}
-
-		last->currentMedicine->quantity = quantity;
-	}
-
 	void swap(int index1, int index2) {
 
 		Medicine* med1 = getMedicineAt(index1);
@@ -1309,7 +1297,6 @@ int main() {
 				case 5:				// View Medicine List
 					medicineList->selectionSortID();
 					medicineList->display();
-					cout << medicineList->getSize();
 
 					do
 					{
@@ -1352,7 +1339,8 @@ int main() {
 							break;
 						case 3:					// Sort by Quantity
 							medicineList->selectionSortQuantity();
-							medicineList->display();				
+							medicineList->display();	
+
 							option = 0;
 							break;
 						case 4:					// Edit Medicine
@@ -1383,8 +1371,14 @@ int main() {
 										cout << "\n";
 
 										medicineList->getMedicineAt(index)->quantity = medicineAmount;
+
+										option = 0;
+										break;
 									case 2:						// Delete Medicine
 										medicineList->deleteAt(index);
+
+										option = 0;
+										break;
 									case 3:
 										break;
 									default:
