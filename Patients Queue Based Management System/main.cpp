@@ -223,6 +223,7 @@ public:
 	void medicineSetAmount(int index, int quantity) {
 
 		MedicineNode* last = head;
+
 		for (int i = 0; i < index; i++)
 		{
 			last = last->nextNode;
@@ -246,10 +247,10 @@ public:
 
 	void swap(int index1, int index2) {
 
-		Medicine* med1 = getMedicineAt(index1);
+		Medicine* med = getMedicineAt(index1);
 
 		setMedicineAt(index1, getMedicineAt(index2));
-		setMedicineAt(index2, med1);
+		setMedicineAt(index2, med);
 	}
 
 	void selectionSortID() {
@@ -653,6 +654,89 @@ public:
 		}
 	}
 
+	int getSize() {
+
+		HistoryNode* current = head;
+		int size = 0;
+
+		while (current != NULL) {
+			size = size + 1;
+			current = current->nextNode;
+		}
+
+		return size;
+	}
+
+	/*
+	void swap(int index1, int index2) {
+
+		History* history = getHistoryAt(index1);
+
+		setHistoryAt(index1, getHistoryAt(index2));
+		setHistoryAt(index2, history);
+	}
+
+	int getNextGap(int gap)
+	{
+		gap = (gap * 10) / 13;
+
+		if (gap < 1)
+			return 1;
+
+		return gap;
+	}
+
+	int timeToSecond(int index) {
+
+		int hoursInSecond, minutesInSecond, second;
+		History* history = getHistoryAt(index);
+		string time = history->visitTime;
+
+		hoursInSecond = stoi(time.substr(1, 1)) * 3600;
+		minutesInSecond = stoi(time.substr(4, 4)) * 60;
+		second = stoi(time.substr(7, 7));
+
+		if (time.substr(0, 0) != "0")
+		{
+			hoursInSecond = hoursInSecond + (stoi(time.substr(0, 0)) * 36000);
+		}
+
+		if (time.substr(3, 3) != "0")
+		{
+			minutesInSecond = minutesInSecond + (stoi(time.substr(3, 3)) * 600);
+		}
+
+		if (time.substr(6, 6) != "0")
+		{
+			second = second + stoi(time.substr(6, 6));
+		}
+
+		return second + minutesInSecond + hoursInSecond;
+	}
+
+	void combSort()
+	{
+		int gap = getSize();
+		bool swapped = true;
+
+		while (gap != 1 || swapped == true)
+		{
+			gap = getNextGap(gap);
+
+			swapped = false;
+
+			for (int i = 0; i < getSize() - gap; i++)
+			{
+				if (timeToSecond(i) > timeToSecond(i + gap))
+				{
+					swap(i, i + gap);
+					swapped = true;
+				}
+			}
+		}
+	}
+	*/
+
 	void display(int listNumber) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -664,6 +748,10 @@ public:
 		else if(listNumber == 1)
 		{
 			cout << "                       Treating List                       \n";
+		}
+		else if (listNumber == 2)
+		{
+			cout << "             Waiting List (Based on Visit Time)                       \n";
 		}
 
 		if (head == NULL)
@@ -1101,6 +1189,8 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 						case 3:
+							tempHistory->display(2);
+
 							option = 0;
 							break;
 						case 4:
