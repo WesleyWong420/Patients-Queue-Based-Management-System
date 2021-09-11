@@ -42,7 +42,7 @@ Login As:
 		2. View Waiting List ✅
 			1. Search for Patient by Patient ID [Selection Sort (No Repeat)]  (New List so 1.4 dont have to sort)
 			2. Search for Patient by First Name [Comb Sort (Repeat)]
-			3. Sort by Visit Time [Clone WaitingList -> Comb Sort -> Display] (New List so 1.4 dont have to sort)
+			3. Sort by Visit Time ✅ [Comb Sort]
 			4. Back ✅
 		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅
