@@ -345,7 +345,21 @@ public:
 			}
 			return binarySearch(i / 2, min(i, getSize() - 1), x);
 		}
-		cout << "2";
+	}
+
+	int exponentialSearchName(string x) {
+
+		if (getMedicineAt(0)->medicineName == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getMedicineAt(i)->medicineName <= x) {
+				i = i * 2;
+			}
+			return binarySearch(i / 2, min(i, getSize() - 1), x);
+		}
 	}
 
 	void display(int index) {
@@ -1204,9 +1218,13 @@ int main() {
 							break;
 
 						case 2:
-							cout << "Medicine ID: ";
+							cout << "Medicine Name: ";
 							cin >> search_term;
 							cout << "\n";
+
+							medicineList->selectionSortName();
+							index = medicineList->exponentialSearchName(search_term);
+							medicineList->display(index);
 
 						case 3:			
 							medicineList->selectionSortQuantity();
