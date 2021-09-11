@@ -1366,6 +1366,7 @@ int main() {
 							cin >> patientID;
 
 							index = historyList->checkExistence(patientID);
+							temp = waitingList->checkExistence(patientID);
 							historyList->searchPatient(patientID);
 
 							if (index != -1)
@@ -1381,6 +1382,25 @@ int main() {
 
 									switch (option) {
 									case 1:			// Modify Patient Record
+										cout << "New Age: ";
+										cin >> age;
+										cout << "New Phone Number: ";
+										cin >> phone;
+										cout << "New Address: ";
+										cin >> address;
+										cout << "\n";
+
+										historyList->getHistoryAt(index)->patient->age = age;
+										historyList->getHistoryAt(index)->patient->phone = phone;
+										historyList->getHistoryAt(index)->patient->address = address;
+
+										if (temp != -1)
+										{
+											waitingList->getPatientAt(temp)->age = age;
+											waitingList->getPatientAt(temp)->phone = phone;
+											waitingList->getPatientAt(temp)->address = address;
+										}
+
 										option = 0;
 										break;
 									case 2:			// Sort by Visit History
