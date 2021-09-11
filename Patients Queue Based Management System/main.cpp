@@ -117,6 +117,7 @@ public:
 		{
 			newNode->previousNode->nextNode = newNode;
 		}
+
 		size++;
 	}
 
@@ -211,6 +212,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		last->currentMedicine = Medicine;
 	}
 	void medicineSetAmount(int index, int amount) {
@@ -220,10 +222,12 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		last->currentMedicine->amount = amount;
 	}
 
-	int len() {
+	int getSize() {
+
 		MedicineNode* temp = head;
 		int count = 0;
 
@@ -231,22 +235,23 @@ public:
 			count = count + 1;
 			temp = temp->nextNode;
 		}
-		return count;
 
+		return count;
 	}
 	void swap(MedicineLinkedList* medicineList, int index1, int index2) {
+
 		Medicine* med1 = getMedicineAt(index1);
 
 		medicineList->setMedicineAt(index1, getMedicineAt(index2));
 		medicineList->setMedicineAt(index2, med1);
-
 	}
 
 	void selectionSortID(MedicineLinkedList* medicineList) {
+
 		int i, j, idx_min;
-		for (i = 0; i < len(); i++) {
+		for (i = 0; i < getSize(); i++) {
 			idx_min = i;
-			for (j = i + 1; j < len(); j++) {
+			for (j = i + 1; j < getSize(); j++) {
 				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
 					idx_min = j;
 					swap(medicineList, idx_min, i);
@@ -256,11 +261,12 @@ public:
 	}
 
 	/*void selectionSortName(MedicineLinkedList* medicineList) {
+	* 
 		int i, j, k, l, idx_min;
 		bool swapped;
-		for (i = 0; i < len(); i++) {
+		for (i = 0; i < getSize(); i++) {
 			idx_min = i;
-			for (j = i + 1; j < len(); j++) {
+			for (j = i + 1; j < getSize(); j++) {
 				if ((getMedicineAt(j)->medicineName).length() > (getMedicineAt(idx_min)->medicineName).length()) {
 					l = (getMedicineAt(idx_min)->medicineName).length();
 				}
@@ -335,15 +341,7 @@ public:
 		this->phone = phone;
 		this->address = address;
 		this->disability = disability;
-
-		if (disability == "true")
-		{
-			this->priority = 2;
-		}
-		else
-		{
-			this->priority = 1;
-		}
+		this->priority = 1;
 	}
 };
 
@@ -425,6 +423,7 @@ public:
 		{
 			newNode->previousNode->nextNode = newNode;
 		}
+
 		size++;
 	}
 
@@ -517,6 +516,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		last->currentHistory = history;
 	}
 
@@ -662,6 +662,7 @@ public:
 		{
 			newNode->previousNode->nextNode = newNode;
 		}
+
 		size++;
 	}
 
@@ -719,6 +720,7 @@ public:
 		{
 			last = last->nextNode;
 		}
+
 		last->currentPatient = patient;
 	}
 
