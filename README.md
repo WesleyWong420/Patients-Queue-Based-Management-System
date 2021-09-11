@@ -40,20 +40,22 @@ Login As:
 	1. Nurse
 		1. Add Patient to Waiting List ✅
 		2. View Waiting List ✅
-			1. Search for Patient by Patient ID or First Name (One to Many patients) [Patient ID -> Selection Sort (No Repeat), First Name -> Comb Sort (Repeat)] (New List so 1.4 dont have to sort)
-			2. Sort by Visit Time [Clone WaitingList -> Comb Sort -> Display]
-			3. Back ✅
-		3. Edit Waiting List Priority [Insertion Sort]
+			1. Search for Patient by Patient ID [Selection Sort (No Repeat)]  (New List so 1.4 dont have to sort)
+			2. Search for Patient by First Name [Comb Sort (Repeat)]
+			3. Sort by Visit Time [Clone WaitingList -> Comb Sort -> Display] (New List so 1.4 dont have to sort)
+			4. Back ✅
+		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅
 		5. View Medicine List ✅
-			1. Search for Medicine by Medicine ID or Name [ID -> Selection Sort (No Repeat), Name -> Selection Sort (No Repeat)]
-			2. Sort by Quantity [Quantity -> Comb Sort (Repeat)]
-			3. Edit Medicine ✅
+			1. Search for Medicine by Medicine ID or Name [Selection Sort (No Repeat)]
+			2. Search for Medicine by Medicine Name [Selection Sort (No Repeat)]
+			3. Sort by Quantity [Comb Sort (Repeat)]
+			4. Edit Medicine ✅
 				1. Edit Amount ✅
 				2. Delete ✅
 				3. Cancel ✅
-			4. Add Medicine ✅
-			5. Back ✅
+			5. Add Medicine ✅
+			6. Back ✅
 		5. Logout ✅
 
 	2. Doctor
@@ -63,8 +65,9 @@ Login As:
 				1. Modify Patient Record
 				2. Sort by Visit History [Default]
 				3. Back ✅
-			2. Search Patients by Sickness or First Name (Many patients) [Sickness -> Comb Sort (Repeat), Name -> Comb Sort (Repeat)] (New List)
-			3. Back ✅
+			2. Search Patients by Sickness or First Name [Comb Sort (Repeat)] (New List)
+			3. Search Patients by First Name [Comb Sort (Repeat)] (New List)
+			4. Back ✅
 		3. View Treating List ✅
 			1. Complete Treament ✅
 			2. Back ✅

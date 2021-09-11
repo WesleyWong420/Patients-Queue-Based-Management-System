@@ -198,7 +198,9 @@ public:
 
 		for (int i = 0; i < index; i++)
 		{
+			if (last->nextNode != NULL) {
 			last = last->nextNode;
+			}
 		}
 
 		return last->currentMedicine;
@@ -210,7 +212,9 @@ public:
 
 		for (int i = 0; i < index; i++)
 		{
-			last = last->nextNode;
+			
+				last = last->nextNode;
+			
 		}
 
 		last->currentMedicine = Medicine;
@@ -229,15 +233,15 @@ public:
 
 	int getSize() {
 
-		MedicineNode* temp = head;
-		int count = 0;
+		MedicineNode* current = head;
+		int size = 0;
 
-		while (temp != NULL) {
-			count = count + 1;
-			temp = temp->nextNode;
+		while (current != NULL) {
+			size = size + 1;
+			current = current->nextNode;
 		}
 
-		return count;
+		return size;
 	}
 
 	void swap(int index1, int index2) {
@@ -250,13 +254,13 @@ public:
 
 	void selectionSortID() {
 
-		int i, j, idx_min;
+		int idx_min;
 
-		for (i = 0; i < getSize(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 
 			idx_min = i;
 
-			for (j = i + 1; j < getSize(); j++) {
+			for (int j = i + 1; j < getSize(); j++) {
 
 				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
 					idx_min = j;
@@ -291,13 +295,13 @@ public:
 
 	void selectionSortQuantity() {
 
-		int i, j, idx_min;
+		int idx_min;
 
-		for (i = 0; i < getSize(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 
 			idx_min = i;
 
-			for (j = i + 1; j < getSize(); j++) {
+			for (int j = i + 1; j < getSize(); j++) {
 
 				if (getMedicineAt(j)->quantity < getMedicineAt(idx_min)->quantity) {
 					idx_min = j;
@@ -305,6 +309,53 @@ public:
 				}
 			}
 		}
+	}
+
+	int binarySearch( int j, int k, string x) {
+
+		if (k >= 1) {
+
+			int mid = j + (k - 1) / 2;
+
+			if (getMedicineAt(mid)->medicineID == x) {
+				return mid;
+			}
+			else if (getMedicineAt(mid)->medicineID > x) {
+				return binarySearch(j, mid - 1, x);
+			}
+			else {
+				return binarySearch(j, mid + 1, x);
+			}
+		}
+
+		cout << "1";
+		return -1;
+	}
+
+	int exponentialSearchID(string x) {
+
+		if (getMedicineAt(0)->medicineID == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getMedicineAt(i)->medicineID <= x) {
+				i = i * 2;
+			}
+			return binarySearch(i / 2, min(i, getSize() - 1), x);
+		}
+		cout << "2";
+	}
+
+	void display(int index) {
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+		cout << "\033[1;33mMedicine ID: \033[0m" << getMedicineAt(index)->medicineID << "\n";
+		cout << "\033[1;33mMedicine Name: \033[0m" << getMedicineAt(index)->medicineName << "\n";
+		cout << "\033[1;33mMedicine Quantity: \033[0m" << getMedicineAt(index)->quantity << "\n";
+		cout << "\n";
+		cout << "3";
 	}
 
 	void display() {
@@ -741,6 +792,39 @@ public:
 		last->currentPatient = patient;
 	}
 
+	int getSize() {
+
+		PatientNode* current = head;
+		int size = 0;
+
+		while (current != NULL) {
+			size = size + 1;
+			current = current->nextNode;
+		}
+
+		return size;
+	}
+
+	void insertionSortPriority() {
+
+		int j, key;
+
+		for (int i = 1; i < size; i++) {
+
+			key = getPatientAt(i)->priority;
+			j = i - 1;
+
+			while (j >= 0 && key > getPatientAt(j)->priority) {
+				getPatientAt(j + 1)->priority = getPatientAt(j)->priority;
+				j = j - 1;
+			}
+
+			Patient* patient = getPatientAt(j + 1);
+			patient->priority = key;
+			setPatientAt(j + 1, patient);
+		}
+	}
+
 	void display(HistoryLinkedList* tempHistory) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -860,7 +944,6 @@ int main() {
 
 	do
 	{
-		medicineList->selectionSortName();
 		medicineList->display();
 
 		cout << "\n";
@@ -925,6 +1008,8 @@ int main() {
 						{
 							patientID = "U" + to_string(totalPatient + 1);
 						}
+
+						totalPatient++;
 
 						Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 						waitingList->appendPatient(newPatient);
@@ -1040,6 +1125,7 @@ int main() {
 								Patient* patient = waitingList->getPatientAt(index);
 								patient->priority = priority;
 								waitingList->setPatientAt(index, patient);
+								waitingList->insertionSortPriority();
 
 								cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved to priority level\033[1;36m " + to_string(priority) + "\033[0m" << endl;
 								cout << "\n";
@@ -1112,6 +1198,8 @@ int main() {
 							cout << "\n";
 
 							medicineList->selectionSortID();
+							index = medicineList->exponentialSearchID(search_term);
+							medicineList->display(index);
 
 							option = 0;
 							break;
