@@ -69,12 +69,12 @@ public:
 
 	string medicineID;
 	string medicineName;
-	int amount;
+	int quantity;
 
-	Medicine(string medicineID, string medicineName, int amount) { 
+	Medicine(string medicineID, string medicineName, int quantity) {
 		this->medicineID = medicineID;
 		this->medicineName = medicineName;
-		this->amount = amount;
+		this->quantity = quantity;
 	}
 };
 
@@ -216,7 +216,7 @@ public:
 		last->currentMedicine = Medicine;
 	}
 
-	void medicineSetAmount(int index, int amount) {
+	void medicineSetAmount(int index, int quantity) {
 
 		MedicineNode* last = head;
 		for (int i = 0; i < index; i++)
@@ -224,7 +224,7 @@ public:
 			last = last->nextNode;
 		}
 
-		last->currentMedicine->amount = amount;
+		last->currentMedicine->quantity = quantity;
 	}
 
 	int getSize() {
@@ -289,6 +289,24 @@ public:
 		}
 	}
 
+	void selectionSortQuantity() {
+
+		int i, j, idx_min;
+
+		for (i = 0; i < getSize(); i++) {
+
+			idx_min = i;
+
+			for (j = i + 1; j < getSize(); j++) {
+
+				if (getMedicineAt(j)->quantity < getMedicineAt(idx_min)->quantity) {
+					idx_min = j;
+					swap(idx_min, i);
+				}
+			}
+		}
+	}
+
 	void display() {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -308,7 +326,7 @@ public:
 				cout << "\n";
 				cout << "\033[1;33mMedicine ID: \033[0m" << temp->currentMedicine->medicineID << "\n";
 				cout << "\033[1;33mMedicine Name: \033[0m" << temp->currentMedicine->medicineName << "\n";
-				cout << "\033[1;33mMedicine Amount: \033[0m" << temp->currentMedicine->amount << "\n";
+				cout << "\033[1;33mMedicine Quantity: \033[0m" << temp->currentMedicine->quantity << "\n";
 				cout << "\n";
 
 				temp = temp->nextNode;
@@ -1072,31 +1090,43 @@ int main() {
 					break;
 				}
 				case 5:				// View Medicine List
+					medicineList->selectionSortID();
 					medicineList->display();
 
 					do
 					{
-						cout << "1. Search for Medicine by Medicine ID or Name" << endl;
-						cout << "2. Sort by Quantity" << endl;
-						cout << "3. Edit Medicine" << endl;
-						cout << "4. Add Medicine" << endl;
-						cout << "5. Back \n" << endl;
+						cout << "1. Search for Medicine by Medicine ID " << endl;
+						cout << "2. Search for Medicine by Medicine Name" << endl;
+						cout << "3. Sort by Quantity" << endl;
+						cout << "4. Edit Medicine" << endl;
+						cout << "5. Add Medicine" << endl;
+						cout << "6. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
 						cout << "\n";
 
 						switch (option) {
 						case 1:					// Search for Medicine by Medicine ID or Name
-							cout << "Medicine ID or Name: ";
+							cout << "Medicine ID: ";
 							cin >> search_term;
 							cout << "\n";
 
+							medicineList->selectionSortID();
+
 							option = 0;
 							break;
-						case 2:					// Sort by Quantity
+
+						case 2:
+							cout << "Medicine ID: ";
+							cin >> search_term;
+							cout << "\n";
+
+						case 3:			
+							medicineList->selectionSortQuantity();
+							medicineList->display();				// Sort by Quantity
 							option = 0;
 							break;
-						case 3:					// Edit Medicine
+						case 4:					// Edit Medicine
 							medicineList->display();
 
 							cout << "Medicine ID: ";
@@ -1106,7 +1136,7 @@ int main() {
 							if (medicineList->checkExistence(medicineID) != -1)
 							{
 								do {
-									cout << "1. Edit Amount" << endl;
+									cout << "1. Edit Quantity" << endl;
 									cout << "2. Delete Medicine" << endl;
 									cout << "3. Cancel" << endl;
 									cout << "\n";
@@ -1117,8 +1147,8 @@ int main() {
 									index = medicineList->checkExistence(medicineID);
 
 									switch (option) {
-									case 1:						// Edit Amount
-										cout << "New Amount:";
+									case 1:						// Edit Quantity
+										cout << "New Quantity:";
 										cin >> medicineAmount;
 										cout << "\n";
 										medicineList->medicineSetAmount(index, medicineAmount);
@@ -1143,7 +1173,7 @@ int main() {
 
 							option = 0;
 							break;
-						case 4:				// Add Medicine
+						case 5:				// Add Medicine
 						{
 							cout << "Medicine Name: ";
 							cin >> medicineName;
@@ -1172,13 +1202,13 @@ int main() {
 							option = 0;
 							break;
 						}
-						case 5:
+						case 6:
 							break;
 						default:
 							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 							cout << "\n";
 						}
-					} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
+					} while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6);
 
 					option = 0;
 					break;
@@ -1331,7 +1361,7 @@ int main() {
 								else
 								{
 									temp = medicineList->checkExistence(medicineID);
-									if (medicineList->getMedicineAt(temp)->amount != 0)
+									if (medicineList->getMedicineAt(temp)->quantity != 0)
 									{
 										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
 										treatingList->getHistoryAt(index)->sickness = sickness;
@@ -1339,7 +1369,7 @@ int main() {
 										History* history = treatingList->getHistoryAt(index);
 										historyList->appendHistory(history);
 										treatingList->deleteAt(index);
-										medicineList->getMedicineAt(temp)->amount = (medicineList->getMedicineAt(temp)->amount) - 1;
+										medicineList->getMedicineAt(temp)->quantity = (medicineList->getMedicineAt(temp)->quantity) - 1;
 
 										cout << "\033[1;33mTreatment for Patient\033[1;36m " + patientID + "\033[1;33m has been completed!\033[0m" << endl;
 										cout << "\n";
