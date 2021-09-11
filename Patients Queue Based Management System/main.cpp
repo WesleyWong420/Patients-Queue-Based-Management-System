@@ -215,6 +215,7 @@ public:
 
 		last->currentMedicine = Medicine;
 	}
+
 	void medicineSetAmount(int index, int amount) {
 
 		MedicineNode* last = head;
@@ -238,15 +239,16 @@ public:
 
 		return count;
 	}
-	void swap(MedicineLinkedList* medicineList, int index1, int index2) {
+
+	void swap(int index1, int index2) {
 
 		Medicine* med1 = getMedicineAt(index1);
 
-		medicineList->setMedicineAt(index1, getMedicineAt(index2));
-		medicineList->setMedicineAt(index2, med1);
+		setMedicineAt(index1, getMedicineAt(index2));
+		setMedicineAt(index2, med1);
 	}
 
-	void selectionSortID(MedicineLinkedList* medicineList) {
+	void selectionSortID() {
 
 		int i, j, idx_min;
 		for (i = 0; i < getSize(); i++) {
@@ -254,19 +256,23 @@ public:
 			for (j = i + 1; j < getSize(); j++) {
 				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
 					idx_min = j;
-					swap(medicineList, idx_min, i);
+					swap(idx_min, i);
 				}
 			}
 		}
 	}
 
-	/*void selectionSortName(MedicineLinkedList* medicineList) {
-	* 
+	void selectionSortName() {
+
 		int i, j, k, l, idx_min;
 		bool swapped;
-		for (i = 0; i < getSize(); i++) {
+
+		for (i = 0; i < getSize() - 1; i++) {
+
 			idx_min = i;
+
 			for (j = i + 1; j < getSize(); j++) {
+
 				if ((getMedicineAt(j)->medicineName).length() > (getMedicineAt(idx_min)->medicineName).length()) {
 					l = (getMedicineAt(idx_min)->medicineName).length();
 				}
@@ -275,20 +281,20 @@ public:
 					l = (getMedicineAt(j)->medicineName).length();
 				}
 				
-				for (k = 0;k<l;k++){
+				for (k = 0; k < l; k++) {
+
 					if ((getMedicineAt(j)->medicineName).at(k) < (getMedicineAt(idx_min)->medicineName).at(k)) {
 						idx_min = j;
-						swap(medicineList, idx_min, i);
+						swap(idx_min, i);
 						break;
 					}
 					else if ((getMedicineAt(j)->medicineName).at(k) > (getMedicineAt(idx_min)->medicineName).at(k)) {
 						break;
 					}
-					
 				}
 			}
 		}
-	}*/
+	}
 
 	void display() {
 
@@ -843,8 +849,8 @@ int main() {
 
 	do
 	{
-		/*medicineList->selectionSortName(medicineList);
-		medicineList->display();*/
+		medicineList->selectionSortName();
+		medicineList->display();
 
 		cout << "\n";
 		printHeader();
