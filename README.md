@@ -47,8 +47,8 @@ Login As:
 		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅
 		5. View Medicine List ✅
-			1. Search for Medicine by Medicine ID or Name ✅
-			2. Search for Medicine by Medicine Name ✅
+			1. Search for Medicine by Medicine ID or Name 
+			2. Search for Medicine by Medicine Name 
 			3. Sort by Quantity ✅
 			4. Edit Medicine ✅
 				1. Edit Amount ✅
