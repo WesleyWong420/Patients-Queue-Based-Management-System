@@ -276,8 +276,12 @@ public:
 				if ((getMedicineAt(j)->medicineName).length() > (getMedicineAt(idx_min)->medicineName).length()) {
 					l = (getMedicineAt(idx_min)->medicineName).length();
 				}
-				else
+				else if ((getMedicineAt(j)->medicineName).length() < (getMedicineAt(idx_min)->medicineName).length())
 				{ 
+					l = (getMedicineAt(j)->medicineName).length();
+				}
+				else
+				{
 					l = (getMedicineAt(j)->medicineName).length();
 				}
 				
