@@ -251,9 +251,13 @@ public:
 	void selectionSortID() {
 
 		int i, j, idx_min;
+
 		for (i = 0; i < getSize(); i++) {
+
 			idx_min = i;
+
 			for (j = i + 1; j < getSize(); j++) {
+
 				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
 					idx_min = j;
 					swap(idx_min, i);
@@ -264,39 +268,24 @@ public:
 
 	void selectionSortName() {
 
-		int i, j, k, l, idx_min;
-		bool swapped;
+		int idx_min;
+		string min;
 
-		for (i = 0; i < getSize() - 1; i++) {
+		for (int i = 0; i < getSize() - 1; i++) {
 
 			idx_min = i;
+			min = getMedicineAt(i)->medicineName;
 
-			for (j = i + 1; j < getSize(); j++) {
+			for (int j = i + 1; j < getSize(); j++) {
 
-				if ((getMedicineAt(j)->medicineName).length() > (getMedicineAt(idx_min)->medicineName).length()) {
-					l = (getMedicineAt(idx_min)->medicineName).length();
-				}
-				else if ((getMedicineAt(j)->medicineName).length() < (getMedicineAt(idx_min)->medicineName).length())
-				{ 
-					l = (getMedicineAt(j)->medicineName).length();
-				}
-				else
+				if (getMedicineAt(j)->medicineName < min)
 				{
-					l = (getMedicineAt(j)->medicineName).length();
-				}
-				
-				for (k = 0; k < l; k++) {
-
-					if ((getMedicineAt(j)->medicineName).at(k) < (getMedicineAt(idx_min)->medicineName).at(k)) {
-						idx_min = j;
-						swap(idx_min, i);
-						break;
-					}
-					else if ((getMedicineAt(j)->medicineName).at(k) > (getMedicineAt(idx_min)->medicineName).at(k)) {
-						break;
-					}
+					idx_min = j;
+					min = getMedicineAt(j)->medicineName;
 				}
 			}
+
+			swap(i, idx_min);
 		}
 	}
 
