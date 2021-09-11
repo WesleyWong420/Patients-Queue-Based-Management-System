@@ -809,19 +809,18 @@ public:
 
 		int j, key;
 
-		for (int i = 1; i < size; i++) {
+		for (int i = 1; i < getSize(); i++) {
 
 			key = getPatientAt(i)->priority;
+			Patient* keyObj = getPatientAt(i);
 			j = i - 1;
 
 			while (j >= 0 && key > getPatientAt(j)->priority) {
-				getPatientAt(j + 1)->priority = getPatientAt(j)->priority;
+				setPatientAt(j + 1, getPatientAt(j));
 				j = j - 1;
 			}
 
-			Patient* patient = getPatientAt(j + 1);
-			patient->priority = key;
-			setPatientAt(j + 1, patient);
+			setPatientAt(j + 1, keyObj);
 		}
 	}
 
