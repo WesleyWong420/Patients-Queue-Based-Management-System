@@ -141,7 +141,7 @@ public:
 		MedicineNode* prev = NULL;
 		MedicineNode* next = NULL;
 		MedicineNode* toDelete = head;
-		
+
 		if (index < size)
 		{
 			if (index == 0)
@@ -156,10 +156,12 @@ public:
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
 
-					if (i == index)
+					if (i +1 == index) // index will start from 1 because if 0 will run deleteFirst()
 					{
 						prev->nextNode = toDelete->nextNode;
-						next->previousNode = toDelete->previousNode;
+						if (next != NULL) { // At last node, next will be NULL
+							next->previousNode = toDelete->previousNode;
+						}
 						delete toDelete;
 						size--;
 					}
@@ -169,7 +171,7 @@ public:
 		else
 		{
 			cout << "Medicine Does Not Exist!";
-		} 
+		}
 	}
 
 	int checkExistence(string medicineID) {
@@ -546,10 +548,12 @@ public:
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
 
-					if (i == index)
+					if (i+1== index)
 					{
 						prev->nextNode = toDelete->nextNode;
-						next->previousNode = toDelete->previousNode;
+						if (next != NULL) {
+							next->previousNode = toDelete->previousNode;
+						}
 						delete toDelete;
 						size--;
 					}
