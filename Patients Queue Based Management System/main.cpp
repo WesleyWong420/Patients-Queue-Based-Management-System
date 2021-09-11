@@ -345,7 +345,21 @@ public:
 			}
 			return binarySearch(i / 2, min(i, getSize() - 1), x);
 		}
-		cout << "2";
+	}
+
+	int exponentialSearchName(string x) {
+
+		if (getMedicineAt(0)->medicineName == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getMedicineAt(i)->medicineName <= x) {
+				i = i * 2;
+			}
+			return binarySearch(i / 2, min(i, getSize() - 1), x);
+		}
 	}
 
 	void display(int index) {
@@ -1204,9 +1218,13 @@ int main() {
 							break;
 
 						case 2:
-							cout << "Medicine ID: ";
+							cout << "Medicine Name: ";
 							cin >> search_term;
 							cout << "\n";
+
+							medicineList->selectionSortName();
+							index = medicineList->exponentialSearchName(search_term);
+							medicineList->display(index);
 
 						case 3:			
 							medicineList->selectionSortQuantity();
@@ -1348,6 +1366,7 @@ int main() {
 							cin >> patientID;
 
 							index = historyList->checkExistence(patientID);
+							temp = waitingList->checkExistence(patientID);
 							historyList->searchPatient(patientID);
 
 							if (index != -1)
@@ -1363,6 +1382,25 @@ int main() {
 
 									switch (option) {
 									case 1:			// Modify Patient Record
+										cout << "New Age: ";
+										cin >> age;
+										cout << "New Phone Number: ";
+										cin >> phone;
+										cout << "New Address: ";
+										cin >> address;
+										cout << "\n";
+
+										historyList->getHistoryAt(index)->patient->age = age;
+										historyList->getHistoryAt(index)->patient->phone = phone;
+										historyList->getHistoryAt(index)->patient->address = address;
+
+										if (temp != -1)
+										{
+											waitingList->getPatientAt(temp)->age = age;
+											waitingList->getPatientAt(temp)->phone = phone;
+											waitingList->getPatientAt(temp)->address = address;
+										}
+
 										option = 0;
 										break;
 									case 2:			// Sort by Visit History
