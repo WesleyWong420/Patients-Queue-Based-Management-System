@@ -317,16 +317,17 @@ public:
 
 		if (k >= 1) {
 
-			int mid = j + (k - 1) / 2;
+			int mid = j + (k - 1-j) / 2;
+			cout << mid;
 
 			if (getMedicineAt(mid)->medicineID == x) {
 				return mid;
 			}
-			else if (getMedicineAt(mid)->medicineID > x) {
+			if (getMedicineAt(mid)->medicineID > x) {
 				return binarySearch(j, mid - 1, x);
 			}
 			else {
-				return binarySearch(j, mid + 1, x);
+				return binarySearch(mid + 1, k, x);
 			}
 		}
 
@@ -654,6 +655,102 @@ public:
 		}
 	}
 
+	int getSize() {
+
+		HistoryNode* current = head;
+		int size = 0;
+
+		while (current != NULL) {
+			size = size + 1;
+			current = current->nextNode;
+		}
+
+		return size;
+	}
+
+	void insertionSortID() {
+
+		int j;
+		string key;
+
+		for (int i = 1; i < getSize(); i++) {
+
+			key = getHistoryAt(i)->patient->UserID;
+			History* keyObj = getHistoryAt(i);
+			j = i - 1;
+
+			while (j >= 0 && key > getHistoryAt(j)->patient->UserID) {
+				setHistoryAt(j + 1, getHistoryAt(j));
+				j = j - 1;
+			}
+
+			setHistoryAt(j + 1, keyObj);
+		}
+	}
+
+	void swap(int index1, int index2) {
+
+		History* med1 = getHistoryAt(index1);
+
+		setHistoryAt(index1, getHistoryAt(index2));
+		setHistoryAt(index2, med1);
+	}
+
+	int getNextGap(int gap) {
+		gap = (gap * 10) / 13;
+
+		if (gap < 1)
+			return 1;
+		return gap;
+	}
+
+	void combSortSickness() {
+		int gap = getSize();
+		
+		bool swapped = true;
+
+		while (gap != 1 || swapped == true) {
+			gap = getNextGap(gap);
+			swapped = false;
+
+			for (int i = 0; i < getSize() - gap; i++) {
+				if (getHistoryAt(i)->sickness == getHistoryAt(i + gap)->sickness) {
+					if (getHistoryAt(i)->visitDate > getHistoryAt(i + gap)->visitDate) {
+						swap(i, i + gap);
+						swapped = true;
+					}
+				}
+				else if (getHistoryAt(i)->sickness > getHistoryAt(i + gap)->sickness) {
+					swap(i, i + gap);
+					swapped = true;
+				}
+			}
+		}
+	}
+
+	void combSortName() {
+		int gap = getSize();
+
+		bool swapped = true;
+
+		while (gap != 1 || swapped == true) {
+			gap = getNextGap(gap);
+			swapped = false;
+
+			for (int i = 0; i < getSize() - gap; i++) {
+				if (getHistoryAt(i)->patient->firstName== getHistoryAt(i + gap)->patient->firstName) {
+					if (getHistoryAt(i)->visitDate > getHistoryAt(i + gap)->visitDate) {
+						swap(i, i + gap);
+						swapped = true;
+					}
+				}
+				else if (getHistoryAt(i)->patient->firstName > getHistoryAt(i + gap)->patient->firstName) {
+					swap(i, i + gap);
+					swapped = true;
+				}
+			}
+		}
+	}
 	void display(int listNumber) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -899,9 +996,9 @@ int main() {
 	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
-	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
-	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
-	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
+	Patient* patient1 = new Patient("U001", "alex", "A", "Male", 17, "0123456789", "Street 1", "false");
+	Patient* patient2 = new Patient("U002", "bob", "B", "Male", 23, "0123456789", "Street 2", "false");
+	Patient* patient3 = new Patient("U003", "caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 	Patient* patient4 = new Patient("U004", "Daniel", "D", "Male", 25, "0135123411", "Street 4", "false");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
@@ -958,7 +1055,6 @@ int main() {
 
 	do
 	{
-		medicineList->display();
 
 		cout << "\n";
 		printHeader();
@@ -1232,6 +1328,7 @@ int main() {
 							cout << "4";
 							medicineList->display();
 							cout << "6";
+							cout << index;
 
 							option = 0;
 							break;
@@ -1503,6 +1600,7 @@ int main() {
 										treatingList->getHistoryAt(index)->doctor = doctor1;
 										History* history = treatingList->getHistoryAt(index);
 										historyList->appendHistory(history);
+										historyList->insertionSortID();
 										treatingList->deleteAt(index);
 										medicineList->getMedicineAt(temp)->quantity = (medicineList->getMedicineAt(temp)->quantity) - 1;
 
