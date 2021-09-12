@@ -464,6 +464,73 @@ public:
 	}
 };
 
+class IndexNode {
+
+public:
+
+	int currentIndex;
+	IndexNode* previousNode;
+	IndexNode* nextNode;
+};
+
+class IndexLinkedList {
+
+public:
+
+	int size;
+	IndexNode* head;
+	IndexNode* tail;
+
+	IndexLinkedList() {
+		size = 0;
+		head = NULL;
+		tail = NULL;
+	}
+
+	~IndexLinkedList() {};
+
+	void appendIndexFirst(int index) {
+		
+		IndexNode* newNode = new IndexNode();
+		newNode->currentIndex = index;
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			newNode->nextNode = head;
+			newNode->previousNode = NULL;
+			newNode->nextNode->previousNode = newNode;
+		}
+
+		size++;
+	}
+
+	void appendIndexLast(int index) {
+
+		IndexNode* newNode = new IndexNode();
+		newNode->currentIndex = index;
+		newNode->previousNode = tail;
+		newNode->nextNode = NULL;
+		newNode->previousNode->nextNode = newNode;
+		size++;
+	}
+
+	int getIndexAt(int index) {
+
+		IndexNode* last = head;
+
+		for (int i = 0; i < index; i++)
+		{
+			if (last->nextNode != NULL) {
+				last = last->nextNode;
+			}
+		}
+
+		return last->currentIndex;
+	}
+};
+
 class Patient {
 
 public:
@@ -632,6 +699,7 @@ public:
 
 		int index = 0;
 		HistoryNode* last = head;
+
 		while (last != NULL) {
 			if (last->currentHistory->patient->UserID == patientID)
 			{
@@ -922,6 +990,77 @@ public:
 		}
 	}
 
+	int binarySearchID(int j, int k, string x) {
+
+		if (j > k) {
+			return -1;
+		}
+
+		int mid = j + (k - j) / 2;
+
+		if (getHistoryAt(mid)->patient->UserID == x) {
+			return mid;
+		}
+		else if (getHistoryAt(mid)->patient->UserID > x) {
+			return binarySearchID(j, mid - 1, x);
+		}
+		else {
+			return binarySearchID(mid + 1, k, x);
+		}
+	}
+
+	int exponentialSearchID(string x) {
+
+		if (getHistoryAt(0)->patient->UserID == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getHistoryAt(i)->patient->UserID < x) {
+				i = i * 2;
+			}
+
+			return binarySearchID(i / 2, min(i, getSize()), x);
+		}
+	}
+
+	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
+
+		indexList->appendIndexFirst(index);
+		int i = 1;
+
+		while (search_term == getHistoryAt(index + i)->patient->firstName) {
+			indexList->appendIndexLast(index+i);
+			i = i + 1;
+		}
+
+		i = 1;
+
+		while (search_term == getHistoryAt(index - i)->patient->firstName) {
+			indexList->appendIndexFirst(index - i);
+			i = i + 1;
+		}
+	}
+
+	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
+
+		indexList->appendIndexFirst(index);
+		int i = 1;
+
+		while (search_term == getHistoryAt(index + i)->sickness) {
+			indexList->appendIndexLast(index + i);
+			i = i + 1;
+		}
+
+		i = 1;
+
+		while (search_term == getHistoryAt(index - i)->sickness) {
+			indexList->appendIndexFirst(index - i);
+			i = i + 1;
+		}
+	}
+
 	void displaySpecific(int index) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -943,6 +1082,26 @@ public:
 		cout << "\033[1;33mSickness Description: \033[0m" << getHistoryAt(index)->sickness << "\n";
 		cout << "\033[1;33mDoctor Assigned: \033[0m" << getHistoryAt(index)->doctor->doctorName << "\n";
 		cout << "\033[1;33mMedicine Prescription: \033[0m" << getHistoryAt(index)->medicine << "\n";
+	}
+
+	void displaySpecific2(int index) {
+
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "                       Search Result - " + getHistoryAt(index)->patient->UserID + "\n";
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+
+		cout << "\033[1;33mPatient ID: \033[0m" << getHistoryAt(index)->patient->UserID << "\n";
+		cout << "\033[1;33mFirst Name: \033[0m" << getHistoryAt(index)->patient->firstName << "\n";
+		cout << "\033[1;33mLast Name: \033[0m" << getHistoryAt(index)->patient->lastName << "\n";
+		cout << "\033[1;33mGender: \033[0m" << getHistoryAt(index)->patient->gender << "\n";
+		cout << "\033[1;33mAge: \033[0m" << getHistoryAt(index)->patient->age << "\n";
+		cout << "\033[1;33mPhone Number: \033[0m" << getHistoryAt(index)->patient->phone << "\n";
+		cout << "\033[1;33mAddress: \033[0m" << getHistoryAt(index)->patient->address << "\n";
+		cout << "\033[1;33mDisability Option: \033[0m" << getHistoryAt(index)->patient->disability << "\n";
+		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
+		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
+		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
 	}
 
 	void display(int listNumber) {
@@ -1066,6 +1225,7 @@ public:
 
 		int index = 0;
 		PatientNode* last = head;
+
 		while (last != NULL) {
 			if (last->currentPatient->UserID == patientID)
 			{
@@ -1135,6 +1295,101 @@ public:
 
 			setPatientAt(j + 1, keyObj);
 		}
+	}
+
+	int binarySearchID(int j, int k, string x) {
+
+		if (j > k) {
+			return -1;
+		}
+
+		int mid = j + (k - j) / 2;
+
+		if (getPatientAt(mid)->UserID == x) {
+			return mid;
+		}
+		else if (getPatientAt(mid)->UserID > x) {
+			return binarySearchID(j, mid - 1, x);
+		}
+		else {
+			return binarySearchID(mid + 1, k, x);
+		}
+	}
+
+	int exponentialSearchID(string x) {
+
+		if (getPatientAt(0)->UserID == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getPatientAt(i)->UserID < x) {
+				i = i * 2;
+			}
+
+			return binarySearchID(i / 2, min(i, getSize()), x);
+		}
+	}
+
+	int binarySearchName(int j, int k, string x) {
+
+		if (j > k) {
+			return -1;
+		}
+
+		int mid = j + (k - j) / 2;
+
+		if (getPatientAt(mid)->firstName == x) {
+			return mid;
+		}
+		else if (getPatientAt(mid)->firstName > x) {
+			return binarySearchName(j, mid - 1, x);
+		}
+		else {
+			return binarySearchName(mid + 1, k, x);
+		}
+	}
+
+	int exponentialSearchName(string x) {
+
+		if (getPatientAt(0)->firstName == x) {
+			return 0;
+		}
+		else {
+			int i = 1;
+
+			while (i < getSize() && getPatientAt(i)->firstName < x) {
+				i = i * 2;
+			}
+
+			return binarySearchName(i / 2, min(i, getSize()), x);
+		}
+	}
+
+	void display(HistoryLinkedList* tempHistory, int index2) {
+
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "                       Search Result - " + getPatientAt(index2)->UserID + "\n";
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+
+		cout << "\033[1;33mPatient ID: \033[0m" << getPatientAt(index2)->UserID << "\n";
+		cout << "\033[1;33mFirst Name: \033[0m" << getPatientAt(index2)->firstName << "\n";
+		cout << "\033[1;33mLast Name: \033[0m" << getPatientAt(index2)->lastName << "\n";
+		cout << "\033[1;33mGender: \033[0m" << getPatientAt(index2)->gender << "\n";
+		cout << "\033[1;33mAge: \033[0m" << getPatientAt(index2)->age << "\n";
+		cout << "\033[1;33mPhone Number: \033[0m" << getPatientAt(index2)->phone << "\n";
+		cout << "\033[1;33mAddress: \033[0m" << getPatientAt(index2)->address << "\n";
+		cout << "\033[1;33mDisability Option: \033[0m" << getPatientAt(index2)->disability << "\n";
+		cout << "\033[1;33mPriority: \033[0m" << getPatientAt(index2)->priority << "\n";
+
+		int index = tempHistory->checkExistence(getPatientAt(index2)->UserID);
+		History* history = tempHistory->getHistoryAt(index);
+
+		cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
+		cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
+		cout << "\n";
 	}
 
 	void display(HistoryLinkedList* tempHistory) {
@@ -1390,12 +1645,44 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 
+							tempHistory->insertionSortID();
+							index = tempHistory->exponentialSearchID(search_term);
+
+							if (index != -1) {
+								tempHistory->displaySpecific2(index);
+							}
+							else {
+								cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
+								cout << "\n";
+							}
+
 							option = 0;
 							break;
 						case 2:
 							cout << "Patient Name: ";
 							cin >> search_term;
 							cout << "\n";
+
+							tempHistory->combSortName();
+							index = tempHistory->exponentialSearchName(search_term);
+
+							if (index != -1) {
+
+								IndexLinkedList* indexList = new IndexLinkedList();
+								tempHistory->searchRangeName(indexList, index, search_term);
+
+								for (int i = 0; i < indexList->size; i++) {
+									tempHistory->displaySpecific(indexList->getIndexAt(i));
+								}
+							//destructor indexLinkedList
+							}
+							else {
+								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
+								cout << "\n";
+							}
+
+							option = 0;
+							break;
 						case 3:
 							tempHistory->display(2);
 
@@ -1538,8 +1825,6 @@ int main() {
 								cout << "\033[1;31mInvalid Medicine Name!\033[0m" << endl;
 								cout << "\n";
 							}
-
-							//medicineList->display();
 
 							option = 0;
 							break;
@@ -1760,14 +2045,21 @@ int main() {
 							cout << "\n";
 
 							index = historyList->exponentialSearchSickness(search_term);
+
 							if (index != -1) {
-								historyList->displaySpecific(index);
+
+								IndexLinkedList* indexList = new IndexLinkedList();
+								historyList->searchRangeSickness(indexList, index, search_term);
+
+								for (int i = 0; i < indexList->size; i++) {
+									historyList->displaySpecific(indexList->getIndexAt(i));
+								}
+								//destructor indexLinkedList
 							}
 							else {
 								cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
 								cout << "\n";
 							}
-
 
 							option = 0;
 							break;
@@ -1778,8 +2070,17 @@ int main() {
 							cout << "\n";
 
 							index = historyList->exponentialSearchName(search_term);
+
 							if (index != -1) {
-								historyList->displaySpecific(index);
+
+								IndexLinkedList* indexList = new IndexLinkedList();
+								historyList->searchRangeName(indexList, index, search_term);
+
+								for (int i = 0; i < indexList->size; i++) {
+									historyList->displaySpecific(indexList->getIndexAt(i));
+								}
+								//destructor indexLinkedList
+								
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
