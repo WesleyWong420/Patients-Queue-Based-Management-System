@@ -440,19 +440,22 @@ public:
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Medicine List                       \n";
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
 
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			MedicineNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mMedicine ID: \033[0m" << temp->currentMedicine->medicineID << "\n";
 				cout << "\033[1;33mMedicine Name: \033[0m" << temp->currentMedicine->medicineName << "\n";
 				cout << "\033[1;33mMedicine Quantity: \033[0m" << temp->currentMedicine->quantity << "\n";
@@ -1090,6 +1093,7 @@ public:
 		cout << "\033[1;33mSickness Description: \033[0m" << getHistoryAt(index)->sickness << "\n";
 		cout << "\033[1;33mDoctor Assigned: \033[0m" << getHistoryAt(index)->doctor->doctorName << "\n";
 		cout << "\033[1;33mMedicine Prescription: \033[0m" << getHistoryAt(index)->medicine << "\n";
+		cout << "\n";
 	}
 
 	void displaySpecific2(int index) {
@@ -1110,6 +1114,7 @@ public:
 		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
 		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
 		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
+		cout << "\n";
 	}
 
 	void display(int listNumber) {
@@ -1129,19 +1134,21 @@ public:
 			cout << "                       Waiting List                       \n";
 		}
 
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
-
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			HistoryNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentHistory->patient->UserID << "\n";
 				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentHistory->patient->firstName << "\n";
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentHistory->patient->lastName << "\n";
@@ -1404,19 +1411,22 @@ public:
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Waiting List                       \n";
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
 
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			PatientNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentPatient->UserID << "\n";
 				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentPatient->firstName << "\n";
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentPatient->lastName << "\n";
