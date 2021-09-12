@@ -487,7 +487,15 @@ public:
 		tail = NULL;
 	}
 
-	~IndexLinkedList() {};
+	~IndexLinkedList() {
+		IndexNode* current = head;
+		IndexNode* next;
+		while (current != NULL) {
+			next = current->nextNode;
+			delete current;
+			current = next;
+		}
+	};
 
 	void appendIndexFirst(int index) {
 		
@@ -1674,7 +1682,7 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									tempHistory->displaySpecific(indexList->getIndexAt(i));
 								}
-							//destructor indexLinkedList
+								delete indexList;
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
@@ -2054,7 +2062,7 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
-								//destructor indexLinkedList
+								delete indexList;
 							}
 							else {
 								cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
@@ -2079,7 +2087,7 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
-								//destructor indexLinkedList
+								delete indexList;
 								
 							}
 							else {
