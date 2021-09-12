@@ -781,9 +781,15 @@ public:
 			for (int i = 0; i < getSize() - gap; i++) {
 
 				if (getHistoryAt(i)->sickness == getHistoryAt(i + gap)->sickness) {
-					if (getHistoryAt(i)->visitDate > getHistoryAt(i + gap)->visitDate) {
+					if (dateToDay(getHistoryAt(i)->visitDate) > dateToDay(getHistoryAt(i + gap)->visitDate)) {
 						swap(i, i + gap);
 						swapped = true;
+					}
+					else if (dateToDay(getHistoryAt(i)->visitDate) == dateToDay(getHistoryAt(i + gap)->visitDate)) {
+						if (timeToSecond((getHistoryAt(i)->visitTime)) >> timeToSecond(getHistoryAt(i + gap)->visitTime)) {
+							swap(i, i + gap);
+							swapped = true;
+						}
 					}
 				}
 				else if (getHistoryAt(i)->sickness > getHistoryAt(i + gap)->sickness) {
@@ -807,10 +813,16 @@ public:
 
 			for (int i = 0; i < getSize() - gap; i++) {
 
-				if (getHistoryAt(i)->patient->firstName== getHistoryAt(i + gap)->patient->firstName) {
-					if (getHistoryAt(i)->visitDate > getHistoryAt(i + gap)->visitDate) {
+				if (getHistoryAt(i)->patient->firstName == getHistoryAt(i + gap)->patient->firstName) {
+					if (dateToDay((getHistoryAt(i)->visitDate)) > dateToDay(getHistoryAt(i + gap)->visitDate)) {
 						swap(i, i + gap);
 						swapped = true;
+					}
+					else if (dateToDay((getHistoryAt(i)->visitDate)) == dateToDay(getHistoryAt(i + gap)->visitDate)) {
+						if (timeToSecond((getHistoryAt(i)->visitTime)) >> timeToSecond(getHistoryAt(i + gap)->visitTime)) {
+							swap(i, i + gap);
+							swapped = true;
+						}
 					}
 				}
 				else if (getHistoryAt(i)->patient->firstName > getHistoryAt(i + gap)->patient->firstName) {
