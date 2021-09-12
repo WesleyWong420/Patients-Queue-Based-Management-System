@@ -304,25 +304,42 @@ public:
 		}
 	}
 
-	int binarySearch(int j, int k, string x) {
+	int binarySearchID(int j, int k, string x) {
 
-		if (k >= 1) {
-
-			int mid = j + (k - 1-j) / 2;
-			cout << mid;
-
-			if (getMedicineAt(mid)->medicineID == x) {
-				return mid;
-			}
-			if (getMedicineAt(mid)->medicineID > x) {
-				return binarySearch(j, mid - 1, x);
-			}
-			else {
-				return binarySearch(mid + 1, k, x);
-			}
+		if (j > k) {
+			return -1;
 		}
 
-		return -1;
+		int mid = j + (k - j) / 2;
+
+		if (getMedicineAt(mid)->medicineID == x) {
+			return mid;
+		}
+		else if (getMedicineAt(mid)->medicineID > x) {
+			return binarySearchID(j, mid - 1, x);
+		}
+		else {
+			return binarySearchID(mid + 1, k, x);
+		}
+	}
+
+	int binarySearchName(int j, int k, string x) {
+
+		if (j > k) {
+			return -1;
+		}
+
+		int mid = j + (k - j) / 2;
+
+		if (getMedicineAt(mid)->medicineName == x) {
+			return mid;
+		}
+		else if (getMedicineAt(mid)->medicineName > x) {
+			return binarySearchName(j, mid - 1, x);
+		}
+		else {
+			return binarySearchName(mid + 1, k, x);
+		}
 	}
 
 	int exponentialSearchID(string x) {
@@ -333,11 +350,11 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineID <= x) {
+			while (i < getSize() && getMedicineAt(i)->medicineID < x) {
 				i = i * 2;
 			}
 
-			return binarySearch(i / 2, min(i, getSize() - 1), x);
+			return binarySearchID(i / 2, min(i, getSize()), x);
 		}
 	}
 
@@ -349,11 +366,11 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineName <= x) {
+			while (i < getSize() && getMedicineAt(i)->medicineName < x) {
 				i = i * 2;
 			}
 
-			return binarySearch(i / 2, min(i, getSize() - 1), x);
+			return binarySearchName(i / 2, min(i, getSize()), x);
 		}
 	}
 
@@ -363,11 +380,11 @@ public:
 
 		if (term == 0)
 		{
-			cout << "                       Search Result - " + getMedicineAt(index)->medicineID + "\n";
+			cout << "                     Search Result - " + getMedicineAt(index)->medicineID + "\n";
 		}
 		else if (term == 1)
 		{
-			cout << "                       Search Result - " + getMedicineAt(index)->medicineName + "\n";
+			cout << "                   Search Result - " + getMedicineAt(index)->medicineName + "\n";
 		}
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
