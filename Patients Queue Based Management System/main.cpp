@@ -377,6 +377,7 @@ public:
 
 	int exponentialSearchID(string x) {
 
+
 		if (getMedicineAt(0)->medicineID == x) {
 			return 0;
 		}
@@ -1386,7 +1387,14 @@ int main() {
 							medicineList->selectionSortID();
 
 							index = medicineList->exponentialSearchID(search_term);
-							medicineList->display(index, 0);
+
+							if (index != -1) {
+								medicineList->display(index, 0); 
+							}
+							else {
+								cout << "Medicine ID does not exist!" << endl;
+								cout << "\n";
+							}
 
 							option = 0;
 							break;
@@ -1398,7 +1406,14 @@ int main() {
 							medicineList->selectionSortName();
 
 							index = medicineList->exponentialSearchName(search_term);
-							medicineList->display(index, 1);
+
+							if (index != -1) {
+								medicineList->display(index, 1);
+							}
+							else {
+								cout << "Medicine Name does not exist!" << endl;
+								cout << "\n";
+							}
 
 							//medicineList->display();
 
