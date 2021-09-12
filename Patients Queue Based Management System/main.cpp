@@ -308,8 +308,7 @@ public:
 
 		if (k >= 1) {
 
-			int mid = j + (k - 1-j) / 2;
-			cout << mid;
+			int mid = j + (k - 1) / 2;
 
 			if (getMedicineAt(mid)->medicineID == x) {
 				return mid;
