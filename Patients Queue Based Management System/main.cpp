@@ -156,12 +156,14 @@ public:
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
 
-					if (i +1 == index) // index will start from 1 because if 0 will run deleteFirst()
+					if (i + 1 == index) // index will start from 1 because if 0 will run deleteFirst()
 					{
 						prev->nextNode = toDelete->nextNode;
+
 						if (next != NULL) { // At last node, next will be NULL
 							next->previousNode = toDelete->previousNode;
 						}
+
 						delete toDelete;
 						size--;
 					}
@@ -235,10 +237,10 @@ public:
 
 	void swap(int index1, int index2) {
 
-		Medicine* med1 = getMedicineAt(index1);
+		Medicine* medicine = getMedicineAt(index1);
 
 		setMedicineAt(index1, getMedicineAt(index2));
-		setMedicineAt(index2, med1);
+		setMedicineAt(index2, medicine);
 	}
 
 	void selectionSortID() {
@@ -548,12 +550,14 @@ public:
 					toDelete = toDelete->nextNode;
 					next = toDelete->nextNode;
 
-					if (i+1== index)
+					if (i + 1 == index) // index will start from 1 because if 0 will run deleteFirst()
 					{
 						prev->nextNode = toDelete->nextNode;
-						if (next != NULL) {
+
+						if (next != NULL) { // At last node, next will be NULL
 							next->previousNode = toDelete->previousNode;
 						}
+
 						delete toDelete;
 						size--;
 					}
@@ -562,7 +566,7 @@ public:
 		}
 		else
 		{
-			cout << "Patient Does Not Exist!";
+			cout << "Medicine Does Not Exist!";
 		}
 	}
 
@@ -777,6 +781,10 @@ public:
 		{
 			cout << "                       Treating List                       \n";
 		}
+		else if (listNumber == 2)
+		{
+			cout << "                       Waiting List                       \n";
+		}
 
 		if (head == NULL)
 		{
@@ -811,9 +819,12 @@ public:
 				}
 				else
 				{
-					cout << "\033[1;33mSickness Description: " << "\033[1;31mTBD\033[0m" << "\n";
-					cout << "\033[1;33mDoctor Assigned: " << "\033[1;31mTBD\033[0m" << "\n";
-					cout << "\033[1;33mMedicine Prescription: " << "\033[1;31mTBD\033[0m" << "\n";
+					if (listNumber != 2)
+					{
+						cout << "\033[1;33mSickness Description: " << "\033[1;31mTBD\033[0m" << "\n";
+						cout << "\033[1;33mDoctor Assigned: " << "\033[1;31mTBD\033[0m" << "\n";
+						cout << "\033[1;33mMedicine Prescription: " << "\033[1;31mTBD\033[0m" << "\n";
+					}
 				}
 
 				cout << "\n";
@@ -1139,9 +1150,9 @@ int main() {
 						History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
 						tempHistory->appendHistory(currentVisit);
 
-						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
+						cout << "\033[1;33mNew Record of Patient\033[1;36m " + patientID + "\033[1;33m has been saved!\033[0m" << endl;
 						cout << "\n";
-						cout << "\033[1;33mNew Record of Patient\033[1;36m " + patientID + "\033[1;33m has been generated!\033[0m" << endl;
+						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 						cout << "\n";
 					}
 					else
@@ -1211,6 +1222,8 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 						case 3:
+							tempHistory->display(2);
+
 							option = 0;
 							break;
 						case 4:
@@ -1361,7 +1374,7 @@ int main() {
 							{
 								do {
 									cout << "1. Edit Quantity" << endl;
-									cout << "2. Delete Medicine" << endl;
+									cout << "2. Delete" << endl;
 									cout << "3. Cancel" << endl;
 									cout << "\n";
 									cout << "Action: ";
@@ -1376,10 +1389,16 @@ int main() {
 
 										medicineList->getMedicineAt(index)->quantity = medicineAmount;
 
+										cout << "\033[1;33mQuantity of Medicine\033[1;36m " + medicineID + "\033[1;33m has been updated to\033[1;36m " + to_string(medicineAmount) + "\033[1;33m!\033[0m" << endl;
+										cout << "\n";
+
 										option = 0;
 										break;
 									case 2:						// Delete Medicine
 										medicineList->deleteAt(index);
+
+										cout << "\033[1;33mMedicine\033[1;36m " + medicineID + "\033[1;33m has been deleted!\033[0m" << endl;
+										cout << "\n";
 
 										option = 0;
 										break;
@@ -1421,9 +1440,14 @@ int main() {
 								medicineID = "M" + to_string(totalMedicine + 1);
 							}
 
-							Medicine* med = new Medicine(medicineID, medicineName, medicineAmount);
+							totalMedicine++;
 
-							medicineList->appendMedicine(med);
+							Medicine* newMedicine = new Medicine(medicineID, medicineName, medicineAmount);
+
+							medicineList->appendMedicine(newMedicine);
+
+							cout << "\033[1;33mNew Record of Medicine\033[1;36m " + medicineID + "\033[1;33m has been saved!\033[0m" << endl;
+							cout << "\n";
 
 							option = 0;
 							break;
@@ -1521,6 +1545,9 @@ int main() {
 											waitingList->getPatientAt(temp)->phone = phone;
 											waitingList->getPatientAt(temp)->address = address;
 										}
+
+										cout << "\033[1;33mRecord of Patient\033[1;36m " + patientID + "\033[1;33m has been updated accordingly!\033[0m" << endl;
+										cout << "\n";
 
 										option = 0;
 										break;
