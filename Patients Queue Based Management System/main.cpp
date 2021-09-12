@@ -822,17 +822,17 @@ public:
 			History* keyObj = getHistoryAt(i);
 			j = i - 1;
 
-			while (j >= 0 && key > getHistoryAt(j)->patient->UserID) {
+			while (j >= 0 && key < getHistoryAt(j)->patient->UserID) {
 				setHistoryAt(j + 1, getHistoryAt(j));
 				j = j - 1;
 			}
 			while (j >= 0 && key == getHistoryAt(j)->patient->UserID) {
-				if (dateToDay(getHistoryAt(i)->visitDate) > dateToDay(getHistoryAt(j)->visitDate)) {
+				if (dateToDay(getHistoryAt(i)->visitDate) < dateToDay(getHistoryAt(j)->visitDate)) {
 					setHistoryAt(j + 1, getHistoryAt(j));
 					j = j - 1;
 				}
 				else if (dateToDay(getHistoryAt(i)->visitDate) == dateToDay(getHistoryAt(j)->visitDate)) {
-					if (timeToSecond(getHistoryAt(i)->visitTime) == timeToSecond(getHistoryAt(j)->visitTime)) {
+					if (timeToSecond(getHistoryAt(i)->visitTime) < timeToSecond(getHistoryAt(j)->visitTime)) {
 						setHistoryAt(j + 1, getHistoryAt(j));
 						j = j - 1;
 					}
