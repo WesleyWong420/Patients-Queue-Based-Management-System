@@ -53,6 +53,39 @@ string getCurrentTime() {
 	return currentTime;
 };
 
+int timeToSecond(string time) {
+	int hoursInSecond, minutesInSecond, second;
+	if (time.substr(0, 2) != "00")
+	{
+		hoursInSecond =  (stoi(time.substr(0, 2)) * 3600);
+	}
+	if (time.substr(3, 2) != "00")
+	{
+		minutesInSecond = (stoi(time.substr(3, 2)) * 60);
+	}
+	if (time.substr(6, 2) != "00")
+	{
+		second = stoi(time.substr(6, 2));
+	}
+	return second + minutesInSecond + hoursInSecond;
+}
+
+int dateToDay(string date) {
+	int day, monthInDay, yearInDay;
+	if (date.substr(0, 2) != "00")
+	{
+		day = stoi(date.substr(0, 2));
+	}
+	if (date.substr(3, 2) != "00")
+	{
+		monthInDay = (stoi(date.substr(3, 2)) * 30);
+	}
+	if (date.substr(6, 2) != "00")
+	{
+		yearInDay = (stoi(date.substr(6, 4))*365);
+	}
+	return day + monthInDay + yearInDay;
+}
 class Doctor {
 
 public:
