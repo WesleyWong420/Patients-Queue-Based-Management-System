@@ -465,14 +465,18 @@ public:
 };
 
 class IndexNode {
+
 public:
+
 	int currentIndex;
 	IndexNode* previousNode;
 	IndexNode* nextNode;
 };
 
 class IndexLinkedList {
+
 public:
+
 	int size;
 	IndexNode* head;
 	IndexNode* tail;
@@ -489,7 +493,8 @@ public:
 		
 		IndexNode* newNode = new IndexNode();
 		newNode->currentIndex = index;
-		if (head = NULL) {
+
+		if (head == NULL) {
 			head = newNode;
 		}
 		else {
@@ -497,10 +502,12 @@ public:
 			newNode->previousNode = NULL;
 			newNode->nextNode->previousNode = newNode;
 		}
+
 		size++;
 	}
 
 	void appendIndexLast(int index) {
+
 		IndexNode* newNode = new IndexNode();
 		newNode->currentIndex = index;
 		newNode->previousNode = tail;
@@ -692,6 +699,7 @@ public:
 
 		int index = 0;
 		HistoryNode* last = head;
+
 		while (last != NULL) {
 			if (last->currentHistory->patient->UserID == patientID)
 			{
@@ -1003,7 +1011,6 @@ public:
 
 	int exponentialSearchID(string x) {
 
-
 		if (getHistoryAt(0)->patient->UserID == x) {
 			return 0;
 		}
@@ -1019,6 +1026,7 @@ public:
 	}
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
+
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
@@ -1033,10 +1041,10 @@ public:
 			indexList->appendIndexFirst(index - i);
 			i = i + 1;
 		}
-		
 	}
 
 	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
+
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
@@ -1051,7 +1059,6 @@ public:
 			indexList->appendIndexFirst(index - i);
 			i = i + 1;
 		}
-
 	}
 
 	void displaySpecific(int index) {
@@ -1218,6 +1225,7 @@ public:
 
 		int index = 0;
 		PatientNode* last = head;
+
 		while (last != NULL) {
 			if (last->currentPatient->UserID == patientID)
 			{
@@ -1310,7 +1318,6 @@ public:
 
 	int exponentialSearchID(string x) {
 
-
 		if (getPatientAt(0)->UserID == x) {
 			return 0;
 		}
@@ -1341,13 +1348,10 @@ public:
 		}
 		else {
 			return binarySearchName(mid + 1, k, x);
-
-
 		}
 	}
 
 	int exponentialSearchName(string x) {
-
 
 		if (getPatientAt(0)->firstName == x) {
 			return 0;
@@ -1366,7 +1370,7 @@ public:
 	void display(HistoryLinkedList* tempHistory, int index2) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                         Patient                          \n";
+		cout << "                       Search Result - " + getPatientAt(index2)->UserID + "\n";
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "\n";
 
@@ -1386,7 +1390,6 @@ public:
 		cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
 		cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
 		cout << "\n";
-
 	}
 
 	void display(HistoryLinkedList* tempHistory) {
@@ -1652,6 +1655,7 @@ int main() {
 								cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
 								cout << "\n";
 							}
+
 							option = 0;
 							break;
 						case 2:
@@ -1663,8 +1667,10 @@ int main() {
 							index = tempHistory->exponentialSearchName(search_term);
 
 							if (index != -1) {
+
 								IndexLinkedList* indexList = new IndexLinkedList();
 								tempHistory->searchRangeName(indexList, index, search_term);
+
 								for (int i = 0; i < indexList->size; i++) {
 									tempHistory->displaySpecific(indexList->getIndexAt(i));
 								}
@@ -1675,6 +1681,8 @@ int main() {
 								cout << "\n";
 							}
 
+							option = 0;
+							break;
 						case 3:
 							tempHistory->display(2);
 
@@ -1817,8 +1825,6 @@ int main() {
 								cout << "\033[1;31mInvalid Medicine Name!\033[0m" << endl;
 								cout << "\n";
 							}
-
-							//medicineList->display();
 
 							option = 0;
 							break;
@@ -2041,8 +2047,10 @@ int main() {
 							index = historyList->exponentialSearchSickness(search_term);
 
 							if (index != -1) {
+
 								IndexLinkedList* indexList = new IndexLinkedList();
 								historyList->searchRangeSickness(indexList, index, search_term);
+
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
@@ -2052,7 +2060,6 @@ int main() {
 								cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
 								cout << "\n";
 							}
-
 
 							option = 0;
 							break;
@@ -2065,8 +2072,10 @@ int main() {
 							index = historyList->exponentialSearchName(search_term);
 
 							if (index != -1) {
+
 								IndexLinkedList* indexList = new IndexLinkedList();
 								historyList->searchRangeName(indexList, index, search_term);
+
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
