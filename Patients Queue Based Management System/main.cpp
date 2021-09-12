@@ -304,7 +304,7 @@ public:
 		}
 	}
 
-	int binarySearch(int j, int k, string x) {
+	int binarySearchID(int j, int k, string x) {
 
 		if (j > k) {
 			return -1;
@@ -315,11 +315,30 @@ public:
 		if (getMedicineAt(mid)->medicineID == x) {
 			return mid;
 		}
-		if (getMedicineAt(mid)->medicineID > x) {
-			return binarySearch(j, mid - 1, x);
+		else if (getMedicineAt(mid)->medicineID > x) {
+			return binarySearchID(j, mid - 1, x);
 		}
 		else {
-			return binarySearch(mid + 1, k, x);
+			return binarySearchID(mid + 1, k, x);
+		}
+	}
+
+	int binarySearchName(int j, int k, string x) {
+
+		if (j > k) {
+			return -1;
+		}
+
+		int mid = j + (k - j) / 2;
+
+		if (getMedicineAt(mid)->medicineName == x) {
+			return mid;
+		}
+		else if (getMedicineAt(mid)->medicineName > x) {
+			return binarySearchName(j, mid - 1, x);
+		}
+		else {
+			return binarySearchName(mid + 1, k, x);
 		}
 	}
 
@@ -335,7 +354,7 @@ public:
 				i = i * 2;
 			}
 
-			return binarySearch(i / 2, min(i, getSize()), x);
+			return binarySearchID(i / 2, min(i, getSize()), x);
 		}
 	}
 
@@ -351,7 +370,7 @@ public:
 				i = i * 2;
 			}
 
-			return binarySearch(i / 2, min(i, getSize()), x);
+			return binarySearchName(i / 2, min(i, getSize()), x);
 		}
 	}
 
