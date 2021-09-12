@@ -47,7 +47,7 @@ Login As:
 		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅
 		5. View Medicine List ✅
-			1. Search for Medicine by Medicine ID or Name ✅
+			1. Search for Medicine by Medicine ID ✅
 			2. Search for Medicine by Medicine Name ✅
 			3. Sort by Quantity ✅
 			4. Edit Medicine ✅
@@ -65,7 +65,7 @@ Login As:
 				1. Modify Patient Record ✅
 				2. Sort by Visit History [Default]
 				3. Back ✅
-			2. Search Patients by Sickness or First Name [Comb Sort (Repeat)] (New List)
+			2. Search Patients by Sickness [Comb Sort (Repeat)] (New List)
 			3. Search Patients by First Name [Comb Sort (Repeat)] (New List)
 			4. Back ✅
 		3. View Treating List ✅
