@@ -501,8 +501,10 @@ public:
 	}
 
 	~IndexLinkedList() {
+
 		IndexNode* current = head;
 		IndexNode* next;
+
 		while (current != NULL) {
 			next = current->nextNode;
 			delete current;
@@ -1007,6 +1009,7 @@ public:
 	}
 
 	int exponentialSearchName(string x) {
+
 		if (getHistoryAt(0)->patient->firstName == x) {
 			return 0;
 		}
@@ -1062,8 +1065,10 @@ public:
 	}
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
+
 		indexList->appendIndexFirst(index);
 		int i = 1;
+
 		if (index < indexList->size) {
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
 					indexList->appendIndexLast(index + i);
@@ -1077,7 +1082,8 @@ public:
 		i = 1;
 
 		while (search_term == getHistoryAt(index - i)->patient->firstName) {
-			if (index = -1) {
+
+			if (index == -1) {
 				break;
 			}
 				indexList->appendIndexFirst(index - i);
@@ -1091,6 +1097,7 @@ public:
 		int i = 1;
 
 		if (index < indexList->size) {
+
 			while (search_term == getHistoryAt(index + i)->sickness) {
 				indexList->appendIndexLast(index + i);
 				i = i + 1;
@@ -1103,7 +1110,8 @@ public:
 		i = 1;
 
 		while (search_term == getHistoryAt(index - i)->sickness) {
-			if (index = -1) {
+
+			if (index == -1) {
 				break;
 			}
 			indexList->appendIndexFirst(index - i);
@@ -1117,6 +1125,7 @@ public:
 		int i = 1;
 
 		if (index < indexList->size) {
+
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
 				indexList->appendIndexLast(index + i);
 				i = i + 1;
@@ -1129,7 +1138,8 @@ public:
 		i = 1;
 
 		while (search_term == getHistoryAt(index - i)->patient->UserID) {
-			if (index = -1) {
+
+			if (index == -1) {
 				break;
 			}
 			indexList->appendIndexFirst(index - i);
@@ -1751,15 +1761,19 @@ int main() {
 							cout << "Patient Name: ";
 							cin >> search_term;
 							cout << "\n";
+
 							tempHistory->combSortName();
 							index = tempHistory->exponentialSearchName(search_term);
 
 							if (index != -1) {
+
 								IndexLinkedList* indexList = new IndexLinkedList();
 								tempHistory->searchRangeName(indexList, index, search_term);
+
 								for (int i = 0; i < indexList->size; i++) {
 									tempHistory->displaySpecific2(indexList->getIndexAt(i));
 								}
+
 								delete indexList;
 							}
 							else {
@@ -1770,7 +1784,8 @@ int main() {
 							option = 0;
 							break;
 						case 3:
-							waitingList->display(tempHistory);
+							tempHistory->display(2);
+							// need to sort by visitTime
 
 							option = 0;
 							break;
@@ -2114,6 +2129,7 @@ int main() {
 										break;
 									case 2:			// Sort by Visit History
 										index = historyList->exponentialSearchID(patientID);
+
 										if (index != -1) {
 
 											IndexLinkedList* indexList = new IndexLinkedList();
@@ -2122,12 +2138,14 @@ int main() {
 											for (int i = 0; i < indexList->size; i++) {
 												historyList->displaySpecific(indexList->getIndexAt(i));
 											}
+
 											delete indexList;
 										}
 										else {
 											cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
 											cout << "\n";
 										}
+
 										option = 0;
 										break;
 									case 3:
@@ -2156,6 +2174,7 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
+
 								delete indexList;
 							}
 							else {
@@ -2182,13 +2201,13 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
+
 								delete indexList;
 								
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
 								cout << "\n";
-								
 							}
 
 							option = 0;
