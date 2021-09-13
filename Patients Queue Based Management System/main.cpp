@@ -55,7 +55,9 @@ string getCurrentTime() {
 
 int timeToSecond(string time) {
 
-	int hoursInSecond, minutesInSecond, second;
+	int hoursInSecond = 0;
+	int minutesInSecond = 0;
+	int second = 0;
 
 	if (time.substr(0, 2) != "00")
 	{
@@ -75,7 +77,9 @@ int timeToSecond(string time) {
 
 int dateToDay(string date) {
 
-	int day, monthInDay, yearInDay;
+	int day = 0;
+	int monthInDay = 0;
+	int yearInDay = 0;
 
 	if (date.substr(0, 2) != "00")
 	{
@@ -393,6 +397,9 @@ public:
 
 			while (i < getSize() && getMedicineAt(i)->medicineID < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchID(i / 2, min(i, getSize()), x);
@@ -409,6 +416,9 @@ public:
 
 			while (i < getSize() && getMedicineAt(i)->medicineName < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchName(i / 2, min(i, getSize()), x);
@@ -440,19 +450,22 @@ public:
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Medicine List                       \n";
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
 
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			MedicineNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mMedicine ID: \033[0m" << temp->currentMedicine->medicineID << "\n";
 				cout << "\033[1;33mMedicine Name: \033[0m" << temp->currentMedicine->medicineName << "\n";
 				cout << "\033[1;33mMedicine Quantity: \033[0m" << temp->currentMedicine->quantity << "\n";
@@ -487,22 +500,31 @@ public:
 		tail = NULL;
 	}
 
-	~IndexLinkedList() {};
+	~IndexLinkedList() {
+		IndexNode* current = head;
+		IndexNode* next;
+		while (current != NULL) {
+			next = current->nextNode;
+			delete current;
+			current = next;
+		}
+	};
 
 	void appendIndexFirst(int index) {
 		
 		IndexNode* newNode = new IndexNode();
 		newNode->currentIndex = index;
+		newNode->previousNode = NULL;
+		newNode->nextNode = head;
+		head = newNode;
 
-		if (head == NULL) {
-			head = newNode;
+		if (tail == NULL) {
+			tail = newNode;
 		}
 		else {
-			newNode->nextNode = head;
-			newNode->previousNode = NULL;
 			newNode->nextNode->previousNode = newNode;
 		}
-
+		
 		size++;
 	}
 
@@ -512,7 +534,14 @@ public:
 		newNode->currentIndex = index;
 		newNode->previousNode = tail;
 		newNode->nextNode = NULL;
-		newNode->previousNode->nextNode = newNode;
+		tail = newNode;
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			newNode->previousNode->nextNode = newNode;
+		}
+		
 		size++;
 	}
 
@@ -814,17 +843,17 @@ public:
 			History* keyObj = getHistoryAt(i);
 			j = i - 1;
 
-			while (j >= 0 && key > getHistoryAt(j)->patient->UserID) {
+			while (j >= 0 && key < getHistoryAt(j)->patient->UserID) {
 				setHistoryAt(j + 1, getHistoryAt(j));
 				j = j - 1;
 			}
 			while (j >= 0 && key == getHistoryAt(j)->patient->UserID) {
-				if (dateToDay(getHistoryAt(i)->visitDate) > dateToDay(getHistoryAt(j)->visitDate)) {
+				if (dateToDay(getHistoryAt(i)->visitDate) < dateToDay(getHistoryAt(j)->visitDate)) {
 					setHistoryAt(j + 1, getHistoryAt(j));
 					j = j - 1;
 				}
 				else if (dateToDay(getHistoryAt(i)->visitDate) == dateToDay(getHistoryAt(j)->visitDate)) {
-					if (timeToSecond(getHistoryAt(i)->visitTime) == timeToSecond(getHistoryAt(j)->visitTime)) {
+					if (timeToSecond(getHistoryAt(i)->visitTime) < timeToSecond(getHistoryAt(j)->visitTime)) {
 						setHistoryAt(j + 1, getHistoryAt(j));
 						j = j - 1;
 					}
@@ -906,7 +935,7 @@ public:
 						swapped = true;
 					}
 					else if (dateToDay((getHistoryAt(i)->visitDate)) == dateToDay(getHistoryAt(i + gap)->visitDate)) {
-						if (timeToSecond((getHistoryAt(i)->visitTime)) >> timeToSecond(getHistoryAt(i + gap)->visitTime)) {
+						if (timeToSecond((getHistoryAt(i)->visitTime)) > timeToSecond(getHistoryAt(i + gap)->visitTime)) {
 							swap(i, i + gap);
 							swapped = true;
 						}
@@ -949,6 +978,9 @@ public:
 
 			while (i < getSize() && getHistoryAt(i)->sickness < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchSickness(i / 2, min(i, getSize()), x);
@@ -975,7 +1007,6 @@ public:
 	}
 
 	int exponentialSearchName(string x) {
-
 		if (getHistoryAt(0)->patient->firstName == x) {
 			return 0;
 		}
@@ -984,15 +1015,17 @@ public:
 
 			while (i < getSize() && getHistoryAt(i)->patient->firstName < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
-
-			return binarySearchName(i / 2, min(i, getSize()), x);
+			return binarySearchName(i / 2, min(i, getSize()), x); 
 		}
 	}
 
 	int binarySearchID(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -1019,6 +1052,9 @@ public:
 
 			while (i < getSize() && getHistoryAt(i)->patient->UserID < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchID(i / 2, min(i, getSize()), x);
@@ -1026,21 +1062,27 @@ public:
 	}
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
-
 		indexList->appendIndexFirst(index);
 		int i = 1;
-
-		while (search_term == getHistoryAt(index + i)->patient->firstName) {
-			indexList->appendIndexLast(index+i);
-			i = i + 1;
+		if (index < indexList->size) {
+			while (search_term == getHistoryAt(index + i)->patient->firstName) {
+					indexList->appendIndexLast(index + i);
+					i = i + 1;
+					if (index+i >= indexList->size) {
+						break;
+					}
+			}		
 		}
 
 		i = 1;
 
 		while (search_term == getHistoryAt(index - i)->patient->firstName) {
-			indexList->appendIndexFirst(index - i);
-			i = i + 1;
-		}
+			if (index = -1) {
+				break;
+			}
+				indexList->appendIndexFirst(index - i);
+				i = i - 1;
+			}
 	}
 
 	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
@@ -1048,14 +1090,48 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		while (search_term == getHistoryAt(index + i)->sickness) {
-			indexList->appendIndexLast(index + i);
-			i = i + 1;
+		if (index < indexList->size) {
+			while (search_term == getHistoryAt(index + i)->sickness) {
+				indexList->appendIndexLast(index + i);
+				i = i + 1;
+				if (index + i >= indexList->size) {
+					break;
+				}
+			}
 		}
 
 		i = 1;
 
 		while (search_term == getHistoryAt(index - i)->sickness) {
+			if (index = -1) {
+				break;
+			}
+			indexList->appendIndexFirst(index - i);
+			i = i + 1;
+		}
+	}
+
+	void searchRangeID(IndexLinkedList* indexList, int index, string search_term) {
+
+		indexList->appendIndexFirst(index);
+		int i = 1;
+
+		if (index < indexList->size) {
+			while (search_term == getHistoryAt(index + i)->patient->UserID) {
+				indexList->appendIndexLast(index + i);
+				i = i + 1;
+				if (index + i >= indexList->size) {
+					break;
+				}
+			}
+		}
+
+		i = 1;
+
+		while (search_term == getHistoryAt(index - i)->patient->UserID) {
+			if (index = -1) {
+				break;
+			}
 			indexList->appendIndexFirst(index - i);
 			i = i + 1;
 		}
@@ -1082,6 +1158,7 @@ public:
 		cout << "\033[1;33mSickness Description: \033[0m" << getHistoryAt(index)->sickness << "\n";
 		cout << "\033[1;33mDoctor Assigned: \033[0m" << getHistoryAt(index)->doctor->doctorName << "\n";
 		cout << "\033[1;33mMedicine Prescription: \033[0m" << getHistoryAt(index)->medicine << "\n";
+		cout << "\n";
 	}
 
 	void displaySpecific2(int index) {
@@ -1102,6 +1179,7 @@ public:
 		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
 		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
 		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
+		cout << "\n";
 	}
 
 	void display(int listNumber) {
@@ -1121,19 +1199,21 @@ public:
 			cout << "                       Waiting List                       \n";
 		}
 
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
-
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			HistoryNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentHistory->patient->UserID << "\n";
 				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentHistory->patient->firstName << "\n";
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentHistory->patient->lastName << "\n";
@@ -1326,6 +1406,9 @@ public:
 
 			while (i < getSize() && getPatientAt(i)->UserID < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchID(i / 2, min(i, getSize()), x);
@@ -1361,6 +1444,9 @@ public:
 
 			while (i < getSize() && getPatientAt(i)->firstName < x) {
 				i = i * 2;
+				if (i < getSize()) {
+					break;
+				}
 			}
 
 			return binarySearchName(i / 2, min(i, getSize()), x);
@@ -1396,19 +1482,22 @@ public:
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "                       Waiting List                       \n";
-		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "\n";
 
 		if (head == NULL)
 		{
+			cout << "\033[1;33m---------------------------------------------------------------\n";
+			cout << "\n";
 			cout << "\033[1;31mList is empty!\033[0m" << endl;
 			cout << "\n";
 		}
 		else
 		{
 			PatientNode* temp = head;
+
 			while (temp != NULL) {
 
+				cout << "\033[1;33m---------------------------------------------------------------\n";
+				cout << "\n";
 				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentPatient->UserID << "\n";
 				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentPatient->firstName << "\n";
 				cout << "\033[1;33mLast Name: \033[0m" << temp->currentPatient->lastName << "\n";
@@ -1662,19 +1751,16 @@ int main() {
 							cout << "Patient Name: ";
 							cin >> search_term;
 							cout << "\n";
-
 							tempHistory->combSortName();
 							index = tempHistory->exponentialSearchName(search_term);
 
 							if (index != -1) {
-
 								IndexLinkedList* indexList = new IndexLinkedList();
 								tempHistory->searchRangeName(indexList, index, search_term);
-
 								for (int i = 0; i < indexList->size; i++) {
-									tempHistory->displaySpecific(indexList->getIndexAt(i));
+									tempHistory->displaySpecific2(indexList->getIndexAt(i));
 								}
-							//destructor indexLinkedList
+								delete indexList;
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
@@ -1684,7 +1770,7 @@ int main() {
 							option = 0;
 							break;
 						case 3:
-							tempHistory->display(2);
+							waitingList->display(tempHistory);
 
 							option = 0;
 							break;
@@ -1967,6 +2053,7 @@ int main() {
 					option = 0;
 					break;
 				case 2:				// View Patient List
+					historyList->insertionSortID();
 					historyList->display(0);
 
 					do
@@ -2026,6 +2113,21 @@ int main() {
 										option = 0;
 										break;
 									case 2:			// Sort by Visit History
+										index = historyList->exponentialSearchID(patientID);
+										if (index != -1) {
+
+											IndexLinkedList* indexList = new IndexLinkedList();
+											historyList->searchRangeID(indexList, index, search_term);
+
+											for (int i = 0; i < indexList->size; i++) {
+												historyList->displaySpecific(indexList->getIndexAt(i));
+											}
+											delete indexList;
+										}
+										else {
+											cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
+											cout << "\n";
+										}
 										option = 0;
 										break;
 									case 3:
@@ -2043,7 +2145,7 @@ int main() {
 							cout << "Sickness Description: ";
 							cin >> search_term;
 							cout << "\n";
-
+							historyList->combSortSickness();
 							index = historyList->exponentialSearchSickness(search_term);
 
 							if (index != -1) {
@@ -2054,7 +2156,7 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
-								//destructor indexLinkedList
+								delete indexList;
 							}
 							else {
 								cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
@@ -2069,6 +2171,7 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 
+							historyList->combSortName();
 							index = historyList->exponentialSearchName(search_term);
 
 							if (index != -1) {
@@ -2079,12 +2182,13 @@ int main() {
 								for (int i = 0; i < indexList->size; i++) {
 									historyList->displaySpecific(indexList->getIndexAt(i));
 								}
-								//destructor indexLinkedList
+								delete indexList;
 								
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
 								cout << "\n";
+								
 							}
 
 							option = 0;
@@ -2094,6 +2198,9 @@ int main() {
 						default:
 							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 							cout << "\n";
+
+							option = 0;
+							break;
 						}
 					} while (option != 1 && option != 2 && option != 3 && option != 4);
 
@@ -2151,7 +2258,6 @@ int main() {
 										treatingList->getHistoryAt(index)->doctor = doctor1;
 										History* history = treatingList->getHistoryAt(index);
 										historyList->appendHistory(history);
-										historyList->insertionSortID();
 										treatingList->deleteAt(index);
 										medicineList->getMedicineAt(temp)->quantity = (medicineList->getMedicineAt(temp)->quantity) - 1;
 
