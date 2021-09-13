@@ -1070,7 +1070,7 @@ public:
 		indexList->appendIndexFirst(index);
 		cout << index;
 		int i = 1;
-		if (index < getSize()) { //waitinglist search name fix
+		if (index + 1 < getSize()) { //waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
 					indexList->appendIndexLast(index + i);
 					i = i + 1;
@@ -1097,7 +1097,7 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		if (index < getSize()) { //waitinglist search name fix
+		if (index + 1 < getSize()) { //waitinglist search name fix,if last then do loop
 			while (search_term == getHistoryAt(index + i)->sickness) {
 				indexList->appendIndexLast(index + i);
 				i = i + 1;
@@ -1115,7 +1115,7 @@ public:
 				break;
 			}
 			indexList->appendIndexFirst(index - i);
-			i = i + 1;
+			i = i - 1;
 		}
 	}
 
@@ -1124,7 +1124,7 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		if (index < indexList->size) {
+		if (index + 1 < indexList->size) {
 
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
 				indexList->appendIndexLast(index + i);
@@ -1143,7 +1143,7 @@ public:
 				break;
 			}
 			indexList->appendIndexFirst(index - i);
-			i = i + 1;
+			i = i - 1;
 		}
 	}
 
@@ -2165,7 +2165,9 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 							historyList->combSortSickness();
+							historyList->display(2); //test
 							index = historyList->exponentialSearchSickness(search_term);
+							cout << index;
 
 							if (index != -1) {
 
