@@ -2165,9 +2165,7 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 							historyList->combSortSickness();
-							historyList->display(2); //test
 							index = historyList->exponentialSearchSickness(search_term);
-							cout << index;
 
 							if (index != -1) {
 
