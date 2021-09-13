@@ -1138,11 +1138,8 @@ public:
 
 		indexList->appendIndexFirst(index);
 		int i = 1;
-		cout << "1" << endl;
 		if (index + 1 < getSize()) {
-			cout << "2" << endl;
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
-				cout << "3" << endl;
 				indexList->appendIndexFirst(index + i);
 				i = i + 1;
 				if (index + i >= getSize()) {
@@ -1150,13 +1147,10 @@ public:
 				}
 			}
 		}
-		cout << "4" << endl;
 		i = 1;
 		if (index - 1 != -1) {
-			cout << "5" << endl;
 			cout << getHistoryAt(index - i)->patient->UserID << endl;
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
-				cout << "6" << endl;
 				indexList->appendIndexLast(index - i);
 				i = i + 1;
 			}
