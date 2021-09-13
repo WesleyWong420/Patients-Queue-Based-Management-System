@@ -722,7 +722,7 @@ public:
 		}
 		else
 		{
-			cout << "\033[1;31mNothing to delete!";
+			cout << "Medicine Does Not Exist!";
 		}
 	}
 
@@ -956,6 +956,25 @@ public:
 		}
 	}
 
+	void selectionSortTime() {
+
+		int idx_min;
+
+		for (int i = 0; i < getSize(); i++) {
+
+			idx_min = i;
+
+			for (int j = i + 1; j < getSize(); j++) {
+
+				if (timeToSecond(getHistoryAt(j)->visitTime) < timeToSecond(getHistoryAt(idx_min)->visitTime)) {
+					idx_min = j;
+				}
+			}
+
+			swap(idx_min, i);
+		}
+	}
+
 	int binarySearchSickness(int j, int k, string x) {
 
 		if (j > k) {
@@ -1125,7 +1144,7 @@ public:
 		if (index + 1 < getSize()) {
 
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
-				indexList->appendIndexLast(index + i);
+				indexList->appendIndexFirst(index + i);
 				i = i + 1;
 				if (index + i >= getSize()) {
 					break;
@@ -1136,7 +1155,7 @@ public:
 		i = 1;
 		if (index - 1 != -1) {
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
-				indexList->appendIndexFirst(index - i);
+				indexList->appendIndexLast(index - i);
 				i = i + 1;
 			}
 		}
@@ -1590,7 +1609,7 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	//treatingList->appendHistory(treating1);
+	treatingList->appendHistory(treating1);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1720,8 +1739,9 @@ int main() {
 					option = 0;
 					break;
 				}
-				case 2:				// View Waiting List
-					waitingList->display(tempHistory);
+				case 2:		// View Waiting List
+					tempHistory->selectionSortTime();
+					tempHistory->display(2);
 
 					do
 					{
@@ -1848,9 +1868,10 @@ int main() {
 					{
 						waitingList->deleteFirst();
 
-						treatingList->appendHistory(tempHistory->getHistoryAt(temp));
-						tempHistory->deleteAt(temp); 
-						
+						History* history = tempHistory->getHistoryAt(temp);
+						treatingList->appendHistory(history);
+						tempHistory->deleteAt(temp);
+
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved from waiting list to treating list!\033[0m" << endl;
 						cout << "\n";
 					}
@@ -2089,15 +2110,6 @@ int main() {
 							{
 								do
 								{
-									IndexLinkedList* indexList = new IndexLinkedList();
-									historyList->searchRangeID(indexList, index, search_term);
-
-									for (int i = 0; i < indexList->size; i++) {
-										historyList->displaySpecific(indexList->getIndexAt(i));
-									}
-
-									delete indexList;
-
 									cout << "1. Modify Patient Record" << endl;
 									cout << "2. Sort by Visit History" << endl;
 									cout << "3. Back \n" << endl;
@@ -2135,6 +2147,15 @@ int main() {
 									}
 									case 2:			// Sort by Visit History
 									{
+										historyList->insertionSortID();
+										IndexLinkedList* indexList = new IndexLinkedList();
+										historyList->searchRangeID(indexList, index, search_term);
+
+										for (int i = 0; i < indexList->size; i++) {
+											historyList->displaySpecific(indexList->getIndexAt(i));
+										}
+
+										delete indexList;
 										option = 0;
 										break;
 									}
