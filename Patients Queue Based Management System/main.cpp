@@ -722,7 +722,7 @@ public:
 		}
 		else
 		{
-			cout << "Medicine Does Not Exist!";
+			cout << "\033[1;31mNothing to delete!";
 		}
 	}
 
@@ -1590,7 +1590,7 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	treatingList->appendHistory(treating1);
+	//treatingList->appendHistory(treating1);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1848,10 +1848,9 @@ int main() {
 					{
 						waitingList->deleteFirst();
 
-						History* history = tempHistory->getHistoryAt(temp);
-						treatingList->appendHistory(history);
-						tempHistory->deleteAt(temp);
-
+						treatingList->appendHistory(tempHistory->getHistoryAt(temp));
+						tempHistory->deleteAt(temp); 
+						
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been moved from waiting list to treating list!\033[0m" << endl;
 						cout << "\n";
 					}
