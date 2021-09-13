@@ -852,6 +852,8 @@ public:
 				j = j - 1;
 			}
 			while (j >= 0 && key == getHistoryAt(j)->patient->UserID) {
+				cout << getHistoryAt(i)->visitDate<< endl;
+				cout << getHistoryAt(j)->visitDate << endl;
 				if (dateToDay(getHistoryAt(i)->visitDate) < dateToDay(getHistoryAt(j)->visitDate)) {
 					setHistoryAt(j + 1, getHistoryAt(j));
 					j = j - 1;
@@ -862,6 +864,7 @@ public:
 						j = j - 1;
 					}
 				}
+				break;
 			}
 
 			setHistoryAt(j + 1, keyObj);
