@@ -1745,7 +1745,6 @@ int main() {
 							cout << "\n";
 
 							tempHistory->insertionSortID();
-							tempHistory->display(2); //test
 							index = tempHistory->exponentialSearchID(search_term);
 
 							if (index != -1) {
