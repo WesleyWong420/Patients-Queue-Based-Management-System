@@ -783,6 +783,7 @@ public:
 		return size;
 	}
 
+	/*
 	void searchPatient(string patientID) {
 
 		int found = 0;
@@ -833,6 +834,7 @@ public:
 			cout << "\n";
 		}
 	}
+	*/
 
 	void insertionSortID() {
 
@@ -1745,7 +1747,6 @@ int main() {
 							cout << "\n";
 
 							tempHistory->insertionSortID();
-							tempHistory->display(2); //test
 							index = tempHistory->exponentialSearchID(search_term);
 
 							if (index != -1) {
@@ -2086,15 +2087,25 @@ int main() {
 						case 1:			// Search Specific Patient by Patient ID
 							cout << "Patient ID: ";
 							cin >> patientID;
+							cout << "\n";
 
-							index = historyList->checkExistence(patientID);
+							historyList->insertionSortID();
+							index = historyList->exponentialSearchID(patientID);
 							temp = waitingList->checkExistence(patientID);
-							historyList->searchPatient(patientID);
 
 							if (index != -1)
 							{
 								do
 								{
+									IndexLinkedList* indexList = new IndexLinkedList();
+									historyList->searchRangeID(indexList, index, search_term);
+
+									for (int i = 0; i < indexList->size; i++) {
+										historyList->displaySpecific(indexList->getIndexAt(i));
+									}
+
+									delete indexList;
+
 									cout << "1. Modify Patient Record" << endl;
 									cout << "2. Sort by Visit History" << endl;
 									cout << "3. Back \n" << endl;
@@ -2104,6 +2115,7 @@ int main() {
 
 									switch (option) {
 									case 1:			// Modify Patient Record
+									{
 										cout << "New Age: ";
 										cin >> age;
 										cout << "New Phone Number: ";
@@ -2128,27 +2140,12 @@ int main() {
 
 										option = 0;
 										break;
+									}
 									case 2:			// Sort by Visit History
-										index = historyList->exponentialSearchID(patientID);
-
-										if (index != -1) {
-
-											IndexLinkedList* indexList = new IndexLinkedList();
-											historyList->searchRangeID(indexList, index, search_term);
-
-											for (int i = 0; i < indexList->size; i++) {
-												historyList->displaySpecific(indexList->getIndexAt(i));
-											}
-
-											delete indexList;
-										}
-										else {
-											cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
-											cout << "\n";
-										}
-
+									{
 										option = 0;
 										break;
+									}
 									case 3:
 										break;
 									default:
@@ -2157,6 +2154,11 @@ int main() {
 									}
 								} while (option != 1 && option != 2 && option != 3);
 							}
+							else
+							{
+								cout << "\033[1;31mPatient not found!\033[0m" << endl;
+								cout << "\n";
+							}
 
 							option = 0;
 							break;
@@ -2164,6 +2166,7 @@ int main() {
 							cout << "Sickness Description: ";
 							cin >> search_term;
 							cout << "\n";
+
 							historyList->combSortSickness();
 							index = historyList->exponentialSearchSickness(search_term);
 
@@ -2321,4 +2324,4 @@ int main() {
 	} while (option != 1 && option != 2);
 
 	return 0;
-}
+};
