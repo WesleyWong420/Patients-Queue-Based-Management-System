@@ -1799,6 +1799,7 @@ int main() {
 							option = 0;
 							break;
 						case 3:
+							tempHistory->selectionSortTime();
 							tempHistory->display(2);
 							// need to sort by visitTime
 
