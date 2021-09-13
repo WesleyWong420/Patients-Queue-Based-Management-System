@@ -3,6 +3,7 @@
 Klinik Sulaiman
 
 Requirements:
+
 [Nurses]
   - 1.1 Add a new patient on the waiting list.
   - 1.2 Change the patient order according to the priority on the waiting list. (For example, the disabled will meet the doctor first)
@@ -38,7 +39,6 @@ To Do:
 
 CLI Menu Flow:
 
-
 	1. Nurse
 	1. Add Patient to Waiting List ✅
 	2. View Waiting List ✅
@@ -59,18 +59,19 @@ CLI Menu Flow:
 		5. Add Medicine ✅
 		6. Back ✅
 	5. Logout ✅
+	
+	2. Doctor
+		1. View Waiting List ✅
+		2. View Patient List ❌ (First View No Problem. After Completing 1 Treatment And Add to List, View Again Will Bug)
+			1. Search Specific Patient by Patient ID ✅
+				1. Modify Patient Record ✅
+				2. Sort by Visit History ❓
+				3. Back ✅
+			2. Search Patients by Sickness ❌(Some Sickness Worked (Mainly Start & Last), Some Don't (Mainly Middle)) 
+			3. Search Patients by First Name ❌(1 Patient First Name No Problem, 2 Patient With Same First Name Bug)
+			4. Back ✅
+		3. View Treating List ✅
+			1. Complete Treament ✅
+			2. Back ✅
+		4. Logout ✅
   
-  2. Doctor
-    1. View Waiting List ✅
-    2. View Patient List ❌ (First View No Problem. After Completing 1 Treatment And Add to List, View Again Will Bug)
-      1. Search Specific Patient by Patient ID ✅
-        1. Modify Patient Record ✅
-        2. Sort by Visit History ❓
-        3. Back ✅
-      2. Search Patients by Sickness ❌(Some Sickness Worked (Mainly Start & Last), Some Don't (Mainly Middle)) 
-      3. Search Patients by First Name ❌(1 Patient First Name No Problem, 2 Patient With Same First Name Bug)
-      4. Back ✅
-    3. View Treating List ✅
-      1. Complete Treament ✅
-      2. Back ✅
-    4. Logout ✅
