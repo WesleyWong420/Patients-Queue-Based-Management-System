@@ -852,8 +852,6 @@ public:
 				j = j - 1;
 			}
 			while (j >= 0 && key == getHistoryAt(j)->patient->UserID) {
-				cout << getHistoryAt(i)->visitDate<< endl;
-				cout << getHistoryAt(j)->visitDate << endl;
 				if (dateToDay(getHistoryAt(i)->visitDate) < dateToDay(getHistoryAt(j)->visitDate)) {
 					setHistoryAt(j + 1, getHistoryAt(j));
 					j = j - 1;
@@ -1140,10 +1138,11 @@ public:
 
 		indexList->appendIndexFirst(index);
 		int i = 1;
-
+		cout << "1" << endl;
 		if (index + 1 < getSize()) {
-
+			cout << "2" << endl;
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
+				cout << "3" << endl;
 				indexList->appendIndexFirst(index + i);
 				i = i + 1;
 				if (index + i >= getSize()) {
@@ -1151,10 +1150,13 @@ public:
 				}
 			}
 		}
-
+		cout << "4" << endl;
 		i = 1;
 		if (index - 1 != -1) {
+			cout << "5" << endl;
+			cout << getHistoryAt(index - i)->patient->UserID << endl;
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
+				cout << "6" << endl;
 				indexList->appendIndexLast(index - i);
 				i = i + 1;
 			}
@@ -1609,7 +1611,7 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	treatingList->appendHistory(treating1);
+	//treatingList->appendHistory(treating1);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2148,9 +2150,9 @@ int main() {
 									}
 									case 2:			// Sort by Visit History
 									{
-										historyList->insertionSortID();
+										historyList->display(0);
 										IndexLinkedList* indexList = new IndexLinkedList();
-										historyList->searchRangeID(indexList, index, search_term);
+										historyList->searchRangeID(indexList, index, patientID);
 
 										for (int i = 0; i < indexList->size; i++) {
 											historyList->displaySpecific(indexList->getIndexAt(i));
