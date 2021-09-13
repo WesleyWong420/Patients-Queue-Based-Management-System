@@ -395,9 +395,9 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineID < x) {
+			while (i < getSize() && getMedicineAt(i)->medicineID <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
@@ -414,9 +414,9 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineName < x) {
+			while (i < getSize() && getMedicineAt(i)->medicineName <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
@@ -976,9 +976,9 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->sickness < x) {
+			while (i < getSize() && getHistoryAt(i)->sickness <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
@@ -1013,9 +1013,9 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->patient->firstName < x) {
+			while (i < getSize() && getHistoryAt(i)->patient->firstName <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
@@ -1025,8 +1025,9 @@ public:
 
 	int binarySearchID(int j, int k, string x) {
 
-		if (j >= k) {
+		if (j > k) { 
 			return -1;
+			
 		}
 
 		int mid = j + (k - j) / 2;
@@ -1050,9 +1051,9 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->patient->UserID < x) {
+			while (i < getSize() && getHistoryAt(i)->patient->UserID <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
@@ -1063,12 +1064,13 @@ public:
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
 		indexList->appendIndexFirst(index);
+		cout << index;
 		int i = 1;
-		if (index < indexList->size) {
+		if (index < getSize()) { //waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
 					indexList->appendIndexLast(index + i);
 					i = i + 1;
-					if (index+i >= indexList->size) {
+					if (index+i >= getSize()) {//waitinglist search name fix
 						break;
 					}
 			}		
@@ -1080,8 +1082,8 @@ public:
 			if (index = -1) {
 				break;
 			}
-				indexList->appendIndexFirst(index - i);
-				i = i - 1;
+			indexList->appendIndexFirst(index - i);
+			i = i - 1;
 			}
 	}
 
@@ -1090,11 +1092,11 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		if (index < indexList->size) {
+		if (index < getSize()) { //waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->sickness) {
 				indexList->appendIndexLast(index + i);
 				i = i + 1;
-				if (index + i >= indexList->size) {
+				if (index + i >= getSize()) {//waitinglist search name fix
 					break;
 				}
 			}
@@ -1377,7 +1379,7 @@ public:
 		}
 	}
 
-	int binarySearchID(int j, int k, string x) {
+	/*int binarySearchID(int j, int k, string x) {
 
 		if (j > k) {
 			return -1;
@@ -1394,9 +1396,9 @@ public:
 		else {
 			return binarySearchID(mid + 1, k, x);
 		}
-	}
+	}*/
 
-	int exponentialSearchID(string x) {
+	/*int exponentialSearchID(string x) {
 
 		if (getPatientAt(0)->UserID == x) {
 			return 0;
@@ -1404,18 +1406,18 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getPatientAt(i)->UserID < x) {
+			while (i < getSize() && getPatientAt(i)->UserID <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
 
 			return binarySearchID(i / 2, min(i, getSize()), x);
 		}
-	}
+	}*/
 
-	int binarySearchName(int j, int k, string x) {
+	/*int binarySearchName(int j, int k, string x) {
 
 		if (j > k) {
 			return -1;
@@ -1432,9 +1434,9 @@ public:
 		else {
 			return binarySearchName(mid + 1, k, x);
 		}
-	}
+	}*/
 
-	int exponentialSearchName(string x) {
+	/*int exponentialSearchName(string x) {
 
 		if (getPatientAt(0)->firstName == x) {
 			return 0;
@@ -1442,16 +1444,16 @@ public:
 		else {
 			int i = 1;
 
-			while (i < getSize() && getPatientAt(i)->firstName < x) {
+			while (i < getSize() && getPatientAt(i)->firstName <= x) {
 				i = i * 2;
-				if (i < getSize()) {
+				if (i > getSize()) {
 					break;
 				}
 			}
 
 			return binarySearchName(i / 2, min(i, getSize()), x);
 		}
-	}
+	}*/
 
 	void display(HistoryLinkedList* tempHistory, int index2) {
 
@@ -1735,6 +1737,7 @@ int main() {
 							cout << "\n";
 
 							tempHistory->insertionSortID();
+							tempHistory->display(2); //test
 							index = tempHistory->exponentialSearchID(search_term);
 
 							if (index != -1) {
@@ -2125,7 +2128,7 @@ int main() {
 											delete indexList;
 										}
 										else {
-											cout << "\033[1;31mInvalid Sickness!\033[0m" << endl;
+											cout << "\033[1;31mInvalid PatientID!\033[0m" << endl;
 											cout << "\n";
 										}
 										option = 0;
