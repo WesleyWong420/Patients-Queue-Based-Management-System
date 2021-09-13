@@ -1583,7 +1583,7 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
-	History* treating1 = new History("10/09/2021", "11:05:33", patient4);
+	//History* treating1 = new History("10/09/2021", "11:05:33", patient4);
 
 	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
 	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor1);
