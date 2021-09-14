@@ -1134,13 +1134,18 @@ public:
 		}
 	}
 
-	void searchRangeID(IndexLinkedList* indexList, int index, string search_term) {
+	void searchRangeID(IndexLinkedList* indexList, int index, string search_term,int option) { //option 1 for asc , 0 for desc
 
 		indexList->appendIndexFirst(index);
 		int i = 1;
 		if (index + 1 < getSize()) {
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
-				indexList->appendIndexFirst(index + i);
+				if (option = 0) {
+					indexList->appendIndexFirst(index + i);
+				}
+				else if (option = 1) {
+					indexList->appendIndexLast(index + i);
+				}
 				i = i + 1;
 				if (index + i >= getSize()) {
 					break;
@@ -1151,7 +1156,12 @@ public:
 		if (index - 1 != -1) {
 			cout << getHistoryAt(index - i)->patient->UserID << endl;
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
-				indexList->appendIndexLast(index - i);
+				if (option = 0) {
+					indexList->appendIndexLast(index + i);
+				}
+				else if (option = 1) {
+					indexList->appendIndexFirst(index + i);
+				}
 				i = i + 1;
 			}
 		}
@@ -2102,6 +2112,15 @@ int main() {
 							index = historyList->exponentialSearchID(patientID);
 							temp = waitingList->checkExistence(patientID);
 
+							IndexLinkedList* indexList = new IndexLinkedList();
+							historyList->searchRangeID(indexList, index, patientID,1);
+
+							for (int i = 0; i < indexList->size; i++) {
+								historyList->displaySpecific(indexList->getIndexAt(i));
+							}
+
+							delete indexList;
+
 							if (index != -1)
 							{
 								do
@@ -2145,7 +2164,7 @@ int main() {
 									{
 										//historyList->display(0);
 										IndexLinkedList* indexList = new IndexLinkedList();
-										historyList->searchRangeID(indexList, index, patientID);
+										historyList->searchRangeID(indexList, index, patientID,0);
 
 										for (int i = 0; i < indexList->size; i++) {
 											historyList->displaySpecific(indexList->getIndexAt(i));
