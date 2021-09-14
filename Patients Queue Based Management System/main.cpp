@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <algorithm>
 using namespace std;
 
 string getCurrentDate() {
@@ -96,6 +97,16 @@ int dateToDay(string date) {
 
 	return day + monthInDay + yearInDay;
 }
+
+class Nurse {
+
+public:
+	string nurseName;
+
+	Nurse(string name) {
+		this->nurseName = name;
+	}
+};
 
 class Doctor {
 
@@ -350,7 +361,7 @@ public:
 
 	int binarySearchID(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -369,7 +380,7 @@ public:
 
 	int binarySearchName(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -975,7 +986,7 @@ public:
 
 	int binarySearchSickness(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -1013,7 +1024,7 @@ public:
 
 	int binarySearchName(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -1050,7 +1061,7 @@ public:
 
 	int binarySearchID(int j, int k, string x) {
 
-		if (j > k) { 
+		if (j >= k) { 
 			return -1;
 			
 		}
@@ -1415,7 +1426,7 @@ public:
 
 	/*int binarySearchID(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -1453,7 +1464,7 @@ public:
 
 	/*int binarySearchName(int j, int k, string x) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
@@ -1558,8 +1569,8 @@ public:
 };
 
 void printHeader() {
-	cout << "\033[1;34m---------------------------------------------------------------" << endl;
-	cout << "   \033[1;94mKlinik Sulaiman - Patient Queue Based Management System \033[1;34m   " << endl;
+	cout << "\033[1;33m---------------------------------------------------------------" << endl;
+	cout << "   Klinik Sulaiman - Patient Queue Based Management System" << endl;
 	cout << "---------------------------------------------------------------\n" << endl;;
 };
 
@@ -1576,12 +1587,21 @@ int main() {
 	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
-	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
-	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
-	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
-	Patient* patient4 = new Patient("U004", "Daniel", "D", "Male", 25, "0135123411", "Street 4", "false");
+	Patient* patient1 = new Patient("U001", "Alex", "Morgan", "Male", 16, "0123456789", "Street 1", "true");
+	Patient* patient2 = new Patient("U002", "Bob", "Dylan", "Male", 23, "0123456789", "Street 2", "true");
+	Patient* patient3 = new Patient("U003", "Caitlin", "Jenner", "Female", 19, "0123456789", "Street 3", "false");
+	Patient* patient4 = new Patient("U004", "Daniel", "Lewis", "Male", 27, "0123456789", "Street 4", "false");
+	Patient* patient5 = new Patient("U005", "Eva", "May", "Female", 26, "0123456789", "Street 5", "true");
+	Patient* patient6 = new Patient("U006", "Fiona", "Lim", "Female", 22, "0123456789", "Street 6", "false");
+	Patient* patient7 = new Patient("U007", "Griffin", "Johnson", "Male", 35, "0123456789", "Street 7", "false");
 
-	Doctor* doctor1 = new Doctor("Dr Nick");
+	Nurse* nurse1 = new Nurse("Mary");
+	Nurse* nurse2 = new Nurse("Elizabeth");
+	Nurse* nurse3 = new Nurse("Clara");
+
+	Doctor* doctor1 = new Doctor("Dr. Nick");
+	Doctor* doctor2 = new Doctor("Dr. Phil");
+	Doctor* doctor3 = new Doctor("Dr. Miller");
 
 	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
 	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
@@ -1595,19 +1615,17 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
-	//History* treating1 = new History("10/09/2021", "11:05:33", patient4);
-
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor1);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", "Simvastatin", patient3, doctor1);
-
-	//waitingList->appendPatient(patient1);
-	//waitingList->appendPatient(patient2);
-	//waitingList->appendPatient(patient3);
+	History* history1 = new History("21/02/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
+	History* history2 = new History("10/03/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor2);
+	History* history3 = new History("19/06/2021", "14:55:06", "Headache", "Simvastatin", patient3, doctor3);
+	History* history4 = new History("05/07/2021", "17:48:31", "Skin Allergic", "Lipitor", patient5, doctor2);
+	History* history5 = new History("16/08/2021", "22:10:59", "Flu", "Amoxicillin", patient6, doctor1);
 
 	historyList->appendHistory(history1);
 	historyList->appendHistory(history2);
 	historyList->appendHistory(history3);
+	historyList->appendHistory(history4);
+	historyList->appendHistory(history5);
 
 	medicineList->appendMedicine(medicine1);
 	medicineList->appendMedicine(medicine2);
@@ -1621,16 +1639,16 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	//treatingList->appendHistory(treating1);
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
+	Nurse* nurseOnDuty = nurse1;
+	Doctor* doctorOnDuty = doctor1;
 
 	string search_term, firstVisit, medicineID, medicineName;
-	int option, index, temp, medicineAmount;
-	int totalPatient = 4;
+	int loginAsNurse = 0, loginAsDoctor = 0, option, index, temp, medicineAmount;
+	int totalPatient = 7;
 	int totalMedicine = 11;
 
 	do
@@ -1638,19 +1656,53 @@ int main() {
 		cout << "\n";
 		printHeader();
 		cout << "\033[0mLogin As: " << endl;
+		cout << "\n";
 		cout << "1. Nurse" << endl;
 		cout << "2. Doctor \n" << endl;
 		cout << "Option: ";
 		cin >> option;
 		cout << "\n";
-		clear();
 
 		switch (option) {
 		case 1:
 			do
 			{
+				while (loginAsNurse != 1 && loginAsNurse != 2 && loginAsNurse != 3)
+				{
+					cout << "\033[1;33m---------------------------------------------------------------\n";
+					cout << "                  Select A Nurse To Login\n";
+					cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+					cout << "\n";
+					cout << "1. " + nurse1->nurseName + "\n";
+					cout << "2. " + nurse2->nurseName + "\n";
+					cout << "3. " + nurse3->nurseName + "\n";
+					cout << "\n";
+					cout << "Login As: ";
+					cin >> loginAsNurse;
+					cout << "\n";
+
+					switch (loginAsNurse)
+					{
+					case 1:
+						nurseOnDuty = nurse1;
+						clear();
+						break;
+					case 2:
+						nurseOnDuty = nurse2;
+						clear();
+						break;
+					case 3:
+						nurseOnDuty = nurse3;
+						clear();
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
+					}
+				};
+				
 				printHeader();
-				cout << "\033[1;32mLogged in as Nurse\033[0m\n" << endl;
+				cout << "\033[1;92mLogged In As: Nurse " + nurseOnDuty->nurseName + "\033[0m\n" << endl;
 				cout << "1. Add Patient to Waiting List" << endl;
 				cout << "2. View Waiting List" << endl;
 				cout << "3. Edit Waiting List Priority" << endl;
@@ -1666,9 +1718,26 @@ int main() {
 				{
 					cout << "New Patient? (true/false):  ";
 					cin >> firstVisit;
+					transform(firstVisit.begin(), firstVisit.end(), firstVisit.begin(), ::tolower);
 
 					if (firstVisit == "true")
 					{
+						if (totalPatient < 9)
+						{
+							patientID = "U00" + to_string(totalPatient + 1);
+						}
+						else if (8 < totalPatient && totalPatient < 99)
+						{
+							patientID = "U0" + to_string(totalPatient + 1);
+						}
+						else
+						{
+							patientID = "U" + to_string(totalPatient + 1);
+						}
+
+						totalPatient++;
+
+						cout << "Patient ID: " + patientID + "\n";
 						cout << "First Name: ";
 						cin >> firstName;
 						cout << "Last Name: ";
@@ -1685,21 +1754,6 @@ int main() {
 						cin >> disability;
 						cout << "\n";
 
-						if (totalPatient < 9)
-						{
-							patientID = "U00" + to_string(totalPatient + 1);
-						}
-						else if (8 < totalPatient && totalPatient < 99)
-						{
-							patientID = "U0" + to_string(totalPatient + 1);
-						}
-						else
-						{
-							patientID = "U" + to_string(totalPatient + 1);
-						}
-
-						totalPatient++;
-
 						Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 						waitingList->appendPatient(newPatient);
 						History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
@@ -1710,7 +1764,7 @@ int main() {
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 						cout << "\n";
 					}
-					else
+					else if (firstVisit == "false")
 					{
 						cout << "Patient ID: ";
 						cin >> patientID;
@@ -1746,6 +1800,12 @@ int main() {
 							cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
 							cout << "\n";
 						}
+					}
+					else
+					{
+						cout << "\n";
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
 					}
 
 					option = 0;
@@ -2068,6 +2128,7 @@ int main() {
 					option = 0;
 					break;
 				case 6:
+					loginAsNurse = 0;
 					clear();
 					break;
 				default:
@@ -2081,8 +2142,42 @@ int main() {
 		case 2:
 			do
 			{
+				while (loginAsDoctor != 1 && loginAsDoctor != 2 && loginAsDoctor != 3)
+				{
+					cout << "\033[1;33m---------------------------------------------------------------\n";
+					cout << "                  Select A Doctor To Login\n";
+					cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+					cout << "\n";
+					cout << "1. " + doctor1->doctorName + "\n";
+					cout << "2. " + doctor2->doctorName + "\n";
+					cout << "3. " + doctor3->doctorName + "\n";
+					cout << "\n";
+					cout << "Login As: ";
+					cin >> loginAsDoctor;
+					cout << "\n";
+
+					switch (loginAsDoctor)
+					{
+					case 1:
+						doctorOnDuty = doctor1;
+						clear();
+						break;
+					case 2:
+						doctorOnDuty = doctor2;
+						clear();
+						break;
+					case 3:
+						doctorOnDuty = doctor3;
+						clear();
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
+					}
+				};
+
 				printHeader();
-				cout << "\033[1;32mLogged in as Doctor\033[0m\n" << endl;
+				cout << "\033[1;92mLogged In As: Doctor " + doctorOnDuty->doctorName.substr(4) + "\033[0m\n" << endl;
 				cout << "1. View Waiting List" << endl;
 				cout << "2. View Patient List" << endl;
 				cout << "3. View Treating List" << endl;
@@ -2322,7 +2417,7 @@ int main() {
 										{
 											treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
 											treatingList->getHistoryAt(index)->sickness = sickness;
-											treatingList->getHistoryAt(index)->doctor = doctor1;
+											treatingList->getHistoryAt(index)->doctor = doctorOnDuty;
 											History* history = treatingList->getHistoryAt(index);
 											historyList->appendHistory(history);
 											treatingList->deleteAt(index);
@@ -2354,6 +2449,7 @@ int main() {
 					option = 0;
 					break;
 				case 4:
+					loginAsDoctor = 0;
 					clear();
 					break;
 				default:

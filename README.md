@@ -32,12 +32,10 @@ Proposal:
 
 To Do:
 1) Viewing Mode
-2) Nurse/Doctor Login
+2) Input Validation
 3) Destructor
 4) Comments
 5) Variable Naming Convention
-6) Input Validation
-7) Lower Case All Input
 
 CLI Menu Flow:
 
