@@ -1376,10 +1376,18 @@ int main() {
 
 										medicineList->getMedicineAt(index)->quantity = medicineAmount;
 
+										cout << "\033[1;33mMedicine amount of\033[1;36m " << medicineID << "\033[1;33m had been changed successfully.\033[1;36m" << endl;
+										medicineList->selectionSortID();
+										medicineList->display();
+
 										option = 0;
 										break;
 									case 2:						// Delete Medicine
 										medicineList->deleteAt(index);
+
+										cout << "\033[1;33mMedicine \033[1;36m" << medicineID << "\033[1;33m had been deleted successfully.\033[1;36m" << endl;
+										medicineList->selectionSortID();
+										medicineList->display();
 
 										option = 0;
 										break;
@@ -1424,6 +1432,12 @@ int main() {
 							Medicine* med = new Medicine(medicineID, medicineName, medicineAmount);
 
 							medicineList->appendMedicine(med);
+							cout << "\033[1;33mMedicine\033[1;36m " + medicineID + "\033[1;33m has been added to medicine list!\033[0m" << endl;
+							cout << "\n";
+							cout << "\033[1;33mNew Record of Medicine\033[1;36m " + medicineID + "\033[1;33m has been generated!\033[0m" << endl;
+							cout << "\n";
+							medicineList->selectionSortID();
+							medicineList->display();
 
 							option = 0;
 							break;
