@@ -1576,9 +1576,9 @@ int main() {
 	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
-	Patient* patient1 = new Patient("U001", "alex", "A", "Male", 17, "0123456789", "Street 1", "false");
-	Patient* patient2 = new Patient("U002", "bob", "B", "Male", 23, "0123456789", "Street 2", "false");
-	Patient* patient3 = new Patient("U003", "caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
+	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
+	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
+	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
 	Patient* patient4 = new Patient("U004", "Daniel", "D", "Male", 25, "0135123411", "Street 4", "false");
 
 	Doctor* doctor1 = new Doctor("Dr Nick");
@@ -1755,74 +1755,77 @@ int main() {
 					tempHistory->selectionSortTime();
 					waitingList->display(tempHistory);
 
-					do
+					if (waitingList->head != NULL)
 					{
-						cout << "1. Search for Patient by Patient ID"  << endl;
-						cout << "2. Search for Patient by First Name" << endl;
-						cout << "3. Sort by Visit Time" << endl;
-						cout << "4. Back \n" << endl;
-						cout << "Action: ";
-						cin >> option;
-						cout << "\n";
-
-						switch (option) {
-						case 1:
-							cout << "Patient ID: ";
-							cin >> search_term;
+						do
+						{
+							cout << "1. Search for Patient by Patient ID" << endl;
+							cout << "2. Search for Patient by First Name" << endl;
+							cout << "3. Sort by Visit Time" << endl;
+							cout << "4. Back \n" << endl;
+							cout << "Action: ";
+							cin >> option;
 							cout << "\n";
 
-							tempHistory->insertionSortID();
-							index = tempHistory->exponentialSearchID(search_term);
-
-							if (index != -1) {
-								tempHistory->displaySpecific2(index);
-							}
-							else {
-								cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
+							switch (option) {
+							case 1:
+								cout << "Patient ID: ";
+								cin >> search_term;
 								cout << "\n";
-							}
 
-							option = 0;
-							break;
-						case 2:
-							cout << "Patient Name: ";
-							cin >> search_term;
-							cout << "\n";
+								tempHistory->insertionSortID();
+								index = tempHistory->exponentialSearchID(search_term);
 
-							tempHistory->combSortName();
-							index = tempHistory->exponentialSearchName(search_term);
-
-							if (index != -1) {
-
-								IndexLinkedList* indexList = new IndexLinkedList();
-								tempHistory->searchRangeName(indexList, index, search_term);
-
-								for (int i = 0; i < indexList->size; i++) {
-									tempHistory->displaySpecific2(indexList->getIndexAt(i));
+								if (index != -1) {
+									tempHistory->displaySpecific2(index);
+								}
+								else {
+									cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
+									cout << "\n";
 								}
 
-								delete indexList;
-							}
-							else {
-								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
+								option = 0;
+								break;
+							case 2:
+								cout << "Patient Name: ";
+								cin >> search_term;
+								cout << "\n";
+
+								tempHistory->combSortName();
+								index = tempHistory->exponentialSearchName(search_term);
+
+								if (index != -1) {
+
+									IndexLinkedList* indexList = new IndexLinkedList();
+									tempHistory->searchRangeName(indexList, index, search_term);
+
+									for (int i = 0; i < indexList->size; i++) {
+										tempHistory->displaySpecific2(indexList->getIndexAt(i));
+									}
+
+									delete indexList;
+								}
+								else {
+									cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
+									cout << "\n";
+								}
+
+								option = 0;
+								break;
+							case 3:
+								tempHistory->selectionSortTime();
+								tempHistory->display(2);
+
+								option = 0;
+								break;
+							case 4:
+								break;
+							default:
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 								cout << "\n";
 							}
-
-							option = 0;
-							break;
-						case 3:
-							tempHistory->selectionSortTime();
-							tempHistory->display(2);
-
-							option = 0;
-							break;
-						case 4:
-							break;
-						default:
-							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
-							cout << "\n";
-						}
-					} while (option != 1 && option != 2 && option != 3 && option != 4);
+						} while (option != 1 && option != 2 && option != 3 && option != 4);
+					}
 
 					option = 0;
 					break;
@@ -2272,78 +2275,81 @@ int main() {
 				case 3:				// View Treating List
 					treatingList->display(1);
 
-					do {
-						cout << "1. Complete Treatment" << endl;
-						cout << "2. Back" << endl;
-						cout << "\n";
-						cout << "Action: ";
-						cin >> option;
-						cout << "\n";
-
-						switch (option)
-						{
-						case 1:			// Complete Treatment
-							cout << "Patient ID: ";
-							cin >> patientID;
-							index = treatingList->checkExistence(patientID);
+					if (treatingList->head != NULL)
+					{
+						do {
+							cout << "1. Complete Treatment" << endl;
+							cout << "2. Back" << endl;
+							cout << "\n";
+							cout << "Action: ";
+							cin >> option;
 							cout << "\n";
 
-							if (index == -1)
+							switch (option)
 							{
-								cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
-								cout << "\n";
-							}
-							else
-							{
-								cout << "Sickness: ";
-								cin >> sickness;
+							case 1:			// Complete Treatment
+								cout << "Patient ID: ";
+								cin >> patientID;
+								index = treatingList->checkExistence(patientID);
 								cout << "\n";
 
-								medicineList->display();
-
-								cout << "Medicine ID: ";
-								cin >> medicineID;
-								cout << "\n";
-
-								if (medicineList->checkExistence(medicineID) == -1)
+								if (index == -1)
 								{
-									cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
+									cout << "\033[1;31mInvalid Patient ID!\033[0m" << endl;
 									cout << "\n";
 								}
 								else
 								{
-									temp = medicineList->checkExistence(medicineID);
-									if (medicineList->getMedicineAt(temp)->quantity != 0)
-									{
-										treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
-										treatingList->getHistoryAt(index)->sickness = sickness;
-										treatingList->getHistoryAt(index)->doctor = doctor1;
-										History* history = treatingList->getHistoryAt(index);
-										historyList->appendHistory(history);
-										treatingList->deleteAt(index);
-										medicineList->getMedicineAt(temp)->quantity = (medicineList->getMedicineAt(temp)->quantity) - 1;
+									cout << "Sickness: ";
+									cin >> sickness;
+									cout << "\n";
 
-										cout << "\033[1;33mTreatment for Patient\033[1;36m " + patientID + "\033[1;33m has been completed!\033[0m" << endl;
+									medicineList->display();
+
+									cout << "Medicine ID: ";
+									cin >> medicineID;
+									cout << "\n";
+
+									if (medicineList->checkExistence(medicineID) == -1)
+									{
+										cout << "\033[1;31mInvalid Medicine ID!\033[0m" << endl;
 										cout << "\n";
-										break;
 									}
 									else
 									{
-										cout << "\033[1;31mOut of Medicine!\033[0m" << endl;
-										cout << "\n";
+										temp = medicineList->checkExistence(medicineID);
+										if (medicineList->getMedicineAt(temp)->quantity != 0)
+										{
+											treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
+											treatingList->getHistoryAt(index)->sickness = sickness;
+											treatingList->getHistoryAt(index)->doctor = doctor1;
+											History* history = treatingList->getHistoryAt(index);
+											historyList->appendHistory(history);
+											treatingList->deleteAt(index);
+											medicineList->getMedicineAt(temp)->quantity = (medicineList->getMedicineAt(temp)->quantity) - 1;
+
+											cout << "\033[1;33mTreatment for Patient\033[1;36m " + patientID + "\033[1;33m has been completed!\033[0m" << endl;
+											cout << "\n";
+											break;
+										}
+										else
+										{
+											cout << "\033[1;31mOut of Medicine!\033[0m" << endl;
+											cout << "\n";
+										}
 									}
 								}
-							}
 
-							option = 0;
-							break;
-						case 2:
-							break;
-						default:
-							cout << "\033[1;31mInvalid Option!\033[0m" << endl;
-							cout << "\n";
-						}
-					} while (option != 1 && option != 2);
+								option = 0;
+								break;
+							case 2:
+								break;
+							default:
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+								cout << "\n";
+							}
+						} while (option != 1 && option != 2);
+					}
 
 					option = 0;
 					break;
