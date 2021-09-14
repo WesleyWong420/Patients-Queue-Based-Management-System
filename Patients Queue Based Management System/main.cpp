@@ -1160,7 +1160,7 @@ public:
 	void displaySpecific(int index) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                       Search Result - " + getHistoryAt(index)->patient->UserID + "\n";
+		cout << "                     Search Result - " + getHistoryAt(index)->patient->UserID + "\n";
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "\n";
 		
@@ -1184,7 +1184,7 @@ public:
 	void displaySpecific2(int index) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                       Search Result - " + getHistoryAt(index)->patient->UserID + "\n";
+		cout << "                     Search Result - " + getHistoryAt(index)->patient->UserID + "\n";
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "\n";
 
@@ -1476,7 +1476,7 @@ public:
 	void display(HistoryLinkedList* tempHistory, int index2) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                       Search Result - " + getPatientAt(index2)->UserID + "\n";
+		cout << "                     Search Result - " + getPatientAt(index2)->UserID + "\n";
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "\n";
 
@@ -1737,7 +1737,7 @@ int main() {
 				}
 				case 2:		// View Waiting List
 					tempHistory->selectionSortTime();
-					tempHistory->display(2);
+					waitingList->display(tempHistory);
 
 					do
 					{
@@ -1797,7 +1797,6 @@ int main() {
 						case 3:
 							tempHistory->selectionSortTime();
 							tempHistory->display(2);
-							// need to sort by visitTime
 
 							option = 0;
 							break;
@@ -1879,7 +1878,7 @@ int main() {
 					}
 					else
 					{
-						cout << "\033[1;31mPatient\033[1;36m " + patientID + "\033[1;31m is\033[1;36m " + to_string(index + 1) + "\033[1;31m place away from being called!\033[0m" << endl;
+						cout << "\033[1;31mPatient\033[1;36m " + patientID + "\033[1;31m is\033[1;36m " + to_string(index) + "\033[1;31m place away from being called!\033[0m" << endl;
 						cout << "\n";
 					}
 
@@ -2144,7 +2143,7 @@ int main() {
 									}
 									case 2:			// Sort by Visit History
 									{
-										historyList->display(0);
+										//historyList->display(0);
 										IndexLinkedList* indexList = new IndexLinkedList();
 										historyList->searchRangeID(indexList, index, patientID);
 
