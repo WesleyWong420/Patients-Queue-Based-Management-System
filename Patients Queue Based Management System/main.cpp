@@ -1090,8 +1090,8 @@ public:
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
 
 		indexList->appendIndexFirst(index);
-		cout << index;
 		int i = 1;
+
 		if (index + 1 < getSize()) { //waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
 					indexList->appendIndexLast(index + i);
@@ -1101,7 +1101,9 @@ public:
 					}
 			}		
 		}
+
 		i = 1;
+
 		if (index - 1 != -1) {
 			while (search_term == getHistoryAt(index - i)->patient->firstName) {
 				indexList->appendIndexFirst(index - i);
@@ -1126,6 +1128,7 @@ public:
 		}
 
 		i = 1;
+
 		if (index - 1 != -1) {
 			while (search_term == getHistoryAt(index - i)->sickness) {
 				indexList->appendIndexFirst(index - i);
@@ -1138,12 +1141,13 @@ public:
 
 		indexList->appendIndexFirst(index);
 		int i = 1;
+
 		if (index + 1 < getSize()) {
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
-				if (option = 0) {
+				if (option == 0) {
 					indexList->appendIndexFirst(index + i);
 				}
-				else if (option = 1) {
+				else if (option == 1) {
 					indexList->appendIndexLast(index + i);
 				}
 				i = i + 1;
@@ -1152,14 +1156,16 @@ public:
 				}
 			}
 		}
+
 		i = 1;
+
 		if (index - 1 != -1) {
 			cout << getHistoryAt(index - i)->patient->UserID << endl;
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
-				if (option = 0) {
+				if (option == 0) {
 					indexList->appendIndexLast(index + i);
 				}
-				else if (option = 1) {
+				else if (option == 1) {
 					indexList->appendIndexFirst(index + i);
 				}
 				i = i + 1;
@@ -2104,6 +2110,7 @@ int main() {
 
 						switch (option) {
 						case 1:			// Search Specific Patient by Patient ID
+						{
 							cout << "Patient ID: ";
 							cin >> patientID;
 							cout << "\n";
@@ -2113,7 +2120,7 @@ int main() {
 							temp = waitingList->checkExistence(patientID);
 
 							IndexLinkedList* indexList = new IndexLinkedList();
-							historyList->searchRangeID(indexList, index, patientID,1);
+							historyList->searchRangeID(indexList, index, patientID, 1);
 
 							for (int i = 0; i < indexList->size; i++) {
 								historyList->displaySpecific(indexList->getIndexAt(i));
@@ -2164,7 +2171,7 @@ int main() {
 									{
 										//historyList->display(0);
 										IndexLinkedList* indexList = new IndexLinkedList();
-										historyList->searchRangeID(indexList, index, patientID,0);
+										historyList->searchRangeID(indexList, index, patientID, 0);
 
 										for (int i = 0; i < indexList->size; i++) {
 											historyList->displaySpecific(indexList->getIndexAt(i));
@@ -2190,7 +2197,9 @@ int main() {
 
 							option = 0;
 							break;
+						}
 						case 2:			// Search Patients by Sickness
+						{
 							cout << "Sickness Description: ";
 							cin >> search_term;
 							cout << "\n";
@@ -2216,8 +2225,9 @@ int main() {
 
 							option = 0;
 							break;
-
+						}
 						case 3:			// Search Patients by First Name
+						{
 							cout << "First Name: ";
 							cin >> search_term;
 							cout << "\n";
@@ -2235,7 +2245,7 @@ int main() {
 								}
 
 								delete indexList;
-								
+
 							}
 							else {
 								cout << "\033[1;31mInvalid First Name!\033[0m" << endl;
@@ -2244,6 +2254,7 @@ int main() {
 
 							option = 0;
 							break;
+						}
 						case 4:
 							break;
 						default:
