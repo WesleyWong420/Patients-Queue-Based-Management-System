@@ -33,9 +33,7 @@ Proposal:
 To Do:
 1) Viewing Mode
 2) Input Validation
-3) Destructor
-4) Comments
-5) Variable Naming Convention
+3) Comments
 
 CLI Menu Flow:
 

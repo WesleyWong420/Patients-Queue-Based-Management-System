@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <algorithm>
 using namespace std;
 
 string getCurrentDate() {
@@ -97,6 +98,16 @@ int dateToDay(string date) {
 	return day + monthInDay + yearInDay;
 }
 
+class Nurse {
+
+public:
+	string nurseName;
+
+	Nurse(string name) {
+		this->nurseName = name;
+	}
+};
+
 class Doctor {
 
 public:
@@ -143,7 +154,17 @@ public:
 		tail = NULL;
 	}
 
-	~MedicineLinkedList() {};
+	~MedicineLinkedList() {
+
+		MedicineNode* current = head;
+		MedicineNode* next;
+
+		while (current != NULL) {
+			next = current->nextNode;
+			delete current;
+			current = next;
+		}
+	};
 
 	void appendMedicine(Medicine* medicine) {
 
@@ -348,80 +369,79 @@ public:
 		}
 	}
 
-	int binarySearchID(int j, int k, string x) {
+	int binarySearchID(int j, int k, string id) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
 		int mid = j + (k - j) / 2;
 
-		if (getMedicineAt(mid)->medicineID == x) {
+		if (getMedicineAt(mid)->medicineID == id) {
 			return mid;
 		}
-		else if (getMedicineAt(mid)->medicineID > x) {
-			return binarySearchID(j, mid - 1, x);
+		else if (getMedicineAt(mid)->medicineID > id) {
+			return binarySearchID(j, mid - 1, id);
 		}
 		else {
-			return binarySearchID(mid + 1, k, x);
+			return binarySearchID(mid + 1, k, id);
 		}
 	}
 
-	int binarySearchName(int j, int k, string x) {
+	int binarySearchName(int j, int k, string name) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
 		int mid = j + (k - j) / 2;
 
-		if (getMedicineAt(mid)->medicineName == x) {
+		if (getMedicineAt(mid)->medicineName == name) {
 			return mid;
 		}
-		else if (getMedicineAt(mid)->medicineName > x) {
-			return binarySearchName(j, mid - 1, x);
+		else if (getMedicineAt(mid)->medicineName > name) {
+			return binarySearchName(j, mid - 1, name);
 		}
 		else {
-			return binarySearchName(mid + 1, k, x);
+			return binarySearchName(mid + 1, k, name);
 		}
 	}
 
-	int exponentialSearchID(string x) {
+	int exponentialSearchID(string id) {
 
-
-		if (getMedicineAt(0)->medicineID == x) {
+		if (getMedicineAt(0)->medicineID == id) {
 			return 0;
 		}
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineID <= x) {
+			while (i < getSize() && getMedicineAt(i)->medicineID <= id) {
 				i = i * 2;
 				if (i > getSize()) {
 					break;
 				}
 			}
 
-			return binarySearchID(i / 2, min(i, getSize()), x);
+			return binarySearchID(i / 2, min(i, getSize()), id);
 		}
 	}
 
-	int exponentialSearchName(string x) {
+	int exponentialSearchName(string name) {
 
-		if (getMedicineAt(0)->medicineName == x) {
+		if (getMedicineAt(0)->medicineName == name) {
 			return 0;
 		}
 		else {
 			int i = 1;
 
-			while (i < getSize() && getMedicineAt(i)->medicineName <= x) {
+			while (i < getSize() && getMedicineAt(i)->medicineName <= name) {
 				i = i * 2;
 				if (i > getSize()) {
 					break;
 				}
 			}
 
-			return binarySearchName(i / 2, min(i, getSize()), x);
+			return binarySearchName(i / 2, min(i, getSize()), name);
 		}
 	}
 
@@ -460,18 +480,18 @@ public:
 		}
 		else
 		{
-			MedicineNode* temp = head;
+			MedicineNode* current = head;
 
-			while (temp != NULL) {
+			while (current != NULL) {
 
 				cout << "\033[1;33m---------------------------------------------------------------\n";
 				cout << "\n";
-				cout << "\033[1;33mMedicine ID: \033[0m" << temp->currentMedicine->medicineID << "\n";
-				cout << "\033[1;33mMedicine Name: \033[0m" << temp->currentMedicine->medicineName << "\n";
-				cout << "\033[1;33mMedicine Quantity: \033[0m" << temp->currentMedicine->quantity << "\n";
+				cout << "\033[1;33mMedicine ID: \033[0m" << current->currentMedicine->medicineID << "\n";
+				cout << "\033[1;33mMedicine Name: \033[0m" << current->currentMedicine->medicineName << "\n";
+				cout << "\033[1;33mMedicine Quantity: \033[0m" << current->currentMedicine->quantity << "\n";
 				cout << "\n";
 
-				temp = temp->nextNode;
+				current = current->nextNode;
 			}
 		}
 	}
@@ -649,7 +669,17 @@ public:
 		tail = NULL;
 	}
 
-	~HistoryLinkedList() {};
+	~HistoryLinkedList() {
+
+		HistoryNode* current = head;
+		HistoryNode* next;
+
+		while (current != NULL) {
+			next = current->nextNode;
+			delete current;
+			current = next;
+		}
+	};
 
 	void appendHistory(History* history) {
 
@@ -782,59 +812,6 @@ public:
 
 		return size;
 	}
-
-	/*
-	void searchPatient(string patientID) {
-
-		int found = 0;
-		HistoryNode* last = head;
-
-		while (last != NULL) {
-			if (last->currentHistory->patient->UserID == patientID)
-			{
-				if (found == 0)
-				{
-					cout << "\033[1;33m---------------------------------------------------------------\n";
-					cout << "                       Search Result - " + last->currentHistory->patient->UserID + "\n";
-					found++;
-				}
-
-				cout << "\033[1;33m---------------------------------------------------------------\n";
-				cout << "\n";
-
-				cout << "\033[1;33mPatient ID: \033[0m" << last->currentHistory->patient->UserID << "\n";
-				cout << "\033[1;33mFirst Name: \033[0m" << last->currentHistory->patient->firstName << "\n";
-				cout << "\033[1;33mLast Name: \033[0m" << last->currentHistory->patient->lastName << "\n";
-				cout << "\033[1;33mGender: \033[0m" << last->currentHistory->patient->gender << "\n";
-				cout << "\033[1;33mAge: \033[0m" << last->currentHistory->patient->age << "\n";
-				cout << "\033[1;33mPhone Number: \033[0m" << last->currentHistory->patient->phone << "\n";
-				cout << "\033[1;33mAddress: \033[0m" << last->currentHistory->patient->address << "\n";
-				cout << "\033[1;33mDisability Option: \033[0m" << last->currentHistory->patient->disability << "\n";
-				cout << "\033[1;33mPriority: \033[0m" << last->currentHistory->patient->priority << "\n";
-				cout << "\033[1;33mVisit Date: \033[0m" << last->currentHistory->visitDate << "\n";
-				cout << "\033[1;33mVisit Time: \033[0m" << last->currentHistory->visitTime << "\n";
-				cout << "\033[1;33mSickness Description: \033[0m" << last->currentHistory->sickness << "\n";
-
-				if (last->currentHistory->doctor != NULL && last->currentHistory->medicine != "")
-				{
-					cout << "\033[1;33mDoctor Assigned: \033[0m" << last->currentHistory->doctor->doctorName << "\n";
-					cout << "\033[1;33mMedicine Prescription: \033[0m" << last->currentHistory->medicine << "\n";
-				}
-
-				cout << "\n";
-			}
-
-			last = last->nextNode;
-		}
-
-		if (found == 0)
-		{
-			cout << "\n";
-			cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
-			cout << "\n";
-		}
-	}
-	*/
 
 	void insertionSortID() {
 
@@ -973,117 +950,117 @@ public:
 		}
 	}
 
-	int binarySearchSickness(int j, int k, string x) {
+	int binarySearchSickness(int j, int k, string sickness) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
 		int mid = j + (k - j) / 2;
 
-		if (getHistoryAt(mid)->sickness == x) {
+		if (getHistoryAt(mid)->sickness == sickness) {
 			return mid;
 		}
-		else if (getHistoryAt(mid)->sickness > x) {
-			return binarySearchSickness(j, mid - 1, x);
+		else if (getHistoryAt(mid)->sickness > sickness) {
+			return binarySearchSickness(j, mid - 1, sickness);
 		}
 		else {
-			return binarySearchSickness(mid + 1, k, x);
+			return binarySearchSickness(mid + 1, k, sickness);
 		}
 	}
 
-	int exponentialSearchSickness(string x) {
+	int exponentialSearchSickness(string sickness) {
 
-		if (getHistoryAt(0)->sickness == x) {
+		if (getHistoryAt(0)->sickness == sickness) {
 			return 0;
 		}
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->sickness <= x) {
+			while (i < getSize() && getHistoryAt(i)->sickness <= sickness) {
 				i = i * 2;
 				if (i > getSize()) {
 					break;
 				}
 			}
 
-			return binarySearchSickness(i / 2, min(i, getSize()), x);
+			return binarySearchSickness(i / 2, min(i, getSize()), sickness);
 		}
 	}
 
-	int binarySearchName(int j, int k, string x) {
+	int binarySearchName(int j, int k, string name) {
 
-		if (j > k) {
+		if (j >= k) {
 			return -1;
 		}
 
 		int mid = j + (k - j) / 2;
 
-		if (getHistoryAt(mid)->patient->firstName == x) {
+		if (getHistoryAt(mid)->patient->firstName == name) {
 			return mid;
 		}
-		else if (getHistoryAt(mid)->patient->firstName > x) {
-			return binarySearchName(j, mid - 1, x);
+		else if (getHistoryAt(mid)->patient->firstName > name) {
+			return binarySearchName(j, mid - 1, name);
 		}
 		else {
-			return binarySearchName(mid + 1, k, x);
+			return binarySearchName(mid + 1, k, name);
 		}
 	}
 
-	int exponentialSearchName(string x) {
+	int exponentialSearchName(string name) {
 
-		if (getHistoryAt(0)->patient->firstName == x) {
+		if (getHistoryAt(0)->patient->firstName == name) {
 			return 0;
 		}
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->patient->firstName <= x) {
+			while (i < getSize() && getHistoryAt(i)->patient->firstName <= name) {
 				i = i * 2;
 				if (i > getSize()) {
 					break;
 				}
 			}
-			return binarySearchName(i / 2, min(i, getSize()), x); 
+			return binarySearchName(i / 2, min(i, getSize()), name);
 		}
 	}
 
-	int binarySearchID(int j, int k, string x) {
+	int binarySearchID(int j, int k, string id) {
 
-		if (j > k) { 
+		if (j >= k) { 
 			return -1;
 			
 		}
 
 		int mid = j + (k - j) / 2;
 
-		if (getHistoryAt(mid)->patient->UserID == x) {
+		if (getHistoryAt(mid)->patient->UserID == id) {
 			return mid;
 		}
-		else if (getHistoryAt(mid)->patient->UserID > x) {
-			return binarySearchID(j, mid - 1, x);
+		else if (getHistoryAt(mid)->patient->UserID > id) {
+			return binarySearchID(j, mid - 1, id);
 		}
 		else {
-			return binarySearchID(mid + 1, k, x);
+			return binarySearchID(mid + 1, k, id);
 		}
 	}
 
-	int exponentialSearchID(string x) {
+	int exponentialSearchID(string id) {
 
-		if (getHistoryAt(0)->patient->UserID == x) {
+		if (getHistoryAt(0)->patient->UserID == id) {
 			return 0;
 		}
 		else {
 			int i = 1;
 
-			while (i < getSize() && getHistoryAt(i)->patient->UserID <= x) {
+			while (i < getSize() && getHistoryAt(i)->patient->UserID <= id) {
 				i = i * 2;
 				if (i > getSize()) {
 					break;
 				}
 			}
 
-			return binarySearchID(i / 2, min(i, getSize()), x);
+			return binarySearchID(i / 2, min(i, getSize()), id);
 		}
 	}
 
@@ -1092,11 +1069,11 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		if (index + 1 < getSize()) { //waitinglist search name fix
+		if (index + 1 < getSize()) {	// waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
 					indexList->appendIndexLast(index + i);
 					i = i + 1;
-					if (index+i >= getSize()) {//waitinglist search name fix
+					if (index+i >= getSize()) {		// waitinglist search name fix
 						break;
 					}
 			}		
@@ -1117,11 +1094,11 @@ public:
 		indexList->appendIndexFirst(index);
 		int i = 1;
 
-		if (index + 1 < getSize()) { //waitinglist search name fix,if last then do loop
+		if (index + 1 < getSize()) {	// waitinglist search name fix,if last then do loop
 			while (search_term == getHistoryAt(index + i)->sickness) {
 				indexList->appendIndexLast(index + i);
 				i = i + 1;
-				if (index + i >= getSize()) {//waitinglist search name fix
+				if (index + i >= getSize()) {		// waitinglist search name fix
 					break;
 				}
 			}
@@ -1137,7 +1114,7 @@ public:
 		}
 	}
 
-	void searchRangeID(IndexLinkedList* indexList, int index, string search_term,int option) { //option 1 for asc , 0 for desc
+	void searchRangeID(IndexLinkedList* indexList, int index, string search_term, int option) {		// option 1 for asc, 0 for desc
 
 		indexList->appendIndexFirst(index);
 		int i = 1;
@@ -1218,19 +1195,19 @@ public:
 		cout << "\n";
 	}
 
-	void display(int listNumber) {
+	void display(int term) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 
-		if(listNumber == 0)
+		if(term == 0)
 		{
 			cout << "                       Patient List                       \n";
 		}
-		else if(listNumber == 1)
+		else if(term == 1)
 		{
 			cout << "                       Treating List                       \n";
 		}
-		else if (listNumber == 2)
+		else if (term == 2)
 		{
 			cout << "                       Waiting List                       \n";
 		}
@@ -1244,33 +1221,33 @@ public:
 		}
 		else
 		{
-			HistoryNode* temp = head;
+			HistoryNode* current = head;
 
-			while (temp != NULL) {
+			while (current != NULL) {
 
 				cout << "\033[1;33m---------------------------------------------------------------\n";
 				cout << "\n";
-				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentHistory->patient->UserID << "\n";
-				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentHistory->patient->firstName << "\n";
-				cout << "\033[1;33mLast Name: \033[0m" << temp->currentHistory->patient->lastName << "\n";
-				cout << "\033[1;33mGender: \033[0m" << temp->currentHistory->patient->gender << "\n";
-				cout << "\033[1;33mAge: \033[0m" << temp->currentHistory->patient->age << "\n";
-				cout << "\033[1;33mPhone Number: \033[0m" << temp->currentHistory->patient->phone << "\n";
-				cout << "\033[1;33mAddress: \033[0m" << temp->currentHistory->patient->address << "\n";
-				cout << "\033[1;33mDisability Option: \033[0m" << temp->currentHistory->patient->disability << "\n";
-				cout << "\033[1;33mPriority: \033[0m" << temp->currentHistory->patient->priority << "\n";
-				cout << "\033[1;33mVisit Date: \033[0m" << temp->currentHistory->visitDate << "\n";
-				cout << "\033[1;33mVisit Time: \033[0m" << temp->currentHistory->visitTime << "\n";
+				cout << "\033[1;33mPatient ID: \033[0m" << current->currentHistory->patient->UserID << "\n";
+				cout << "\033[1;33mFirst Name: \033[0m" << current->currentHistory->patient->firstName << "\n";
+				cout << "\033[1;33mLast Name: \033[0m" << current->currentHistory->patient->lastName << "\n";
+				cout << "\033[1;33mGender: \033[0m" << current->currentHistory->patient->gender << "\n";
+				cout << "\033[1;33mAge: \033[0m" << current->currentHistory->patient->age << "\n";
+				cout << "\033[1;33mPhone Number: \033[0m" << current->currentHistory->patient->phone << "\n";
+				cout << "\033[1;33mAddress: \033[0m" << current->currentHistory->patient->address << "\n";
+				cout << "\033[1;33mDisability Option: \033[0m" << current->currentHistory->patient->disability << "\n";
+				cout << "\033[1;33mPriority: \033[0m" << current->currentHistory->patient->priority << "\n";
+				cout << "\033[1;33mVisit Date: \033[0m" << current->currentHistory->visitDate << "\n";
+				cout << "\033[1;33mVisit Time: \033[0m" << current->currentHistory->visitTime << "\n";
 
-				if (temp->currentHistory->sickness != "" && temp->currentHistory->doctor != NULL && temp->currentHistory->medicine != "")
+				if (current->currentHistory->sickness != "" && current->currentHistory->doctor != NULL && current->currentHistory->medicine != "")
 				{
-					cout << "\033[1;33mSickness Description: \033[0m" << temp->currentHistory->sickness << "\n";
-					cout << "\033[1;33mDoctor Assigned: \033[0m" << temp->currentHistory->doctor->doctorName << "\n";
-					cout << "\033[1;33mMedicine Prescription: \033[0m" << temp->currentHistory->medicine << "\n";
+					cout << "\033[1;33mSickness Description: \033[0m" << current->currentHistory->sickness << "\n";
+					cout << "\033[1;33mDoctor Assigned: \033[0m" << current->currentHistory->doctor->doctorName << "\n";
+					cout << "\033[1;33mMedicine Prescription: \033[0m" << current->currentHistory->medicine << "\n";
 				}
 				else
 				{
-					if (listNumber != 2)
+					if (term != 2)
 					{
 						cout << "\033[1;33mSickness Description: " << "\033[1;31mTBD\033[0m" << "\n";
 						cout << "\033[1;33mDoctor Assigned: " << "\033[1;31mTBD\033[0m" << "\n";
@@ -1280,7 +1257,7 @@ public:
 
 				cout << "\n";
 
-				temp = temp->nextNode;
+				current = current->nextNode;
 			}
 		}
 	}
@@ -1300,7 +1277,17 @@ public:
 		tail = NULL;
 	}
 
-	~PatientLinkedList() {};
+	~PatientLinkedList() {
+
+		PatientNode* current = head;
+		PatientNode* next;
+
+		while (current != NULL) {
+			next = current->nextNode;
+			delete current;
+			current = next;
+		}
+	};
 
 	void appendPatient(Patient* patient) {
 
@@ -1413,101 +1400,25 @@ public:
 		}
 	}
 
-	/*int binarySearchID(int j, int k, string x) {
-
-		if (j > k) {
-			return -1;
-		}
-
-		int mid = j + (k - j) / 2;
-
-		if (getPatientAt(mid)->UserID == x) {
-			return mid;
-		}
-		else if (getPatientAt(mid)->UserID > x) {
-			return binarySearchID(j, mid - 1, x);
-		}
-		else {
-			return binarySearchID(mid + 1, k, x);
-		}
-	}*/
-
-	/*int exponentialSearchID(string x) {
-
-		if (getPatientAt(0)->UserID == x) {
-			return 0;
-		}
-		else {
-			int i = 1;
-
-			while (i < getSize() && getPatientAt(i)->UserID <= x) {
-				i = i * 2;
-				if (i > getSize()) {
-					break;
-				}
-			}
-
-			return binarySearchID(i / 2, min(i, getSize()), x);
-		}
-	}*/
-
-	/*int binarySearchName(int j, int k, string x) {
-
-		if (j > k) {
-			return -1;
-		}
-
-		int mid = j + (k - j) / 2;
-
-		if (getPatientAt(mid)->firstName == x) {
-			return mid;
-		}
-		else if (getPatientAt(mid)->firstName > x) {
-			return binarySearchName(j, mid - 1, x);
-		}
-		else {
-			return binarySearchName(mid + 1, k, x);
-		}
-	}*/
-
-	/*int exponentialSearchName(string x) {
-
-		if (getPatientAt(0)->firstName == x) {
-			return 0;
-		}
-		else {
-			int i = 1;
-
-			while (i < getSize() && getPatientAt(i)->firstName <= x) {
-				i = i * 2;
-				if (i > getSize()) {
-					break;
-				}
-			}
-
-			return binarySearchName(i / 2, min(i, getSize()), x);
-		}
-	}*/
-
-	void display(HistoryLinkedList* tempHistory, int index2) {
+	void display(HistoryLinkedList* tempHistory, int index) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
-		cout << "                     Search Result - " + getPatientAt(index2)->UserID + "\n";
+		cout << "                     Search Result - " + getPatientAt(index)->UserID + "\n";
 		cout << "\033[1;33m---------------------------------------------------------------\n";
 		cout << "\n";
 
-		cout << "\033[1;33mPatient ID: \033[0m" << getPatientAt(index2)->UserID << "\n";
-		cout << "\033[1;33mFirst Name: \033[0m" << getPatientAt(index2)->firstName << "\n";
-		cout << "\033[1;33mLast Name: \033[0m" << getPatientAt(index2)->lastName << "\n";
-		cout << "\033[1;33mGender: \033[0m" << getPatientAt(index2)->gender << "\n";
-		cout << "\033[1;33mAge: \033[0m" << getPatientAt(index2)->age << "\n";
-		cout << "\033[1;33mPhone Number: \033[0m" << getPatientAt(index2)->phone << "\n";
-		cout << "\033[1;33mAddress: \033[0m" << getPatientAt(index2)->address << "\n";
-		cout << "\033[1;33mDisability Option: \033[0m" << getPatientAt(index2)->disability << "\n";
-		cout << "\033[1;33mPriority: \033[0m" << getPatientAt(index2)->priority << "\n";
+		cout << "\033[1;33mPatient ID: \033[0m" << getPatientAt(index)->UserID << "\n";
+		cout << "\033[1;33mFirst Name: \033[0m" << getPatientAt(index)->firstName << "\n";
+		cout << "\033[1;33mLast Name: \033[0m" << getPatientAt(index)->lastName << "\n";
+		cout << "\033[1;33mGender: \033[0m" << getPatientAt(index)->gender << "\n";
+		cout << "\033[1;33mAge: \033[0m" << getPatientAt(index)->age << "\n";
+		cout << "\033[1;33mPhone Number: \033[0m" << getPatientAt(index)->phone << "\n";
+		cout << "\033[1;33mAddress: \033[0m" << getPatientAt(index)->address << "\n";
+		cout << "\033[1;33mDisability Option: \033[0m" << getPatientAt(index)->disability << "\n";
+		cout << "\033[1;33mPriority: \033[0m" << getPatientAt(index)->priority << "\n";
 
-		int index = tempHistory->checkExistence(getPatientAt(index2)->UserID);
-		History* history = tempHistory->getHistoryAt(index);
+		int index2 = tempHistory->checkExistence(getPatientAt(index)->UserID);
+		History* history = tempHistory->getHistoryAt(index2);
 
 		cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
 		cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
@@ -1528,42 +1439,42 @@ public:
 		}
 		else
 		{
-			PatientNode* temp = head;
+			PatientNode* current = head;
 
-			while (temp != NULL) {
+			while (current != NULL) {
 
 				cout << "\033[1;33m---------------------------------------------------------------\n";
 				cout << "\n";
-				cout << "\033[1;33mPatient ID: \033[0m" << temp->currentPatient->UserID << "\n";
-				cout << "\033[1;33mFirst Name: \033[0m" << temp->currentPatient->firstName << "\n";
-				cout << "\033[1;33mLast Name: \033[0m" << temp->currentPatient->lastName << "\n";
-				cout << "\033[1;33mGender: \033[0m" << temp->currentPatient->gender << "\n";
-				cout << "\033[1;33mAge: \033[0m" << temp->currentPatient->age << "\n";
-				cout << "\033[1;33mPhone Number: \033[0m" << temp->currentPatient->phone << "\n";
-				cout << "\033[1;33mAddress: \033[0m" << temp->currentPatient->address << "\n";
-				cout << "\033[1;33mDisability Option: \033[0m" << temp->currentPatient->disability << "\n";
-				cout << "\033[1;33mPriority: \033[0m" << temp->currentPatient->priority << "\n";
+				cout << "\033[1;33mPatient ID: \033[0m" << current->currentPatient->UserID << "\n";
+				cout << "\033[1;33mFirst Name: \033[0m" << current->currentPatient->firstName << "\n";
+				cout << "\033[1;33mLast Name: \033[0m" << current->currentPatient->lastName << "\n";
+				cout << "\033[1;33mGender: \033[0m" << current->currentPatient->gender << "\n";
+				cout << "\033[1;33mAge: \033[0m" << current->currentPatient->age << "\n";
+				cout << "\033[1;33mPhone Number: \033[0m" << current->currentPatient->phone << "\n";
+				cout << "\033[1;33mAddress: \033[0m" << current->currentPatient->address << "\n";
+				cout << "\033[1;33mDisability Option: \033[0m" << current->currentPatient->disability << "\n";
+				cout << "\033[1;33mPriority: \033[0m" << current->currentPatient->priority << "\n";
 
-				int index = tempHistory->checkExistence(temp->currentPatient->UserID);
+				int index = tempHistory->checkExistence(current->currentPatient->UserID);
 				History* history = tempHistory->getHistoryAt(index);
 
 				cout << "\033[1;33mVisit Date: \033[0m" << history->visitDate << "\n";
 				cout << "\033[1;33mVisit Time: \033[0m" << history->visitTime << "\n";
 				cout << "\n";
 
-				temp = temp->nextNode;
+				current = current->nextNode;
 			}
 		}
 	}
 };
 
 void printHeader() {
-	cout << "\033[1;34m---------------------------------------------------------------" << endl;
-	cout << "   \033[1;94mKlinik Sulaiman - Patient Queue Based Management System \033[1;34m   " << endl;
+	cout << "\033[1;33m---------------------------------------------------------------" << endl;
+	cout << "   Klinik Sulaiman - Patient Queue Based Management System" << endl;
 	cout << "---------------------------------------------------------------\n" << endl;;
 };
 
-void clear() // Clear the terminal when logout
+void clear() // Clear the terminal after logout
 {
 	cout << "\x1B[2J\x1B[H";
 };
@@ -1576,12 +1487,21 @@ int main() {
 	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 
-	Patient* patient1 = new Patient("U001", "Alex", "A", "Male", 17, "0123456789", "Street 1", "false");
-	Patient* patient2 = new Patient("U002", "Bob", "B", "Male", 23, "0123456789", "Street 2", "false");
-	Patient* patient3 = new Patient("U003", "Caitlin", "C", "Female", 21, "0123456789", "Street 3", "true");
-	Patient* patient4 = new Patient("U004", "Daniel", "D", "Male", 25, "0135123411", "Street 4", "false");
+	Patient* patient1 = new Patient("U001", "Alex", "Morgan", "Male", 16, "0123456789", "Street 1", "true");
+	Patient* patient2 = new Patient("U002", "Bob", "Dylan", "Male", 23, "0123456789", "Street 2", "true");
+	Patient* patient3 = new Patient("U003", "Caitlin", "Jenner", "Female", 19, "0123456789", "Street 3", "false");
+	Patient* patient4 = new Patient("U004", "Daniel", "Lewis", "Male", 27, "0123456789", "Street 4", "false");
+	Patient* patient5 = new Patient("U005", "Eva", "May", "Female", 26, "0123456789", "Street 5", "true");
+	Patient* patient6 = new Patient("U006", "Fiona", "Lim", "Female", 22, "0123456789", "Street 6", "false");
+	Patient* patient7 = new Patient("U007", "Griffin", "Johnson", "Male", 35, "0123456789", "Street 7", "false");
 
-	Doctor* doctor1 = new Doctor("Dr Nick");
+	Nurse* nurse1 = new Nurse("Mary");
+	Nurse* nurse2 = new Nurse("Elizabeth");
+	Nurse* nurse3 = new Nurse("Clara");
+
+	Doctor* doctor1 = new Doctor("Dr. Nick");
+	Doctor* doctor2 = new Doctor("Dr. Phil");
+	Doctor* doctor3 = new Doctor("Dr. Miller");
 
 	Medicine* medicine1 = new Medicine("M001", "Antibiotics", 115);
 	Medicine* medicine2 = new Medicine("M002", "Vicodin", 15);
@@ -1595,19 +1515,17 @@ int main() {
 	Medicine* medicine10 = new Medicine("M010", "Amoxicillin", 73);
 	Medicine* medicine11 = new Medicine("M011", "Hydrochlorothiazide", 99);
 
-	//History* treating1 = new History("10/09/2021", "11:05:33", patient4);
-
-	History* history1 = new History("21/05/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
-	History* history2 = new History("10/08/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor1);
-	History* history3 = new History("31/08/2021", "14:55:06", "Headache", "Simvastatin", patient3, doctor1);
-
-	//waitingList->appendPatient(patient1);
-	//waitingList->appendPatient(patient2);
-	//waitingList->appendPatient(patient3);
+	History* history1 = new History("21/02/2021", "11:05:33", "Vomit", "Antibiotics", patient1, doctor1);
+	History* history2 = new History("10/03/2021", "09:30:55", "Fever", "Vicodin", patient2, doctor2);
+	History* history3 = new History("19/06/2021", "14:55:06", "Headache", "Simvastatin", patient3, doctor3);
+	History* history4 = new History("05/07/2021", "17:48:31", "Skin Allergic", "Lipitor", patient5, doctor2);
+	History* history5 = new History("16/08/2021", "22:10:59", "Flu", "Amoxicillin", patient6, doctor1);
 
 	historyList->appendHistory(history1);
 	historyList->appendHistory(history2);
 	historyList->appendHistory(history3);
+	historyList->appendHistory(history4);
+	historyList->appendHistory(history5);
 
 	medicineList->appendMedicine(medicine1);
 	medicineList->appendMedicine(medicine2);
@@ -1621,16 +1539,16 @@ int main() {
 	medicineList->appendMedicine(medicine10);
 	medicineList->appendMedicine(medicine11);
 
-	//treatingList->appendHistory(treating1);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	string patientID, firstName, lastName, gender, phone, address, sickness, disability;
 	int age, priority;
+	Nurse* nurseOnDuty = nurse1;
+	Doctor* doctorOnDuty = doctor1;
 
 	string search_term, firstVisit, medicineID, medicineName;
-	int option, index, temp, medicineAmount;
-	int totalPatient = 4;
+	int loginAsNurse = 0, loginAsDoctor = 0, option, index, temp, medicineAmount;
+	int totalPatient = 7;
 	int totalMedicine = 11;
 
 	do
@@ -1638,19 +1556,53 @@ int main() {
 		cout << "\n";
 		printHeader();
 		cout << "\033[0mLogin As: " << endl;
+		cout << "\n";
 		cout << "1. Nurse" << endl;
 		cout << "2. Doctor \n" << endl;
 		cout << "Option: ";
 		cin >> option;
 		cout << "\n";
-		clear();
 
 		switch (option) {
 		case 1:
 			do
 			{
+				while (loginAsNurse != 1 && loginAsNurse != 2 && loginAsNurse != 3)
+				{
+					cout << "\033[1;33m---------------------------------------------------------------\n";
+					cout << "                  Select A Nurse To Login\n";
+					cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+					cout << "\n";
+					cout << "1. " + nurse1->nurseName + "\n";
+					cout << "2. " + nurse2->nurseName + "\n";
+					cout << "3. " + nurse3->nurseName + "\n";
+					cout << "\n";
+					cout << "Login As: ";
+					cin >> loginAsNurse;
+					cout << "\n";
+
+					switch (loginAsNurse)
+					{
+					case 1:
+						nurseOnDuty = nurse1;
+						clear();
+						break;
+					case 2:
+						nurseOnDuty = nurse2;
+						clear();
+						break;
+					case 3:
+						nurseOnDuty = nurse3;
+						clear();
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
+					}
+				};
+				
 				printHeader();
-				cout << "\033[1;32mLogged in as Nurse\033[0m\n" << endl;
+				cout << "\033[1;92mLogged In As: Nurse " + nurseOnDuty->nurseName + "\033[0m\n" << endl;
 				cout << "1. Add Patient to Waiting List" << endl;
 				cout << "2. View Waiting List" << endl;
 				cout << "3. Edit Waiting List Priority" << endl;
@@ -1664,11 +1616,28 @@ int main() {
 				switch (option) {
 				case 1:				// Add Patient to Waiting List
 				{
-					cout << "New Patient? (true/false):  ";
+					cout << "New Patient? (true/false): ";
 					cin >> firstVisit;
+					transform(firstVisit.begin(), firstVisit.end(), firstVisit.begin(), ::tolower);
 
 					if (firstVisit == "true")
 					{
+						if (totalPatient < 9)
+						{
+							patientID = "U00" + to_string(totalPatient + 1);
+						}
+						else if (8 < totalPatient && totalPatient < 99)
+						{
+							patientID = "U0" + to_string(totalPatient + 1);
+						}
+						else
+						{
+							patientID = "U" + to_string(totalPatient + 1);
+						}
+
+						totalPatient++;
+
+						cout << "Patient ID: " + patientID + "\n";
 						cout << "First Name: ";
 						cin >> firstName;
 						cout << "Last Name: ";
@@ -1685,21 +1654,6 @@ int main() {
 						cin >> disability;
 						cout << "\n";
 
-						if (totalPatient < 9)
-						{
-							patientID = "U00" + to_string(totalPatient + 1);
-						}
-						else if (8 < totalPatient && totalPatient < 99)
-						{
-							patientID = "U0" + to_string(totalPatient + 1);
-						}
-						else
-						{
-							patientID = "U" + to_string(totalPatient + 1);
-						}
-
-						totalPatient++;
-
 						Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
 						waitingList->appendPatient(newPatient);
 						History* currentVisit = new History(getCurrentDate(), getCurrentTime(), newPatient);
@@ -1710,7 +1664,7 @@ int main() {
 						cout << "\033[1;33mPatient\033[1;36m " + patientID + "\033[1;33m has been added to waiting list!\033[0m" << endl;
 						cout << "\n";
 					}
-					else
+					else if (firstVisit == "false")
 					{
 						cout << "Patient ID: ";
 						cin >> patientID;
@@ -1746,6 +1700,12 @@ int main() {
 							cout << "\033[1;31mPatient Not Found!\033[0m" << endl;
 							cout << "\n";
 						}
+					}
+					else
+					{
+						cout << "\n";
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
 					}
 
 					option = 0;
@@ -2051,7 +2011,8 @@ int main() {
 
 							medicineList->appendMedicine(newMedicine);
 
-							medicineList->appendMedicine(med);
+							cout << "\033[1;33mNew Record of Medicine\033[1;36m " + medicineID + "\033[1;33m has been saved!\033[0m" << endl;
+							cout << "\n";
 
 							option = 0;
 							break;
@@ -2067,6 +2028,7 @@ int main() {
 					option = 0;
 					break;
 				case 6:
+					loginAsNurse = 0;
 					clear();
 					break;
 				default:
@@ -2080,8 +2042,42 @@ int main() {
 		case 2:
 			do
 			{
+				while (loginAsDoctor != 1 && loginAsDoctor != 2 && loginAsDoctor != 3)
+				{
+					cout << "\033[1;33m---------------------------------------------------------------\n";
+					cout << "                  Select A Doctor To Login\n";
+					cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+					cout << "\n";
+					cout << "1. " + doctor1->doctorName + "\n";
+					cout << "2. " + doctor2->doctorName + "\n";
+					cout << "3. " + doctor3->doctorName + "\n";
+					cout << "\n";
+					cout << "Login As: ";
+					cin >> loginAsDoctor;
+					cout << "\n";
+
+					switch (loginAsDoctor)
+					{
+					case 1:
+						doctorOnDuty = doctor1;
+						clear();
+						break;
+					case 2:
+						doctorOnDuty = doctor2;
+						clear();
+						break;
+					case 3:
+						doctorOnDuty = doctor3;
+						clear();
+						break;
+					default:
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
+						cout << "\n";
+					}
+				};
+
 				printHeader();
-				cout << "\033[1;32mLogged in as Doctor\033[0m\n" << endl;
+				cout << "\033[1;92mLogged In As: Doctor " + doctorOnDuty->doctorName.substr(4) + "\033[0m\n" << endl;
 				cout << "1. View Waiting List" << endl;
 				cout << "2. View Patient List" << endl;
 				cout << "3. View Treating List" << endl;
@@ -2171,7 +2167,6 @@ int main() {
 									}
 									case 2:			// Sort by Visit History
 									{
-										//historyList->display(0);
 										IndexLinkedList* indexList = new IndexLinkedList();
 										historyList->searchRangeID(indexList, index, patientID, 0);
 
@@ -2321,7 +2316,7 @@ int main() {
 										{
 											treatingList->getHistoryAt(index)->medicine = medicineList->getMedicineAt(temp)->medicineName;
 											treatingList->getHistoryAt(index)->sickness = sickness;
-											treatingList->getHistoryAt(index)->doctor = doctor1;
+											treatingList->getHistoryAt(index)->doctor = doctorOnDuty;
 											History* history = treatingList->getHistoryAt(index);
 											historyList->appendHistory(history);
 											treatingList->deleteAt(index);
@@ -2353,6 +2348,7 @@ int main() {
 					option = 0;
 					break;
 				case 4:
+					loginAsDoctor = 0;
 					clear();
 					break;
 				default:
