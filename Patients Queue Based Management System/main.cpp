@@ -1066,7 +1066,9 @@ public:
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
 
-		indexList->appendIndexFirst(index);
+		if (index != -1) {
+			indexList->appendIndexFirst(index);
+		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {	// waitinglist search name fix
@@ -1081,7 +1083,7 @@ public:
 
 		i = 1;
 
-		if (index - 1 != -1) {
+		if (index - 1 > -1) {
 			while (search_term == getHistoryAt(index - i)->patient->firstName) {
 				indexList->appendIndexFirst(index - i);
 				i = i + 1;
@@ -1091,7 +1093,9 @@ public:
 
 	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
 
-		indexList->appendIndexFirst(index);
+		if (index != -1) {
+			indexList->appendIndexFirst(index);
+		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {	// waitinglist search name fix,if last then do loop
@@ -1106,7 +1110,7 @@ public:
 
 		i = 1;
 
-		if (index - 1 != -1) {
+		if (index - 1 > -1) {
 			while (search_term == getHistoryAt(index - i)->sickness) {
 				indexList->appendIndexFirst(index - i);
 				i = i + 1;
@@ -1115,8 +1119,9 @@ public:
 	}
 
 	void searchRangeID(IndexLinkedList* indexList, int index, string search_term, int option) {		// option 1 for asc, 0 for desc
-
-		indexList->appendIndexFirst(index);
+		if (index != -1) {
+			indexList->appendIndexFirst(index);
+		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {
@@ -1136,8 +1141,7 @@ public:
 
 		i = 1;
 
-		if (index - 1 != -1) {
-			cout << getHistoryAt(index - i)->patient->UserID << endl;
+		if (index - 1 > -1) { //change
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
 				if (option == 0) {
 					indexList->appendIndexLast(index + i);
@@ -1474,6 +1478,25 @@ void printHeader() {
 	cout << "---------------------------------------------------------------\n" << endl;;
 };
 
+string checkPhone(string phone) {
+	string result = "";
+	for (int i = 0; i < phone.length(); i++) {
+		if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+			result += phone[i];
+		}
+		else {
+			cout << "\033[1;31mError! Check again.\033[0m" << endl;
+			cout << "Phone Number: ";
+			cin.clear();
+			cin.ignore(123, '\n');
+			cin >> phone;
+			break;
+		}
+	}
+	
+	return result;
+}
+
 void clearTerminal() // Clear the terminal after logout
 {
 	cout << "\x1B[2J\x1B[H";
@@ -1724,17 +1747,39 @@ int main() {
 							}
 						}
 
-						cout << "Phone Number: "; //Phone Number
+						cout << "Phone Number (e.g. 01(1)23456789): "; //Phone Number
 						cin >> phone;
-						while (size(phone) < 10 && size(phone) > 11)
+						while (1)//Phone Input Validation
 						{
-							cout << "\033[1;31mError! Check again.\033[0m" << endl;
-							cout << "Phone Number: ";
-							cin.clear();
-							cin.ignore(123, '\n');
-							cin >> phone;
+							string result = "";
+							if (size(phone) < 10 || size(phone) > 11)
+							{
+								cout << "\033[1;31mError! Check again.\033[0m" << endl;
+								cout << "Phone Number (e.g. 01(1)23456789): ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> phone;
+							}
+							else
+							{
+								for (int i = 0; i < phone.length(); i++) {
+									if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+										result += phone[i];
+									}
+								}
+								if (size(result) == size(phone)) {
+									phone = result;
+									break;
+								}
+								else {
+									cout << "\033[1;31mError! Check again.\033[0m" << endl;
+									cout << "Phone Number: ";
+									cin.clear();
+									cin.ignore(123, '\n');
+									cin >> phone;
+								}
+							}
 						}
-
 						cin.ignore();
 						cout << "Address: "; //Address
 						getline(cin, address);
@@ -2328,7 +2373,6 @@ int main() {
 							historyList->insertionSortID();
 							index = historyList->exponentialSearchID(patientID);
 							temp = waitingList->checkExistence(patientID);
-
 							IndexLinkedList* indexList = new IndexLinkedList();
 							historyList->searchRangeID(indexList, index, patientID, 1);
 
@@ -2375,15 +2419,38 @@ int main() {
 											cin.ignore(123, '\n');
 											cin >> age;
 										}
-										cout << "New Phone Number: ";
+										cout << "New Phone Number (e.g. 01(1)23456789): ";
 										cin >> phone;
-										while (size(phone) < 10 && size(phone) > 11)
+										while (1)//Phone Input Validation
 										{
-											cout << "\033[1;31mError! Check again.\033[0m" << endl;
-											cout << "Phone Number: ";
-											cin.clear();
-											cin.ignore(123, '\n');
-											cin >> phone;
+											string result = "";
+											if (size(phone) < 10 || size(phone) > 11)
+											{
+												cout << "\033[1;31mError! Check again.\033[0m" << endl;
+												cout << "Phone Number: ";
+												cin.clear();
+												cin.ignore(123, '\n');
+												cin >> phone;
+											}
+											else
+											{
+												for (int i = 0; i < phone.length(); i++) {
+													if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+														result += phone[i];
+													}
+												}
+												if (size(result) == size(phone)) {
+													phone = result;
+													break;
+												}
+												else {
+													cout << "\033[1;31mError! Check again.\033[0m" << endl;
+													cout << "Phone Number: ";
+													cin.clear();
+													cin.ignore(123, '\n');
+													cin >> phone;
+												}
+											}
 										}
 										cin.ignore();
 										cout << "New Address: ";

@@ -32,8 +32,7 @@ Proposal:
 
 To Do:
 1) Viewing Mode
-2) Input Validation
-3) Comments
+2) Comments
 
 CLI Menu Flow:
 
