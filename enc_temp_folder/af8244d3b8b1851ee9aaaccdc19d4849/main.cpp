@@ -1083,7 +1083,7 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) {
+		if (index - 1 != -1) {
 			while (search_term == getHistoryAt(index - i)->patient->firstName) {
 				indexList->appendIndexFirst(index - i);
 				i = i + 1;
@@ -1110,7 +1110,7 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) {
+		if (index - 1 != -1) {
 			while (search_term == getHistoryAt(index - i)->sickness) {
 				indexList->appendIndexFirst(index - i);
 				i = i + 1;
