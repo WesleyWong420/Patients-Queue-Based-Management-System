@@ -1474,7 +1474,7 @@ void printHeader() {
 	cout << "---------------------------------------------------------------\n" << endl;;
 };
 
-void clear() // Clear the terminal after logout
+void clearTerminal() // Clear the terminal after logout
 {
 	cout << "\x1B[2J\x1B[H";
 };
@@ -1558,9 +1558,26 @@ int main() {
 		cout << "\033[0mLogin As: " << endl;
 		cout << "\n";
 		cout << "1. Nurse" << endl;
-		cout << "2. Doctor \n" << endl;
+		cout << "2. Doctor" << endl;
+		cout << "3. Exit \n" << endl;
 		cout << "Option: ";
 		cin >> option;
+
+		while (cin.fail())
+		{
+			cout << "\n";
+			cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+			printHeader();
+			cout << "\033[0mLogin As: " << endl;
+			cout << "\n";
+			cout << "1. Nurse" << endl;
+			cout << "2. Doctor" << endl;
+			cout << "3. Exit \n" << endl;
+			cout << "Option: ";
+			cin.clear();
+			cin.ignore(123, '\n');
+			cin >> option;
+		}
 		cout << "\n";
 
 		switch (option) {
@@ -1579,21 +1596,37 @@ int main() {
 					cout << "\n";
 					cout << "Login As: ";
 					cin >> loginAsNurse;
+
+					while (cin.fail())
+					{
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+						cout << "\033[1;33m---------------------------------------------------------------\n";
+						cout << "                  Select A Nurse To Login\n";
+						cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+						cout << "\n";
+						cout << "1. " + nurse1->nurseName + "\n";
+						cout << "2. " + nurse2->nurseName + "\n";
+						cout << "3. " + nurse3->nurseName + "\n";
+						cout << "\n";
+						cout << "Login As: ";
+						cin.clear();
+						cin.ignore(123, '\n');
+						cin >> loginAsNurse;
+					}
 					cout << "\n";
 
-					switch (loginAsNurse)
-					{
+					switch (loginAsNurse) {
 					case 1:
 						nurseOnDuty = nurse1;
-						clear();
+						clearTerminal();
 						break;
 					case 2:
 						nurseOnDuty = nurse2;
-						clear();
+						clearTerminal();
 						break;
 					case 3:
 						nurseOnDuty = nurse3;
-						clear();
+						clearTerminal();
 						break;
 					default:
 						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
@@ -1611,6 +1644,23 @@ int main() {
 				cout << "6. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
+
+				while (cin.fail())
+				{
+					cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+					printHeader();
+					cout << "\033[1;92mLogged In As: Nurse " + nurseOnDuty->nurseName + "\033[0m\n" << endl;
+					cout << "1. Add Patient to Waiting List" << endl;
+					cout << "2. View Waiting List" << endl;
+					cout << "3. Edit Waiting List Priority" << endl;
+					cout << "4. Call Patient for Treatment" << endl;
+					cout << "5. View Medicine List" << endl;
+					cout << "6. Logout \n" << endl;
+					cout << "Action: ";
+					cin.clear();
+					cin.ignore(123, '\n');
+					cin >> option;
+				}
 				cout << "\n";
 
 				switch (option) {
@@ -1637,21 +1687,75 @@ int main() {
 
 						totalPatient++;
 
-						cout << "Patient ID: " + patientID + "\n";
-						cout << "First Name: ";
+						cout << "Patient ID: " + patientID + "\n"; //Patient ID
+						cout << "First Name: "; //Input First Name
 						cin >> firstName;
-						cout << "Last Name: ";
+						cout << "Last Name: "; //Input Last Name
 						cin >> lastName;
-						cout << "Age: ";
-						cin >> age;
-						cout << "Gender: ";
+						cout << "Age: "; //Age
+						cin >> age;				
+
+						while (cin.fail())
+						{
+							cout << "\033[1;31mError! Check again.\033[0m" << endl;
+							cout << "Age: ";
+							cin.clear();
+							cin.ignore(123, '\n');
+							cin >> age;
+						}
+
+						cout << "Gender (Male/Female): "; //Gender
 						cin >> gender;
-						cout << "Phone Number: ";
+						transform(gender.begin(), gender.end(), gender.begin(), ::tolower);
+						while (1)
+						{
+							if (gender == "male" || gender == "female")
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31mError! Check again.\033[0m" << endl;
+								cout << "Gender (Male/Female): ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> gender;
+								transform(gender.begin(), gender.end(), gender.begin(), ::tolower);
+							}
+						}
+
+						cout << "Phone Number: "; //Phone Number
 						cin >> phone;
-						cout << "Address: ";
-						cin >> address;
-						cout << "Disability Option (true/false): ";
+						while (size(phone) < 10 && size(phone) > 11)
+						{
+							cout << "\033[1;31mError! Check again.\033[0m" << endl;
+							cout << "Phone Number: ";
+							cin.clear();
+							cin.ignore(123, '\n');
+							cin >> phone;
+						}
+
+						cin.ignore();
+						cout << "Address: "; //Address
+						getline(cin, address);
+
+						cout << "Disability Option (true/false): "; //Disability
 						cin >> disability;
+						while (1)
+						{
+							if (disability == "true" || disability == "false")
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31mError! Check again.\033[0m" << endl;
+								cout << "Disability Option (true/false): ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> disability;
+							}
+						}
 						cout << "\n";
 
 						Patient* newPatient = new Patient(patientID, firstName, lastName, gender, age, phone, address, disability);
@@ -1666,7 +1770,7 @@ int main() {
 					}
 					else if (firstVisit == "false")
 					{
-						cout << "Patient ID: ";
+						cout << "Patient ID (e.g. U001): ";
 						cin >> patientID;
 						sickness = "";
 
@@ -1725,11 +1829,24 @@ int main() {
 							cout << "4. Back \n" << endl;
 							cout << "Action: ";
 							cin >> option;
+
+							while (cin.fail())
+							{
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+								cout << "1. Search for Patient by Patient ID" << endl;
+								cout << "2. Search for Patient by First Name" << endl;
+								cout << "3. Sort by Visit Time" << endl;
+								cout << "4. Back \n" << endl;
+								cout << "Action: ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> option;
+							}
 							cout << "\n";
 
 							switch (option) {
 							case 1:
-								cout << "Patient ID: ";
+								cout << "Patient ID (e.g. U001): ";
 								cin >> search_term;
 								cout << "\n";
 
@@ -1790,7 +1907,7 @@ int main() {
 					option = 0;
 					break;
 				case 3:				// Edit Waiting List Priority
-					cout << "Patient ID: ";
+					cout << "Patient ID (e.g. U001): ";
 					cin >> patientID;
 
 					index = waitingList->checkExistence(patientID);
@@ -1807,6 +1924,16 @@ int main() {
 						{
 							cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
 							cin >> priority;
+
+							while (cin.fail())
+							{
+								cout << "\n";
+								cout << "\033[1;31mUse numbers instead.\033[0m" << endl << endl;
+								cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> priority;
+							}
 							cout << "\n";
 
 							if (priority == 1 || priority == 2 || priority == 3)
@@ -1832,7 +1959,7 @@ int main() {
 					break;
 				case 4:				// Call Patient for Treatment
 				{
-					cout << "Patient ID: ";
+					cout << "Patient ID (e.g. U001): ";
 					cin >> patientID;
 					cout << "\n";
 
@@ -1878,11 +2005,27 @@ int main() {
 						cout << "6. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
+
+						while (cin.fail())
+						{
+							cout << "\n";
+							cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+							cout << "1. Search for Medicine by Medicine ID " << endl;
+							cout << "2. Search for Medicine by Medicine Name" << endl;
+							cout << "3. Sort by Quantity" << endl;
+							cout << "4. Edit Medicine" << endl;
+							cout << "5. Add Medicine" << endl;
+							cout << "6. Back \n" << endl;
+							cout << "Action: ";
+							cin.clear();
+							cin.ignore(123, '\n');
+							cin >> option;
+						}
 						cout << "\n";
 
 						switch (option) {
 						case 1:					// Search for Medicine by Medicine
-							cout << "Medicine ID: ";
+							cout << "Medicine ID (e.g. M001): ";
 							cin >> search_term;
 							cout << "\n";
 
@@ -1944,6 +2087,20 @@ int main() {
 									cout << "\n";
 									cout << "Action: ";
 									cin >> option;
+
+									while (cin.fail())
+									{
+										cout << "\n";
+										cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+										cout << "1. Edit Quantity" << endl;
+										cout << "2. Delete" << endl;
+										cout << "3. Cancel" << endl;
+										cout << "\n";
+										cout << "Action: ";
+										cin.clear();
+										cin.ignore(123, '\n');
+										cin >> option;
+									}
 									cout << "\n";
 
 									switch (option) {
@@ -1990,6 +2147,16 @@ int main() {
 							cout << "\n";
 							cout << "Medicine Quantity: ";
 							cin >> medicineAmount;
+
+							while (cin.fail())
+							{
+								cout << "\n";
+								cout << "\033[1;31mInvalid Amount!\033[0m" << endl << endl;
+								cout << "Medicine Quantity: ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> medicineAmount;
+							}
 							cout << "\n";
 
 							if (totalMedicine < 9)
@@ -2006,9 +2173,7 @@ int main() {
 							}
 
 							totalMedicine++;
-
 							Medicine* newMedicine = new Medicine(medicineID, medicineName, medicineAmount);
-
 							medicineList->appendMedicine(newMedicine);
 
 							cout << "\033[1;33mNew Record of Medicine\033[1;36m " + medicineID + "\033[1;33m has been saved!\033[0m" << endl;
@@ -2029,7 +2194,7 @@ int main() {
 					break;
 				case 6:
 					loginAsNurse = 0;
-					clear();
+					clearTerminal();
 					break;
 				default:
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl;
@@ -2054,21 +2219,38 @@ int main() {
 					cout << "\n";
 					cout << "Login As: ";
 					cin >> loginAsDoctor;
+
+					while (cin.fail())
+					{
+						cout << "\n";
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+						cout << "\033[1;33m---------------------------------------------------------------\n";
+						cout << "                  Select A Doctor To Login\n";
+						cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
+						cout << "\n";
+						cout << "1. " + doctor1->doctorName + "\n";
+						cout << "2. " + doctor2->doctorName + "\n";
+						cout << "3. " + doctor3->doctorName + "\n";
+						cout << "\n";
+						cout << "Login As: ";
+						cin.clear();
+						cin.ignore(123, '\n');
+						cin >> loginAsDoctor;
+					}
 					cout << "\n";
 
-					switch (loginAsDoctor)
-					{
+					switch (loginAsDoctor) {
 					case 1:
 						doctorOnDuty = doctor1;
-						clear();
+						clearTerminal();
 						break;
 					case 2:
 						doctorOnDuty = doctor2;
-						clear();
+						clearTerminal();
 						break;
 					case 3:
 						doctorOnDuty = doctor3;
-						clear();
+						clearTerminal();
 						break;
 					default:
 						cout << "\033[1;31mInvalid Option!\033[0m" << endl;
@@ -2084,6 +2266,22 @@ int main() {
 				cout << "4. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
+
+				while (cin.fail())
+				{
+					cout << "\n";
+					cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+					printHeader();
+					cout << "\033[1;92mLogged In As: Doctor " + doctorOnDuty->doctorName.substr(4) + "\033[0m\n" << endl;
+					cout << "1. View Waiting List" << endl;
+					cout << "2. View Patient List" << endl;
+					cout << "3. View Treating List" << endl;
+					cout << "4. Logout \n" << endl;
+					cout << "Action: ";
+					cin.clear();
+					cin.ignore(123, '\n');
+					cin >> option;
+				}
 				cout << "\n";
 
 				switch (option) {
@@ -2104,12 +2302,26 @@ int main() {
 						cout << "4. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
+
+						while (cin.fail())
+						{
+							cout << "\n";
+							cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+							cout << "1. Search Specific Patient by Patient ID" << endl;
+							cout << "2. Search Patients by Sickness" << endl;
+							cout << "3. Search Patients by First Name" << endl;
+							cout << "4. Back \n" << endl;
+							cout << "Action: ";
+							cin.clear();
+							cin.ignore(123, '\n');
+							cin >> option;
+						}
 						cout << "\n";
 
 						switch (option) {
 						case 1:			// Search Specific Patient by Patient ID
 						{
-							cout << "Patient ID: ";
+							cout << "Patient ID (e.g. U001): ";
 							cin >> patientID;
 							cout << "\n";
 
@@ -2135,6 +2347,19 @@ int main() {
 									cout << "3. Back \n" << endl;
 									cout << "Action: ";
 									cin >> option;
+
+									while (cin.fail())
+									{
+										cout << "\n";
+										cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+										cout << "1. Modify Patient Record" << endl;
+										cout << "2. Sort by Visit History" << endl;
+										cout << "3. Back \n" << endl;
+										cout << "Action: ";
+										cin.clear();
+										cin.ignore(123, '\n');
+										cin >> option;
+									}
 									cout << "\n";
 
 									switch (option) {
@@ -2142,10 +2367,27 @@ int main() {
 									{
 										cout << "New Age: ";
 										cin >> age;
+										while (cin.fail())
+										{
+											cout << "\033[1;31mError! Enter again.\033[0m" << endl;
+											cout << "Age: ";
+											cin.clear();
+											cin.ignore(123, '\n');
+											cin >> age;
+										}
 										cout << "New Phone Number: ";
 										cin >> phone;
+										while (size(phone) < 10 && size(phone) > 11)
+										{
+											cout << "\033[1;31mError! Check again.\033[0m" << endl;
+											cout << "Phone Number: ";
+											cin.clear();
+											cin.ignore(123, '\n');
+											cin >> phone;
+										}
+										cin.ignore();
 										cout << "New Address: ";
-										cin >> address;
+										getline(cin, address);
 										cout << "\n";
 
 										historyList->getHistoryAt(index)->patient->age = age;
@@ -2277,12 +2519,25 @@ int main() {
 							cout << "\n";
 							cout << "Action: ";
 							cin >> option;
+
+							while (cin.fail())
+							{
+								cout << "\n";
+								cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
+								cout << "1. Complete Treatment" << endl;
+								cout << "2. Back" << endl;
+								cout << "\n";
+								cout << "Action: ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> option;
+							}
 							cout << "\n";
 
 							switch (option)
 							{
 							case 1:			// Complete Treatment
-								cout << "Patient ID: ";
+								cout << "Patient ID (e.g. U001): ";
 								cin >> patientID;
 								index = treatingList->checkExistence(patientID);
 								cout << "\n";
@@ -2300,7 +2555,7 @@ int main() {
 
 									medicineList->display();
 
-									cout << "Medicine ID: ";
+									cout << "Medicine ID (e.g. M001): ";
 									cin >> medicineID;
 									cout << "\n";
 
@@ -2349,7 +2604,7 @@ int main() {
 					break;
 				case 4:
 					loginAsDoctor = 0;
-					clear();
+					clearTerminal();
 					break;
 				default:
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl;
@@ -2358,10 +2613,13 @@ int main() {
 			} while (option != 1 && option != 2 && option != 3 && option != 4 );
 
 			break;
+		case 3:
+			cout << "\033[1;92mYou are successfully exit the system.\033[0m" << endl;
+			return 0;
 		default:
 			cout << "\033[1;31mInvalid Option!\033[0m" << endl;
 		}
-	} while (option != 1 && option != 2);
+	} while (option != 1 && option != 2 && option != 3);
 
 	return 0;
 };
