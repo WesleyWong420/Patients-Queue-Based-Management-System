@@ -1562,10 +1562,11 @@ int main() {
 		cout << "3. Exit \n" << endl;
 		cout << "Option: ";
 		cin >> option;
+
 		while (cin.fail())
 		{
-			cout << "\033[1;31mInvalid Option.\033[0m" << endl << endl;
 			cout << "\n";
+			cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
 			printHeader();
 			cout << "\033[0mLogin As: " << endl;
 			cout << "\n";
@@ -1595,9 +1596,10 @@ int main() {
 					cout << "\n";
 					cout << "Login As: ";
 					cin >> loginAsNurse;
+
 					while (cin.fail())
 					{
-						cout << "\033[1;31mInvalid Option.\033[0m" << endl << endl;
+						cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
 						cout << "\033[1;33m---------------------------------------------------------------\n";
 						cout << "                  Select A Nurse To Login\n";
 						cout << "\033[1;33m---------------------------------------------------------------\033[0m\n";
@@ -1613,8 +1615,7 @@ int main() {
 					}
 					cout << "\n";
 
-					switch (loginAsNurse)
-					{
+					switch (loginAsNurse) {
 					case 1:
 						nurseOnDuty = nurse1;
 						clearTerminal();
@@ -1643,6 +1644,7 @@ int main() {
 				cout << "6. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
+
 				while (cin.fail())
 				{
 					cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
@@ -1691,7 +1693,8 @@ int main() {
 						cout << "Last Name: "; //Input Last Name
 						cin >> lastName;
 						cout << "Age: "; //Age
-						cin >> age;						
+						cin >> age;				
+
 						while (cin.fail())
 						{
 							cout << "\033[1;31mError! Check again.\033[0m" << endl;
@@ -1700,11 +1703,13 @@ int main() {
 							cin.ignore(123, '\n');
 							cin >> age;
 						}
+
 						cout << "Gender (Male/Female): "; //Gender
 						cin >> gender;
+						transform(gender.begin(), gender.end(), gender.begin(), ::tolower);
 						while (1)
 						{
-							if (gender == "Male" || gender == "Female")
+							if (gender == "male" || gender == "female")
 							{
 								break;
 							}
@@ -1717,6 +1722,7 @@ int main() {
 								cin >> gender;
 							}
 						}
+
 						cout << "Phone Number: "; //Phone Number
 						cin >> phone;
 						while (size(phone) < 10 && size(phone) > 11)
@@ -1727,9 +1733,11 @@ int main() {
 							cin.ignore(123, '\n');
 							cin >> phone;
 						}
+
 						cin.ignore();
 						cout << "Address: "; //Address
 						getline(cin, address);
+
 						cout << "Disability Option (true/false): "; //Disability
 						cin >> disability;
 						while (1)
@@ -1820,6 +1828,7 @@ int main() {
 							cout << "4. Back \n" << endl;
 							cout << "Action: ";
 							cin >> option;
+
 							while (cin.fail())
 							{
 								cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
@@ -1914,6 +1923,7 @@ int main() {
 						{
 							cout << "Priority (3 - High, 2 - Medium, 1 - Low) : ";
 							cin >> priority;
+
 							while (cin.fail())
 							{
 								cout << "\n";
@@ -1994,6 +2004,7 @@ int main() {
 						cout << "6. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
+
 						while (cin.fail())
 						{
 							cout << "\n";
@@ -2075,6 +2086,7 @@ int main() {
 									cout << "\n";
 									cout << "Action: ";
 									cin >> option;
+
 									while (cin.fail())
 									{
 										cout << "\n";
@@ -2134,6 +2146,7 @@ int main() {
 							cout << "\n";
 							cout << "Medicine Quantity: ";
 							cin >> medicineAmount;
+
 							while (cin.fail())
 							{
 								cout << "\n";
@@ -2159,9 +2172,7 @@ int main() {
 							}
 
 							totalMedicine++;
-
 							Medicine* newMedicine = new Medicine(medicineID, medicineName, medicineAmount);
-
 							medicineList->appendMedicine(newMedicine);
 
 							cout << "\033[1;33mNew Record of Medicine\033[1;36m " + medicineID + "\033[1;33m has been saved!\033[0m" << endl;
@@ -2207,6 +2218,7 @@ int main() {
 					cout << "\n";
 					cout << "Login As: ";
 					cin >> loginAsDoctor;
+
 					while (cin.fail())
 					{
 						cout << "\n";
@@ -2226,8 +2238,7 @@ int main() {
 					}
 					cout << "\n";
 
-					switch (loginAsDoctor)
-					{
+					switch (loginAsDoctor) {
 					case 1:
 						doctorOnDuty = doctor1;
 						clearTerminal();
@@ -2254,6 +2265,7 @@ int main() {
 				cout << "4. Logout \n" << endl;
 				cout << "Action: ";
 				cin >> option;
+
 				while (cin.fail())
 				{
 					cout << "\n";
@@ -2289,6 +2301,7 @@ int main() {
 						cout << "4. Back \n" << endl;
 						cout << "Action: ";
 						cin >> option;
+
 						while (cin.fail())
 						{
 							cout << "\n";
@@ -2333,6 +2346,7 @@ int main() {
 									cout << "3. Back \n" << endl;
 									cout << "Action: ";
 									cin >> option;
+
 									while (cin.fail())
 									{
 										cout << "\n";
@@ -2504,6 +2518,7 @@ int main() {
 							cout << "\n";
 							cout << "Action: ";
 							cin >> option;
+
 							while (cin.fail())
 							{
 								cout << "\n";
