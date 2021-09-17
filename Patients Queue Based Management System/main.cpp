@@ -1720,6 +1720,7 @@ int main() {
 								cin.clear();
 								cin.ignore(123, '\n');
 								cin >> gender;
+								transform(gender.begin(), gender.end(), gender.begin(), ::tolower);
 							}
 						}
 
