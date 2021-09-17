@@ -1478,6 +1478,25 @@ void printHeader() {
 	cout << "---------------------------------------------------------------\n" << endl;;
 };
 
+string checkPhone(string phone) {
+	string result = "";
+	for (int i = 0; i < phone.length(); i++) {
+		if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+			result += phone[i];
+		}
+		else {
+			cout << "\033[1;31mError! Check again.\033[0m" << endl;
+			cout << "Phone Number: ";
+			cin.clear();
+			cin.ignore(123, '\n');
+			cin >> phone;
+			break;
+		}
+	}
+	
+	return result;
+}
+
 void clearTerminal() // Clear the terminal after logout
 {
 	cout << "\x1B[2J\x1B[H";
@@ -1728,17 +1747,39 @@ int main() {
 							}
 						}
 
-						cout << "Phone Number: "; //Phone Number
+						cout << "Phone Number (e.g. 01(1)23456789): "; //Phone Number
 						cin >> phone;
-						while (size(phone) < 10 && size(phone) > 11)
+						while (1)//Phone Input Validation
 						{
-							cout << "\033[1;31mError! Check again.\033[0m" << endl;
-							cout << "Phone Number: ";
-							cin.clear();
-							cin.ignore(123, '\n');
-							cin >> phone;
+							string result = "";
+							if (size(phone) < 10 || size(phone) > 11)
+							{
+								cout << "\033[1;31mError! Check again.\033[0m" << endl;
+								cout << "Phone Number (e.g. 01(1)23456789): ";
+								cin.clear();
+								cin.ignore(123, '\n');
+								cin >> phone;
+							}
+							else
+							{
+								for (int i = 0; i < phone.length(); i++) {
+									if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+										result += phone[i];
+									}
+								}
+								if (size(result) == size(phone)) {
+									phone = result;
+									break;
+								}
+								else {
+									cout << "\033[1;31mError! Check again.\033[0m" << endl;
+									cout << "Phone Number: ";
+									cin.clear();
+									cin.ignore(123, '\n');
+									cin >> phone;
+								}
+							}
 						}
-
 						cin.ignore();
 						cout << "Address: "; //Address
 						getline(cin, address);
@@ -2378,15 +2419,38 @@ int main() {
 											cin.ignore(123, '\n');
 											cin >> age;
 										}
-										cout << "New Phone Number: ";
+										cout << "New Phone Number (e.g. 01(1)23456789): ";
 										cin >> phone;
-										while (size(phone) < 10 && size(phone) > 11)
+										while (1)//Phone Input Validation
 										{
-											cout << "\033[1;31mError! Check again.\033[0m" << endl;
-											cout << "Phone Number: ";
-											cin.clear();
-											cin.ignore(123, '\n');
-											cin >> phone;
+											string result = "";
+											if (size(phone) < 10 || size(phone) > 11)
+											{
+												cout << "\033[1;31mError! Check again.\033[0m" << endl;
+												cout << "Phone Number: ";
+												cin.clear();
+												cin.ignore(123, '\n');
+												cin >> phone;
+											}
+											else
+											{
+												for (int i = 0; i < phone.length(); i++) {
+													if (phone[i] == '0' || phone[i] == '1' || phone[i] == '2' || phone[i] == '3' || phone[i] == '4' || phone[i] == '5' || phone[i] == '6' || phone[i] == '7' || phone[i] == '8' || phone[i] == '9') {
+														result += phone[i];
+													}
+												}
+												if (size(result) == size(phone)) {
+													phone = result;
+													break;
+												}
+												else {
+													cout << "\033[1;31mError! Check again.\033[0m" << endl;
+													cout << "Phone Number: ";
+													cin.clear();
+													cin.ignore(123, '\n');
+													cin >> phone;
+												}
+											}
 										}
 										cin.ignore();
 										cout << "New Address: ";
