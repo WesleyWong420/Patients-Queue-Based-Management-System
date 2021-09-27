@@ -532,7 +532,7 @@ public:
 		}
 	};
 
-	void appendIndexFirst(int index) {
+	void prependIndex(int index) {
 		
 		IndexNode* newNode = new IndexNode();
 		newNode->currentIndex = index;
@@ -550,13 +550,14 @@ public:
 		size++;
 	}
 
-	void appendIndexLast(int index) {
+	void appendIndex(int index) {
 
 		IndexNode* newNode = new IndexNode();
 		newNode->currentIndex = index;
 		newNode->previousNode = tail;
 		newNode->nextNode = NULL;
 		tail = newNode;
+
 		if (head == NULL) {
 			head = newNode;
 		}
@@ -1067,13 +1068,13 @@ public:
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
 
 		if (index != -1) {
-			indexList->appendIndexFirst(index);
+			indexList->prependIndex(index);
 		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {	// waitinglist search name fix
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
-					indexList->appendIndexLast(index + i);
+					indexList->appendIndex(index + i);
 					i = i + 1;
 					if (index+i >= getSize()) {		// waitinglist search name fix
 						break;
@@ -1085,7 +1086,7 @@ public:
 
 		if (index - 1 > -1) {
 			while (search_term == getHistoryAt(index - i)->patient->firstName) {
-				indexList->appendIndexFirst(index - i);
+				indexList->prependIndex(index - i);
 				i = i + 1;
 			}
 		}
@@ -1094,13 +1095,13 @@ public:
 	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
 
 		if (index != -1) {
-			indexList->appendIndexFirst(index);
+			indexList->prependIndex(index);
 		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {	// waitinglist search name fix,if last then do loop
 			while (search_term == getHistoryAt(index + i)->sickness) {
-				indexList->appendIndexLast(index + i);
+				indexList->appendIndex(index + i);
 				i = i + 1;
 				if (index + i >= getSize()) {		// waitinglist search name fix
 					break;
@@ -1112,25 +1113,26 @@ public:
 
 		if (index - 1 > -1) {
 			while (search_term == getHistoryAt(index - i)->sickness) {
-				indexList->appendIndexFirst(index - i);
+				indexList->prependIndex(index - i);
 				i = i + 1;
 			}
 		}
 	}
 
 	void searchRangeID(IndexLinkedList* indexList, int index, string search_term, int option) {		// option 1 for asc, 0 for desc
+
 		if (index != -1) {
-			indexList->appendIndexFirst(index);
+			indexList->prependIndex(index);
 		}
 		int i = 1;
 
 		if (index + 1 < getSize()) {
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
 				if (option == 0) {
-					indexList->appendIndexFirst(index + i);
+					indexList->prependIndex(index + i);
 				}
 				else if (option == 1) {
-					indexList->appendIndexLast(index + i);
+					indexList->appendIndex(index + i);
 				}
 				i = i + 1;
 				if (index + i >= getSize()) {
@@ -1141,13 +1143,13 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) { //change
+		if (index - 1 > -1) {	//change
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
 				if (option == 0) {
-					indexList->appendIndexLast(index + i);
+					indexList->appendIndex(index + i);
 				}
 				else if (option == 1) {
-					indexList->appendIndexFirst(index + i);
+					indexList->prependIndex(index + i);
 				}
 				i = i + 1;
 			}
