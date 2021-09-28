@@ -450,7 +450,9 @@ public:
 			int i = 1;
 
 			while (i < getSize() && getMedicineAt(i)->medicineID <= id) {
+
 				i = i * 2;
+
 				if (i > getSize()) {
 					break;
 				}
@@ -469,7 +471,9 @@ public:
 			int i = 1;
 
 			while (i < getSize() && getMedicineAt(i)->medicineName <= name) {
+
 				i = i * 2;
+
 				if (i > getSize()) {
 					break;
 				}
@@ -1039,7 +1043,8 @@ public:
 
 	int binarySearchSickness(int j, int k, string sickness) {
 
-		if (j > k) {
+		if (j > k) 
+		{
 			return -1;
 		}
 
@@ -1058,14 +1063,18 @@ public:
 
 	int exponentialSearchSickness(string sickness) {
 
-		if (getHistoryAt(0)->sickness == sickness) {
+		if (getHistoryAt(0)->sickness == sickness) 
+		{
 			return 0;
 		}
-		else {
+		else 
+		{
 			int i = 1;
 
 			while (i < getSize() && getHistoryAt(i)->sickness <= sickness) {
+
 				i = i * 2;
+
 				if (i > getSize()) {
 					break;
 				}
@@ -1077,7 +1086,8 @@ public:
 
 	int binarySearchName(int j, int k, string name) {
 
-		if (j > k) {
+		if (j > k) 
+		{
 			return -1;
 		}
 
@@ -1096,14 +1106,18 @@ public:
 
 	int exponentialSearchName(string name) {
 
-		if (getHistoryAt(0)->patient->firstName == name) {
+		if (getHistoryAt(0)->patient->firstName == name) 
+		{
 			return 0;
 		}
-		else {
+		else 
+		{
 			int i = 1;
 
 			while (i < getSize() && getHistoryAt(i)->patient->firstName <= name) {
+
 				i = i * 2;
+
 				if (i > getSize()) {
 					break;
 				}
@@ -1113,7 +1127,8 @@ public:
 	}
 
 	int binarySearchID(int j, int k, string id) {
-		if (j > k) {
+		if (j > k) 
+		{
 			return -1;
 		}
 			int mid = j + (k - j) / 2;
@@ -1132,14 +1147,18 @@ public:
 
 	int exponentialSearchID(string id) {
 
-		if (getHistoryAt(0)->patient->UserID == id) {
+		if (getHistoryAt(0)->patient->UserID == id) 
+		{
 			return 0;
 		}
-		else {
+		else 
+		{
 			int i = 1;
 
 			while (i < getSize() && getHistoryAt(i)->patient->UserID <= id) {
+
 				i = i * 2;
+
 				if (i > getSize()) {
 					break;
 				}
@@ -1150,15 +1169,20 @@ public:
 
 	void searchRangeName(IndexLinkedList* indexList, int index, string search_term){
 
-		if (index != -1) {
+		if (index != -1) 
+		{
 			indexList->prependIndex(index);
 		}
+
 		int i = 1;
 
-		if (index + 1 < getSize()) {	// waitinglist search name fix
+		if (index + 1 < getSize())	// waitinglist search name fix
+		{	
 			while (search_term == getHistoryAt(index + i)->patient->firstName) {
+
 					indexList->appendIndex(index + i);
 					i = i + 1;
+
 					if (index+i >= getSize()) {		// waitinglist search name fix
 						break;
 					}
@@ -1167,8 +1191,10 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) {
+		if (index - 1 > -1) 
+		{
 			while (search_term == getHistoryAt(index - i)->patient->firstName) {
+
 				indexList->prependIndex(index - i);
 				i = i + 1;
 			}
@@ -1177,15 +1203,21 @@ public:
 
 	void searchRangeSickness(IndexLinkedList* indexList, int index, string search_term) {
 
-		if (index != -1) {
+		if (index != -1) 
+		{
 			indexList->prependIndex(index);
 		}
+
+
 		int i = 1;
 
-		if (index + 1 < getSize()) {	// waitinglist search name fix,if last then do loop
+		if (index + 1 < getSize()) 	// waitinglist search name fix,if last then do loop
+		{
 			while (search_term == getHistoryAt(index + i)->sickness) {
+
 				indexList->appendIndex(index + i);
 				i = i + 1;
+
 				if (index + i >= getSize()) {		// waitinglist search name fix
 					break;
 				}
@@ -1194,8 +1226,10 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) {
+		if (index - 1 > -1) 
+		{
 			while (search_term == getHistoryAt(index - i)->sickness) {
+
 				indexList->prependIndex(index - i);
 				i = i + 1;
 			}
@@ -1204,20 +1238,26 @@ public:
 
 	void searchRangeID(IndexLinkedList* indexList, int index, string search_term, int option) {		// option 1 for asc, 0 for desc
 
-		if (index != -1) {
+		if (index != -1) 
+		{
 			indexList->prependIndex(index);
 		}
+
 		int i = 1;
 
-		if (index + 1 < getSize()) {
+		if (index + 1 < getSize()) 
+		{
 			while (search_term == getHistoryAt(index + i)->patient->UserID) {
+
 				if (option == 0) {
 					indexList->prependIndex(index + i);
 				}
 				else if (option == 1) {
 					indexList->appendIndex(index + i);
 				}
+
 				i = i + 1;
+
 				if (index + i >= getSize()) {
 					break;
 				}
@@ -1226,14 +1266,17 @@ public:
 
 		i = 1;
 
-		if (index - 1 > -1) {	//change
+		if (index - 1 > -1) //change
+		{	
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
+
 				if (option == 0) {
 					indexList->appendIndex(index + i);
 				}
 				else if (option == 1) {
 					indexList->prependIndex(index + i);
 				}
+
 				i = i + 1;
 			}
 		}
