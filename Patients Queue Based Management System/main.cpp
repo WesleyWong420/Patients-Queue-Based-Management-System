@@ -371,7 +371,7 @@ public:
 
 	int binarySearchID(int j, int k, string id) {
 
-		if (j >= k) {
+		if (j > k) {
 			return -1;
 		}
 
@@ -390,7 +390,7 @@ public:
 
 	int binarySearchName(int j, int k, string name) {
 
-		if (j >= k) {
+		if (j > k) {
 			return -1;
 		}
 
@@ -952,7 +952,7 @@ public:
 
 	int binarySearchSickness(int j, int k, string sickness) {
 
-		if (j >= k) {
+		if (j > k) {
 			return -1;
 		}
 
@@ -990,7 +990,7 @@ public:
 
 	int binarySearchName(int j, int k, string name) {
 
-		if (j >= k) {
+		if (j > k) {
 			return -1;
 		}
 
@@ -1026,23 +1026,21 @@ public:
 	}
 
 	int binarySearchID(int j, int k, string id) {
-
-		if (j >= k) { 
+		if (j > k) {
 			return -1;
-			
 		}
+			int mid = j + (k - j) / 2;
 
-		int mid = j + (k - j) / 2;
+			if (getHistoryAt(mid)->patient->UserID == id) {
+				return mid;
+			}
+			else if (getHistoryAt(mid)->patient->UserID > id) {
+				return binarySearchID(j, mid - 1, id);
+			}
+			else {
+				return binarySearchID(mid + 1, k, id);
+			}
 
-		if (getHistoryAt(mid)->patient->UserID == id) {
-			return mid;
-		}
-		else if (getHistoryAt(mid)->patient->UserID > id) {
-			return binarySearchID(j, mid - 1, id);
-		}
-		else {
-			return binarySearchID(mid + 1, k, id);
-		}
 	}
 
 	int exponentialSearchID(string id) {
@@ -1059,7 +1057,6 @@ public:
 					break;
 				}
 			}
-
 			return binarySearchID(i / 2, min(i, getSize()), id);
 		}
 	}
