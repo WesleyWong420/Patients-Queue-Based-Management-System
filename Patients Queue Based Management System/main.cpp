@@ -263,12 +263,28 @@ public:
 	
 	Medicine* getMedicineAt(int index) {
 
-		MedicineNode* last = head;
+		MedicineNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			if (last->nextNode != NULL) {
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
 			}
 		}
 
@@ -277,11 +293,29 @@ public:
 
 	void setMedicineAt(int index, Medicine* Medicine) {
 
-		MedicineNode* last = head;
+		MedicineNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
+			}
 		}
 
 		last->currentMedicine = Medicine;
@@ -570,12 +604,28 @@ public:
 
 	int getIndexAt(int index) {
 
-		IndexNode* last = head;
+		IndexNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			if (last->nextNode != NULL) {
-				last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
 			}
 		}
 
@@ -779,11 +829,29 @@ public:
 
 	History* getHistoryAt(int index) {
 
-		HistoryNode* last = head;
+		HistoryNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
+			}
 		}
 
 		return last->currentHistory;
@@ -791,11 +859,29 @@ public:
 
 	void setHistoryAt(int index, History* history) {
 
-		HistoryNode* last = head;
+		HistoryNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
+			}
 		}
 
 		last->currentHistory = history;
@@ -1349,11 +1435,29 @@ public:
 
 	Patient* getPatientAt(int index) {
 
-		PatientNode* last = head;
+		PatientNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
+			}
 		}
 
 		return last->currentPatient;
@@ -1361,11 +1465,29 @@ public:
 
 	void setPatientAt(int index, Patient* patient) {
 
-		PatientNode* last = head;
+		PatientNode* last;
 
-		for (int i = 0; i < index; i++)
+		if (index < round(size / 2))
 		{
-			last = last->nextNode;
+			last = head;
+
+			for (int i = 0; i < index; i++)
+			{
+				if (last->nextNode != NULL) {
+					last = last->nextNode;
+				}
+			}
+		}
+		else
+		{
+			last = tail;
+
+			for (int i = 0; i < size - index - 1; i++)
+			{
+				if (last->previousNode != NULL) {
+					last = last->previousNode;
+				}
+			}
 		}
 
 		last->currentPatient = patient;
