@@ -1271,10 +1271,10 @@ public:
 			while (search_term == getHistoryAt(index - i)->patient->UserID) {
 
 				if (option == 0) {
-					indexList->appendIndex(index + i);
+					indexList->appendIndex(index - i);
 				}
 				else if (option == 1) {
-					indexList->prependIndex(index + i);
+					indexList->prependIndex(index - i);
 				}
 
 				i = i + 1;
