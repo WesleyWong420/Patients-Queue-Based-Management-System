@@ -2557,8 +2557,6 @@ int main() {
 								historyList->displaySpecific(indexList->getIndexAt(i));
 							}
 
-							delete indexList;
-
 							if (index != -1)
 							{
 								do
@@ -2634,9 +2632,11 @@ int main() {
 										getline(cin, address);
 										cout << "\n";
 
-										historyList->getHistoryAt(index)->patient->age = age;
-										historyList->getHistoryAt(index)->patient->phone = phone;
-										historyList->getHistoryAt(index)->patient->address = address;
+										for (int i = 0; i < indexList->size; i++) {
+											historyList->getHistoryAt(indexList->getIndexAt(i))->patient->age = age;
+											historyList->getHistoryAt(indexList->getIndexAt(i))->patient->phone = phone;
+											historyList->getHistoryAt(indexList->getIndexAt(i))->patient->address = address;
+										}
 
 										if (temp != -1)
 										{
@@ -2644,6 +2644,8 @@ int main() {
 											waitingList->getPatientAt(temp)->phone = phone;
 											waitingList->getPatientAt(temp)->address = address;
 										}
+
+										delete indexList;
 
 										cout << "\033[1;33mRecord of Patient\033[1;36m " + patientID + "\033[1;33m has been updated accordingly!\033[0m" << endl;
 										cout << "\n";
