@@ -342,64 +342,74 @@ public:
 		setMedicineAt(index2, medicine);
 	}
 
-	void selectionSortID() {
+	int getNextGap(int gap) {
 
-		int idx_min;
+		gap = (gap * 10) / 13;
 
-		for (int i = 0; i < getSize(); i++) {
+		if (gap < 1) {
+			return 1;
+		}
 
-			idx_min = i;
+		return gap;
+	}
 
-			for (int j = i + 1; j < getSize(); j++) {
+	void combSortID() {
 
-				if (getMedicineAt(j)->medicineID < getMedicineAt(idx_min)->medicineID) {
-					idx_min = j;
+		int gap = getSize();
+
+		bool swapped = true;
+
+		while (gap != 1 || swapped == true) {
+
+			gap = getNextGap(gap);
+			swapped = false;
+
+			for (int i = 0; i < getSize() - gap; i++) {
+				if (getMedicineAt(i)->medicineID > getMedicineAt(i + gap)->medicineID) {
+					swap(i, i + gap);
+					swapped = true;
 				}
 			}
-
-			swap(idx_min, i);
 		}
 	}
 
-	void selectionSortName() {
+	void combSortName() {
 
-		int idx_min;
-		string min;
+		int gap = getSize();
 
-		for (int i = 0; i < getSize() - 1; i++) {
+		bool swapped = true;
 
-			idx_min = i;
-			min = getMedicineAt(i)->medicineName;
+		while (gap != 1 || swapped == true) {
 
-			for (int j = i + 1; j < getSize(); j++) {
+			gap = getNextGap(gap);
+			swapped = false;
 
-				if (getMedicineAt(j)->medicineName < min)
-				{
-					idx_min = j;
-					min = getMedicineAt(j)->medicineName;
+			for (int i = 0; i < getSize() - gap; i++) {
+				if (getMedicineAt(i)->medicineName > getMedicineAt(i + gap)->medicineName) {
+					swap(i, i + gap);
+					swapped = true;
 				}
 			}
-
-			swap(i, idx_min);
 		}
 	}
 
-	void selectionSortQuantity() {
+	void combSortQuantity() {
 
-		int idx_min;
+		int gap = getSize();
 
-		for (int i = 0; i < getSize(); i++) {
+		bool swapped = true;
 
-			idx_min = i;
+		while (gap != 1 || swapped == true) {
 
-			for (int j = i + 1; j < getSize(); j++) {
+			gap = getNextGap(gap);
+			swapped = false;
 
-				if (getMedicineAt(j)->quantity < getMedicineAt(idx_min)->quantity) {
-					idx_min = j;
+			for (int i = 0; i < getSize() - gap; i++) {
+				if (getMedicineAt(i)->quantity > getMedicineAt(i + gap)->quantity) {
+					swap(i, i + gap);
+					swapped = true;
 				}
 			}
-
-			swap(idx_min, i);
 		}
 	}
 
@@ -904,38 +914,39 @@ public:
 		return size;
 	}
 
-	void insertionSortID() {
+	void combSortID() {
 
-		int j;
-		string key;
+		int gap = getSize();
 
-		for (int i = 1; i < getSize(); i++) {
+		bool swapped = true;
 
-			key = getHistoryAt(i)->patient->UserID;
-			History* keyObj = getHistoryAt(i);
-			j = i - 1;
+		while (gap != 1 || swapped == true) {
 
-			while (j >= 0 && key < getHistoryAt(j)->patient->UserID) {
-				setHistoryAt(j + 1, getHistoryAt(j));
-				j = j - 1;
-			}
-			while (j >= 0 && key == getHistoryAt(j)->patient->UserID) {
-				if (dateToDay(getHistoryAt(i)->visitDate) < dateToDay(getHistoryAt(j)->visitDate)) {
-					setHistoryAt(j + 1, getHistoryAt(j));
-					j = j - 1;
-				}
-				else if (dateToDay(getHistoryAt(i)->visitDate) == dateToDay(getHistoryAt(j)->visitDate)) {
-					if (timeToSecond(getHistoryAt(i)->visitTime) < timeToSecond(getHistoryAt(j)->visitTime)) {
-						setHistoryAt(j + 1, getHistoryAt(j));
-						j = j - 1;
+			gap = getNextGap(gap);
+			swapped = false;
+
+			for (int i = 0; i < getSize() - gap; i++) {
+
+				if (getHistoryAt(i)->patient->UserID == getHistoryAt(i + gap)->patient->UserID) {
+					if (dateToDay((getHistoryAt(i)->visitDate)) > dateToDay(getHistoryAt(i + gap)->visitDate)) {
+						swap(i, i + gap);
+						swapped = true;
+					}
+					else if (dateToDay((getHistoryAt(i)->visitDate)) == dateToDay(getHistoryAt(i + gap)->visitDate)) {
+						if (timeToSecond((getHistoryAt(i)->visitTime)) > timeToSecond(getHistoryAt(i + gap)->visitTime)) {
+							swap(i, i + gap);
+							swapped = true;
+						}
 					}
 				}
-				break;
+				else if (getHistoryAt(i)->patient->UserID > getHistoryAt(i + gap)->patient->UserID) {
+					swap(i, i + gap);
+					swapped = true;
+				}
 			}
-
-			setHistoryAt(j + 1, keyObj);
 		}
 	}
+
 
 	void swap(int index1, int index2) {
 
@@ -1022,22 +1033,24 @@ public:
 		}
 	}
 
-	void selectionSortTime() {
+	void combSortTime() {
 
-		int idx_min;
+		int gap = getSize();
 
-		for (int i = 0; i < getSize(); i++) {
+		bool swapped = true;
 
-			idx_min = i;
+		while (gap != 1 || swapped == true) {
 
-			for (int j = i + 1; j < getSize(); j++) {
+			gap = getNextGap(gap);
+			swapped = false;
 
-				if (timeToSecond(getHistoryAt(j)->visitTime) < timeToSecond(getHistoryAt(idx_min)->visitTime)) {
-					idx_min = j;
+			for (int i = 0; i < getSize() - gap; i++) {
+
+				if (timeToSecond(getHistoryAt(i)->visitTime) > timeToSecond(getHistoryAt(i + gap)->visitTime)) {
+					swap(i, i + gap);
+					swapped = true;
 				}
 			}
-
-			swap(idx_min, i);
 		}
 	}
 
@@ -2025,7 +2038,7 @@ int main() {
 					break;
 				}
 				case 2:		// View Waiting List
-					tempHistory->selectionSortTime();
+					tempHistory->combSortTime();
 					waitingList->display(tempHistory);
 
 					if (waitingList->head != NULL)
@@ -2059,7 +2072,7 @@ int main() {
 								cin >> search_term;
 								cout << "\n";
 
-								tempHistory->insertionSortID();
+								tempHistory->combSortID();
 								index = tempHistory->exponentialSearchID(search_term);
 
 								if (index != -1) {
@@ -2099,7 +2112,7 @@ int main() {
 								option = 0;
 								break;
 							case 3:
-								tempHistory->selectionSortTime();
+								tempHistory->combSortTime();
 								tempHistory->display(2);
 
 								option = 0;
@@ -2201,7 +2214,7 @@ int main() {
 					break;
 				}
 				case 5:				// View Medicine List
-					medicineList->selectionSortID();
+					medicineList->combSortID();
 					medicineList->display();
 
 					do
@@ -2238,7 +2251,7 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 
-							medicineList->selectionSortID();
+							medicineList->combSortID();
 
 							index = medicineList->exponentialSearchID(search_term);
 
@@ -2257,7 +2270,7 @@ int main() {
 							cin >> search_term;
 							cout << "\n";
 
-							medicineList->selectionSortName();
+							medicineList->combSortName();
 
 							index = medicineList->exponentialSearchName(search_term);
 
@@ -2272,13 +2285,13 @@ int main() {
 							option = 0;
 							break;
 						case 3:					// Sort by Quantity
-							medicineList->selectionSortQuantity();
+							medicineList->combSortQuantity();
 							medicineList->display();	
 
 							option = 0;
 							break;
 						case 4:					// Edit Medicine
-							medicineList->selectionSortID();
+							medicineList->combSortID();
 							medicineList->display();
 
 							cout << "Medicine ID: ";
@@ -2500,7 +2513,7 @@ int main() {
 					option = 0;
 					break;
 				case 2:				// View Patient List
-					historyList->insertionSortID();
+					historyList->combSortID();
 					historyList->display(0);
 
 					do
@@ -2534,7 +2547,7 @@ int main() {
 							cin >> patientID;
 							cout << "\n";
 
-							historyList->insertionSortID();
+							historyList->combSortID();
 							index = historyList->exponentialSearchID(patientID);
 							temp = waitingList->checkExistence(patientID);
 							IndexLinkedList* indexList = new IndexLinkedList();
