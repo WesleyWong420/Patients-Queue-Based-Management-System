@@ -30,10 +30,6 @@ Proposal:
   - Provide a proper justification on your decisions.
   4. Identify and explain what are the tasks will be assigned to each of the members.
 
-To Do:
-1) Viewing Mode
-2) Comments
-
 CLI Menu Flow:
 
 	1. Nurse
@@ -41,7 +37,7 @@ CLI Menu Flow:
 		2. View Waiting List ✅
 			1. Search for Patient by Patient ID ✅
 			2. Search for Patient by First Name ✅
-			3. Sort by Visit Time ✅
+			3. Sort by Visit Time (Ascending) ✅
 			4. Back ✅
 		3. Edit Waiting List Priority ✅
 		4. Call Patient for Treatment ✅ 
@@ -62,7 +58,7 @@ CLI Menu Flow:
 		2. View Patient List ✅
 			1. Search Specific Patient by Patient ID ✅
 				1. Modify Patient Record ✅
-				2. Sort by Visit History ✅
+				2. Sort by Visit History (Descending) ✅
 				3. Back ✅
 			2. Search Patients by Sickness ✅
 			3. Search Patients by First Name ✅
