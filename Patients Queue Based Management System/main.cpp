@@ -645,6 +645,19 @@ public:
 
 		return last->currentIndex;
 	}
+
+	int getSize() {
+
+		IndexNode* current = head;
+		int size = 0;
+
+		while (current != NULL) {
+			size = size + 1;
+			current = current->nextNode;
+		}
+
+		return size;
+	}
 };
 
 class Patient {
@@ -1340,6 +1353,48 @@ public:
 		cout << "\n";
 	}
 
+	void displayPageByPage(int index) {
+
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "                     Waiting List - " + to_string(index + 1) + "/" + to_string(getSize()) + "\n";
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+
+		cout << "\033[1;33mPatient ID: \033[0m" << getHistoryAt(index)->patient->UserID << "\n";
+		cout << "\033[1;33mFirst Name: \033[0m" << getHistoryAt(index)->patient->firstName << "\n";
+		cout << "\033[1;33mLast Name: \033[0m" << getHistoryAt(index)->patient->lastName << "\n";
+		cout << "\033[1;33mGender: \033[0m" << getHistoryAt(index)->patient->gender << "\n";
+		cout << "\033[1;33mAge: \033[0m" << getHistoryAt(index)->patient->age << "\n";
+		cout << "\033[1;33mPhone Number: \033[0m" << getHistoryAt(index)->patient->phone << "\n";
+		cout << "\033[1;33mAddress: \033[0m" << getHistoryAt(index)->patient->address << "\n";
+		cout << "\033[1;33mDisability Option: \033[0m" << getHistoryAt(index)->patient->disability << "\n";
+		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
+		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
+		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
+		cout << "\n";
+	}
+
+	void displayPageByPage2(int index, int lower, int upper) {
+
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "                     Patient " + getHistoryAt(index)->patient->UserID + " - " + to_string(lower + 1) + "/" + to_string(upper) + "\n";
+		cout << "\033[1;33m---------------------------------------------------------------\n";
+		cout << "\n";
+
+		cout << "\033[1;33mPatient ID: \033[0m" << getHistoryAt(index)->patient->UserID << "\n";
+		cout << "\033[1;33mFirst Name: \033[0m" << getHistoryAt(index)->patient->firstName << "\n";
+		cout << "\033[1;33mLast Name: \033[0m" << getHistoryAt(index)->patient->lastName << "\n";
+		cout << "\033[1;33mGender: \033[0m" << getHistoryAt(index)->patient->gender << "\n";
+		cout << "\033[1;33mAge: \033[0m" << getHistoryAt(index)->patient->age << "\n";
+		cout << "\033[1;33mPhone Number: \033[0m" << getHistoryAt(index)->patient->phone << "\n";
+		cout << "\033[1;33mAddress: \033[0m" << getHistoryAt(index)->patient->address << "\n";
+		cout << "\033[1;33mDisability Option: \033[0m" << getHistoryAt(index)->patient->disability << "\n";
+		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
+		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
+		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
+		cout << "\n";
+	}
+
 	void display(int term) {
 
 		cout << "\033[1;33m---------------------------------------------------------------\n";
@@ -1683,9 +1738,10 @@ int main() {
 
 	PatientLinkedList* waitingList = new PatientLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
+	MedicineLinkedList* medicineList = new MedicineLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
 	HistoryLinkedList* treatingList = new HistoryLinkedList();
-	MedicineLinkedList* medicineList = new MedicineLinkedList();
+
 
 	Patient* patient1 = new Patient("U001", "Alex", "Morgan", "Male", 16, "0123456789", "Street 1", "true");
 	Patient* patient2 = new Patient("U002", "Bob", "Dylan", "Male", 23, "0123456789", "Street 2", "true");
@@ -2047,7 +2103,7 @@ int main() {
 						{
 							cout << "1. Search for Patient by Patient ID" << endl;
 							cout << "2. Search for Patient by First Name" << endl;
-							cout << "3. Sort by Visit Time" << endl;
+							cout << "3. Sort by Visit Time (Ascending)" << endl;
 							cout << "4. Back \n" << endl;
 							cout << "Action: ";
 							cin >> option;
@@ -2057,7 +2113,7 @@ int main() {
 								cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
 								cout << "1. Search for Patient by Patient ID" << endl;
 								cout << "2. Search for Patient by First Name" << endl;
-								cout << "3. Sort by Visit Time" << endl;
+								cout << "3. Sort by Visit Time (Ascending)" << endl;
 								cout << "4. Back \n" << endl;
 								cout << "Action: ";
 								cin.clear();
@@ -2113,7 +2169,36 @@ int main() {
 								break;
 							case 3:
 								tempHistory->combSortTime();
-								tempHistory->display(2);
+
+								if (tempHistory->getSize() != 1)
+								{
+									string viewPage = "";
+									int page = 0;
+
+									while (viewPage != "c")
+									{
+										clearTerminal();
+										tempHistory->displayPageByPage(page);
+
+										cout << "Action (q - Move Backward, e - Move Forward, c - Cancel): ";
+										cin >> viewPage;
+										transform(viewPage.begin(), viewPage.end(), viewPage.begin(), ::tolower);
+										cout << "\n";
+
+										if (viewPage == "q" && page != 0)
+										{
+											page--;
+										}
+										else if (viewPage == "e" && page != tempHistory->getSize() - 1)
+										{
+											page++;
+										}
+									}
+								}
+								else
+								{
+									tempHistory->display(2);
+								}
 
 								option = 0;
 								break;
@@ -2562,7 +2647,7 @@ int main() {
 								do
 								{
 									cout << "1. Modify Patient Record" << endl;
-									cout << "2. Sort by Visit History" << endl;
+									cout << "2. Sort by Visit History (Descending)" << endl;
 									cout << "3. Back \n" << endl;
 									cout << "Action: ";
 									cin >> option;
@@ -2572,7 +2657,7 @@ int main() {
 										cout << "\n";
 										cout << "\033[1;31mInvalid Option!\033[0m" << endl << endl;
 										cout << "1. Modify Patient Record" << endl;
-										cout << "2. Sort by Visit History" << endl;
+										cout << "2. Sort by Visit History (Descending)" << endl;
 										cout << "3. Back \n" << endl;
 										cout << "Action: ";
 										cin.clear();
@@ -2658,8 +2743,34 @@ int main() {
 										IndexLinkedList* indexList = new IndexLinkedList();
 										historyList->searchRangeID(indexList, index, patientID, 0);
 
-										for (int i = 0; i < indexList->size; i++) {
-											historyList->displaySpecific(indexList->getIndexAt(i));
+										if (historyList->getSize() != 1)
+										{
+											string viewPage = "";
+											int page = 0;
+
+											while (viewPage != "c")
+											{
+												clearTerminal();
+												historyList->displayPageByPage2(indexList->getIndexAt(page), page, indexList->getSize());
+
+												cout << "Action (q - Move Backward, e - Move Forward, c - Cancel): ";
+												cin >> viewPage;
+												transform(viewPage.begin(), viewPage.end(), viewPage.begin(), ::tolower);
+												cout << "\n";
+
+												if (viewPage == "q" && page != 0)
+												{
+													page--;
+												}
+												else if (viewPage == "e" && page != indexList->getSize() - 1)
+												{
+													page++;
+												}
+											}
+										}
+										else
+										{
+											historyList->displaySpecific(indexList->getIndexAt(0));
 										}
 
 										delete indexList;
