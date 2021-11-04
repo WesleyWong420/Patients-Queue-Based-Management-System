@@ -830,7 +830,7 @@ public:
 		}
 		else
 		{
-			cout << "Medicine Does Not Exist!";
+			cout << "History Does Not Exist!";
 		}
 	}
 
@@ -1509,6 +1509,24 @@ public:
 		size++;
 	}
 
+	void prependPatient(Patient* patient) {
+
+		PatientNode* newNode = new PatientNode();
+		newNode->currentPatient = patient;
+		newNode->previousNode = NULL;
+		newNode->nextNode = head;
+		head = newNode;
+
+		if (tail == NULL) {
+			tail = newNode;
+		}
+		else {
+			newNode->nextNode->previousNode = newNode;
+		}
+
+		size++;
+	}
+
 	void deleteFirst() {
 
 		PatientNode* toDelete = head;
@@ -1521,6 +1539,46 @@ public:
 		else
 		{
 			tail = NULL;
+		}
+	}
+
+	void deleteAt(int index) {
+
+		PatientNode* prev = NULL;
+		PatientNode* next = NULL;
+		PatientNode* toDelete = head;
+
+		if (index < size)
+		{
+			if (index == 0)
+			{
+				deleteFirst();
+			}
+			else
+			{
+				for (int i = 0; i < index; i++)
+				{
+					prev = toDelete;
+					toDelete = toDelete->nextNode;
+					next = toDelete->nextNode;
+
+					if (i + 1 == index) // index will start from 1 because if 0 will run deleteFirst()
+					{
+						prev->nextNode = toDelete->nextNode;
+
+						if (next != NULL) { // At last node, next will be NULL
+							next->previousNode = toDelete->previousNode;
+						}
+
+						delete toDelete;
+						size--;
+					}
+				}
+			}
+		}
+		else
+		{
+			cout << "Patient Does Not Exist!";
 		}
 	}
 
@@ -1737,12 +1795,11 @@ void clearTerminal() // Clear the terminal after logout
 int main() {
 
 	PatientLinkedList* waitingList = new PatientLinkedList();
+	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
-	HistoryLinkedList* treatingList = new HistoryLinkedList();
-
-
+	
 	Patient* patient1 = new Patient("U001", "Alex", "Morgan", "Male", 16, "0123456789", "Street 1", "true");
 	Patient* patient2 = new Patient("U002", "Bob", "Dylan", "Male", 23, "0123456789", "Street 2", "true");
 	Patient* patient3 = new Patient("U003", "Caitlin", "Jenner", "Female", 19, "0123456789", "Street 3", "false");
