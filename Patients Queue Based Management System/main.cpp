@@ -2180,7 +2180,7 @@ int main() {
 							cout << "\n";
 
 							switch (option) {
-							case 1:
+							case 1:			// Search for Patient by Patient ID
 								cout << "Patient ID (e.g. U001): ";
 								cin >> search_term;
 								cout << "\n";
@@ -2198,7 +2198,7 @@ int main() {
 
 								option = 0;
 								break;
-							case 2:
+							case 2:			// Search for Patient by First Name
 								cout << "Patient Name: ";
 								cin >> search_term;
 								cout << "\n";
@@ -2224,7 +2224,7 @@ int main() {
 
 								option = 0;
 								break;
-							case 3:
+							case 3:			// Sort by Visit Time (Ascending)
 								tempHistory->combSortTime();
 
 								if (tempHistory->getSize() != 1)
@@ -2388,7 +2388,7 @@ int main() {
 						cout << "\n";
 
 						switch (option) {
-						case 1:					// Search for Medicine by Medicine
+						case 1:					// Search for Medicine by Medicine ID
 							cout << "Medicine ID (e.g. M001): ";
 							cin >> search_term;
 							cout << "\n";
