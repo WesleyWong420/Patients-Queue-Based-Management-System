@@ -830,7 +830,7 @@ public:
 		}
 		else
 		{
-			cout << "Medicine Does Not Exist!";
+			cout << "History Does Not Exist!";
 		}
 	}
 
@@ -1392,6 +1392,9 @@ public:
 		cout << "\033[1;33mPriority: \033[0m" << getHistoryAt(index)->patient->priority << "\n";
 		cout << "\033[1;33mVisit Date: \033[0m" << getHistoryAt(index)->visitDate << "\n";
 		cout << "\033[1;33mVisit Time: \033[0m" << getHistoryAt(index)->visitTime << "\n";
+		cout << "\033[1;33mSickness Description: \033[0m" << getHistoryAt(index)->sickness << "\n";
+		cout << "\033[1;33mDoctor Assigned: \033[0m" << getHistoryAt(index)->doctor->doctorName << "\n";
+		cout << "\033[1;33mMedicine Prescription: \033[0m" << getHistoryAt(index)->medicine << "\n";
 		cout << "\n";
 	}
 
@@ -1509,6 +1512,24 @@ public:
 		size++;
 	}
 
+	void prependPatient(Patient* patient) {
+
+		PatientNode* newNode = new PatientNode();
+		newNode->currentPatient = patient;
+		newNode->previousNode = NULL;
+		newNode->nextNode = head;
+		head = newNode;
+
+		if (tail == NULL) {
+			tail = newNode;
+		}
+		else {
+			newNode->nextNode->previousNode = newNode;
+		}
+
+		size++;
+	}
+
 	void deleteFirst() {
 
 		PatientNode* toDelete = head;
@@ -1521,6 +1542,46 @@ public:
 		else
 		{
 			tail = NULL;
+		}
+	}
+
+	void deleteAt(int index) {
+
+		PatientNode* prev = NULL;
+		PatientNode* next = NULL;
+		PatientNode* toDelete = head;
+
+		if (index < size)
+		{
+			if (index == 0)
+			{
+				deleteFirst();
+			}
+			else
+			{
+				for (int i = 0; i < index; i++)
+				{
+					prev = toDelete;
+					toDelete = toDelete->nextNode;
+					next = toDelete->nextNode;
+
+					if (i + 1 == index) // index will start from 1 because if 0 will run deleteFirst()
+					{
+						prev->nextNode = toDelete->nextNode;
+
+						if (next != NULL) { // At last node, next will be NULL
+							next->previousNode = toDelete->previousNode;
+						}
+
+						delete toDelete;
+						size--;
+					}
+				}
+			}
+		}
+		else
+		{
+			cout << "Patient Does Not Exist!";
 		}
 	}
 
@@ -1737,12 +1798,11 @@ void clearTerminal() // Clear the terminal after logout
 int main() {
 
 	PatientLinkedList* waitingList = new PatientLinkedList();
+	HistoryLinkedList* treatingList = new HistoryLinkedList();
 	HistoryLinkedList* historyList = new HistoryLinkedList();
 	MedicineLinkedList* medicineList = new MedicineLinkedList();
 	HistoryLinkedList* tempHistory = new HistoryLinkedList();
-	HistoryLinkedList* treatingList = new HistoryLinkedList();
-
-
+	
 	Patient* patient1 = new Patient("U001", "Alex", "Morgan", "Male", 16, "0123456789", "Street 1", "true");
 	Patient* patient2 = new Patient("U002", "Bob", "Dylan", "Male", 23, "0123456789", "Street 2", "true");
 	Patient* patient3 = new Patient("U003", "Caitlin", "Jenner", "Female", 19, "0123456789", "Street 3", "false");
@@ -2123,7 +2183,7 @@ int main() {
 							cout << "\n";
 
 							switch (option) {
-							case 1:
+							case 1:			// Search for Patient by Patient ID
 								cout << "Patient ID (e.g. U001): ";
 								cin >> search_term;
 								cout << "\n";
@@ -2141,7 +2201,7 @@ int main() {
 
 								option = 0;
 								break;
-							case 2:
+							case 2:			// Search for Patient by First Name
 								cout << "Patient Name: ";
 								cin >> search_term;
 								cout << "\n";
@@ -2167,7 +2227,7 @@ int main() {
 
 								option = 0;
 								break;
-							case 3:
+							case 3:			// Sort by Visit Time (Ascending)
 								tempHistory->combSortTime();
 
 								if (tempHistory->getSize() != 1)
@@ -2331,7 +2391,7 @@ int main() {
 						cout << "\n";
 
 						switch (option) {
-						case 1:					// Search for Medicine by Medicine
+						case 1:					// Search for Medicine by Medicine ID
 							cout << "Medicine ID (e.g. M001): ";
 							cin >> search_term;
 							cout << "\n";
@@ -2681,7 +2741,7 @@ int main() {
 										}
 										cout << "New Phone Number (e.g. 01(1)23456789): ";
 										cin >> phone;
-										while (1)//Phone Input Validation
+										while (1)	// Phone Input Validation
 										{
 											string result = "";
 											if (size(phone) < 10 || size(phone) > 11)
@@ -2738,7 +2798,7 @@ int main() {
 										option = 0;
 										break;
 									}
-									case 2:			// Sort by Visit History
+									case 2:			// Sort by Visit History (Descending)
 									{
 										IndexLinkedList* indexList = new IndexLinkedList();
 										historyList->searchRangeID(indexList, index, patientID, 0);
