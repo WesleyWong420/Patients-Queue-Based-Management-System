@@ -2738,7 +2738,7 @@ int main() {
 										}
 										cout << "New Phone Number (e.g. 01(1)23456789): ";
 										cin >> phone;
-										while (1)//Phone Input Validation
+										while (1)	// Phone Input Validation
 										{
 											string result = "";
 											if (size(phone) < 10 || size(phone) > 11)
