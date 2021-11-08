@@ -2474,6 +2474,16 @@ int main() {
 									case 1:						// Edit Quantity
 										cout << "New Quantity: ";
 										cin >> medicineAmount;
+
+										while (cin.fail())
+										{
+											cout << "\n";
+											cout << "\033[1;31mInvalid Amount!\033[0m" << endl << endl;
+											cout << "Medicine Quantity: ";
+											cin.clear();
+											cin.ignore(123, '\n');
+											cin >> medicineAmount;
+										}
 										cout << "\n";
 
 										medicineList->getMedicineAt(index)->quantity = medicineAmount;
