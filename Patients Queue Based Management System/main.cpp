@@ -228,7 +228,9 @@ public:
 						if (next != NULL) { // At last node, next will be NULL
 							next->previousNode = toDelete->previousNode;
 						}
-
+						else {
+							tail = prev;
+						}
 						delete toDelete;
 						size--;
 					}
@@ -2498,8 +2500,6 @@ int main() {
 
 										cout << "\033[1;33mMedicine\033[1;36m " + medicineID + "\033[1;33m has been deleted!\033[0m" << endl;
 										cout << "\n";
-
-										option = 0;
 										break;
 									case 3:
 										break;
