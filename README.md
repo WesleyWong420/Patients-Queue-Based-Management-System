@@ -1,11 +1,9 @@
 # Patients-Queue-Based-Management-System
 Patients Queue Based Management System for DSTR Assignment
 
-Klinik Sulaiman
+## Requirements
 
-Requirements:
-
-[Nurses]
+### [Nurses]
   - 1.1 Add a new patient on the waiting list.
   - 1.2 Change the patient order according to the priority on the waiting list. (For example, the disabled will meet the doctor first)
   - 1.3 View all patients on the original waiting list. Viewing mode: full list in single page
@@ -14,14 +12,14 @@ Requirements:
   - 1.6 Sort the waiting list by patient's current visit time, display in ascending order. Viewing mode: page-by-page browsing that can move forward and backward
   - 1.7 Login / Logout
 
-[Doctors]
+### [Doctors]
   - 2.1 View all patients on the original waiting list. Viewing mode: full list in single page
   - 2.2 Search Specific Patient from the patient's visit history and modify patient records.
   - 2.3 Sort and display all records from the patient's visit history list in descending order. Viewing mode: page-by-page browsing that can move forward and backward
   - 2.4 Search patients from the patient's visit history list based on sickness description or first name
   - 2.5 Login / Logout
 
-CLI Menu Flow:
+## CLI Menu Flow:
 
 	1. Nurse
 		1. Add Patient to Waiting List ✅
