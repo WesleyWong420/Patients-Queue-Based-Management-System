@@ -3,7 +3,7 @@ Patients Queue Based Management System for DSTR Assignment
 
 ## Requirements
 
-### [Nurses]
+#### Nurses
   - 1.1 Add a new patient on the waiting list.
   - 1.2 Change the patient order according to the priority on the waiting list. (For example, the disabled will meet the doctor first)
   - 1.3 View all patients on the original waiting list. Viewing mode: full list in single page
@@ -12,7 +12,7 @@ Patients Queue Based Management System for DSTR Assignment
   - 1.6 Sort the waiting list by patient's current visit time, display in ascending order. Viewing mode: page-by-page browsing that can move forward and backward
   - 1.7 Login / Logout
 
-### [Doctors]
+#### Doctors
   - 2.1 View all patients on the original waiting list. Viewing mode: full list in single page
   - 2.2 Search Specific Patient from the patient's visit history and modify patient records.
   - 2.3 Sort and display all records from the patient's visit history list in descending order. Viewing mode: page-by-page browsing that can move forward and backward
