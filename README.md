@@ -1,4 +1,5 @@
 # Patients-Queue-Based-Management-System
+Patients Queue Based Management System for DSTR Assignment
 
 Klinik Sulaiman
 
@@ -19,16 +20,6 @@ Requirements:
   - 2.3 Sort and display all records from the patient's visit history list in descending order. Viewing mode: page-by-page browsing that can move forward and backward
   - 2.4 Search patients from the patient's visit history list based on sickness description or first name
   - 2.5 Login / Logout
-
-Proposal:
-  1. Introduce your group’s members.
-  2. Identify what are the important data structures or classes (optional) will be included in your system.
-  - Detailed explanation of the data structures and classes created, with proper justification on your decisions (include source code defining classes, data members, and method headers only).
-  3. Briefly explain all of the workflows planning for your future system.
-  - Use flowchart diagram to describe each of the functionalities’ workflows.
-  - Provide a brief explanation about the algorithms that you plan to use in your function
-  - Provide a proper justification on your decisions.
-  4. Identify and explain what are the tasks will be assigned to each of the members.
 
 CLI Menu Flow:
 
